@@ -44,7 +44,7 @@ public class Tramite implements Serializable {
     @Column(name="costo",nullable=false)
     private Float costo;
     
-    public Tramite() {
+    protected Tramite() {
     }
 
     /**
@@ -53,7 +53,7 @@ public class Tramite implements Serializable {
      * @param persona
      * @param costo 
      */
-    public Tramite(Calendar fechaEmision, Persona persona, Float costo) {
+    protected Tramite(Calendar fechaEmision, Persona persona, Float costo) {
         this.fechaEmision = fechaEmision;
         this.persona = persona;
         this.costo = costo;

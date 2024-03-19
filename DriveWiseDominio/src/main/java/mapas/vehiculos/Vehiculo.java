@@ -52,7 +52,7 @@ public class Vehiculo implements Serializable {
     private String modelo;
     
     @ManyToOne
-    @JoinColumn(name = "persona_id", nullable = false)
+    @JoinColumn(name = "id_persona", nullable = false)
     private Persona persona;
     
     @OneToMany(mappedBy = "persona", cascade = {CascadeType.REMOVE,CascadeType.PERSIST})

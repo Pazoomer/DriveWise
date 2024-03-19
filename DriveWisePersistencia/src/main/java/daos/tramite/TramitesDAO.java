@@ -1,24 +1,25 @@
 
-package daos.licencia;
+package daos.tramite;
 
-import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
+import dtos.tramite.TramiteConsultableDTO;
 import excepciones.PersistenciaException;
-import mapas.tramites.Licencia;
+import java.util.List;
+import mapas.tramites.Tramite;
 
 /**
  *
  * @author t1pas
  */
-public class LicenciasDAO implements ILicenciasDAO{
+public class TramitesDAO implements ITramitesDAO{
 
     @Override
-    public Licencia agregarLicencia(LicenciaNuevaDTO licencia) throws PersistenciaException {
+    public List<Tramite> consultarTramitesPorPersona(PersonaConsultableDTO persona) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public boolean validarLicencia(PersonaConsultableDTO persona) throws PersistenciaException {
+    public List<Tramite> consultarTramitesPorFiltro(TramiteConsultableDTO filtro) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

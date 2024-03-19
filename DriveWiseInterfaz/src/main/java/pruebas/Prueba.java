@@ -26,17 +26,19 @@ public class Prueba {
         Persona persona=new Persona("Jorge","Zamora","Mejia","00011122233",calendar,"08392309Maha93",false,"6622903444");
         Vehiculo vehiculo=new Vehiculo(true,"060","Ford","Aveo","Rojo","Linux",persona);
         Carro carro=new Carro(true,"090","Nissan","Hui","Azul","Apio",persona);
-        Tramite tramite=new Tramite(calendar,persona,800f);
+        //Tramite tramite=new Tramite(calendar,persona,800f);
         Licencia licencia=new Licencia(calendar,persona,800f,3);
         Placa placa=new Placa(calendar,persona,800f,"000-AAA",null,false,carro);
         
         entityManager.getTransaction().begin();
-        entityManager.persist(persona);
-        entityManager.persist(vehiculo);
-        entityManager.persist(carro);
-        entityManager.persist(tramite);
+        //entityManager.persist(persona);
+        
+        //entityManager.persist(vehiculo);
+        //entityManager.persist(carro);
+        //entityManager.persist(tramite);
+        /*
         entityManager.persist(licencia);
-        entityManager.persist(placa);
+        entityManager.persist(placa);*/
         entityManager.getTransaction().commit();
         entityManager.close();
     }
