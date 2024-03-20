@@ -32,7 +32,7 @@ public interface IPlacaDAO {
     Placa agregarPlaca(PlacaNuevaDTO placa) throws PersistenciaException;
 
     /**
-     * En el modulo de placas usadas, se conulta todas los vehiculos de la
+     * En el modulo de placas usadas, se consulta todas los vehiculos de la
      * persona, de cada vehiculo se consultan todas sus placas y se consulta una
      * placa con el mismo alfanumerico que la placa ingresada
      *

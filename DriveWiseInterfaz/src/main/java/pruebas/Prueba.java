@@ -31,14 +31,15 @@ public class Prueba {
         Placa placa=new Placa(calendar,persona,800f,"000-AAA",null,false,carro);
         
         entityManager.getTransaction().begin();
-        //entityManager.persist(persona);
+        entityManager.persist(persona);
         
-        //entityManager.persist(vehiculo);
-        //entityManager.persist(carro);
+        entityManager.persist(vehiculo);
+        entityManager.persist(carro);
         //entityManager.persist(tramite);
-        /*
+        
         entityManager.persist(licencia);
-        entityManager.persist(placa);*/
+        entityManager.persist(placa);
+        
         entityManager.getTransaction().commit();
         entityManager.close();
     }
