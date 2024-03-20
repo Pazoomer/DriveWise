@@ -6,8 +6,6 @@ import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import mapas.personas.Persona;
 
@@ -27,11 +25,10 @@ public class Licencia extends Tramite implements Serializable {
     }
 
     /**
-     * Constructor con todos los atributos propios y de tramite
+     * Constructor con todos los atributos propios y de tramite excepto costo
      *
      * @param fechaEmision
      * @param persona
-     * @param costo
      * @param vigencia
      */
     public Licencia(Calendar fechaEmision, Persona persona, Integer vigencia) {
@@ -47,6 +44,9 @@ public class Licencia extends Tramite implements Serializable {
         this.vigencia = vigencia;
     }
 
+    /**
+     * Calcula el costo de la licencia
+     */
     @Override
     public void calcularCosto() {
         if(vigencia == 1  && this.getPersona().getDiscapacitado()){

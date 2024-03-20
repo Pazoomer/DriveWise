@@ -1,19 +1,16 @@
 
 package daos.persona;
 
-import daos.conexion.ConexionDAO;
+import cifrado.Cifrado;
 import daos.conexion.IConexionDAO;
 import excepciones.PersistenciaException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import mapas.personas.Persona;
 
 /**
@@ -45,6 +42,7 @@ public class PersonasDAO implements IPersonasDAO{
             personasB[6] = new Persona("Carlos", "Sánchez", "López", "STU901", Calendar.getInstance(), "CURP901", false, "3334445555");
             personasB[7] = new Persona("Sofía", "Fernández", "Pérez", "VWX234", Calendar.getInstance(), "CURP234", true, "7778889999");
             personasB[8]= new Persona("Marcela", "Díaz", "Gómez", "YZA567", Calendar.getInstance(), "CURP567", false, "1231231234");
+            System.out.println(personasB[8]);
             personasB[9] = new Persona("Javier", "Hernández", "Sánchez", "BCD890", Calendar.getInstance(), "CURP890", true, "3213213210");
             
             personasB[10] = new Persona("Fernanda", "Gómez", "Martínez", "EFG123", Calendar.getInstance(), "CURP124", false, "6661112222");
@@ -85,31 +83,35 @@ public class PersonasDAO implements IPersonasDAO{
     @Override
     public Persona consultarPersonaModuloLicencias(Persona persona){
         EntityManager entityManager = this.conexion.crearConexion();
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        persona.getNacimiento().add(Calendar.YEAR, 1);
+        persona.getNacimiento().add(Calendar.MONTH, -1);
+        persona.getNacimiento().add(Calendar.DATE, 1);
+        System.out.println(persona);
         
         String jpqlQuery = """
                            SELECT p from Persona p
-                           WHERE p.curp = :curp AND
+                           WHERE p.rfc = :rfc AND
                            p.nombre = :nombre AND
                            p.apellidoPaterno = :apellidoPaterno AND
                            p.apellidoMaterno = :apellidoMaterno AND
-                           p.nacimiento = :nacimiento AND
-                           p.discapacitado = :discapacitado AND
-                           p.telefono = :telefono
-                           """;
+                           FUNCTION('YEAR', p.nacimiento) = FUNCTION('YEAR', :nacimiento) AND
+                           FUNCTION('MONTH', p.nacimiento) = FUNCTION('MONTH', :nacimiento) AND
+                           FUNCTION('DAY', p.nacimiento) = FUNCTION('DAY', :nacimiento)
+                           """;//TODO FALTA EL TELEFONO
         TypedQuery<Persona> query = entityManager.createQuery(jpqlQuery, Persona.class);
-        query.setParameter("curp", persona.getCurp());
+        query.setParameter("rfc", persona.getRfc());
         query.setParameter("nombre", persona.getNombre());
         query.setParameter("apellidoPaterno", persona.getApellidoPaterno());
         query.setParameter("apellidoMaterno", persona.getApellidoMaterno());
         query.setParameter("nacimiento", persona.getNacimiento());
-        query.setParameter("discapacitado", persona.getDiscapacitado());
-        query.setParameter("telefono", persona.getTelefono());
- 
-        
+        //query.setParameter("telefono", persona.getTelefono());
+         
         Persona personaResult = query.getSingleResult();
         entityManager.close();
-        return persona;
+        if (personaResult!=null) {
+            return personaResult;
+        }
+        return null;
     }
 
     @Override

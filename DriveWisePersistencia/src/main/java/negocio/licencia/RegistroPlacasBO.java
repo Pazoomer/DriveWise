@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package negocio.licencia;
 
 import daos.conexion.IConexionDAO;
@@ -9,7 +6,9 @@ import daos.licencia.ILicenciasDAO;
 import daos.licencia.LicenciasDAO;
 import daos.persona.IPersonasDAO;
 import daos.persona.PersonasDAO;
+import dtos.licencia.LicenciaConsultableDTO;
 import dtos.licencia.LicenciaNuevaDTO;
+import dtos.persona.PersonaConsultableDTO;
 import dtos.persona.PersonaNuevaDTO;
 import excepciones.PersistenciaException;
 import java.security.NoSuchAlgorithmException;
@@ -26,7 +25,7 @@ import mapas.tramites.Licencia;
  *
  * @author JoseH
  */
-public class RegistroPlacasBO {
+public class RegistroPlacasBO implements IRegistroPlacasBO{
     
     private final IConexionDAO conexion;
     
@@ -34,25 +33,25 @@ public class RegistroPlacasBO {
         this.conexion = conexion;
     }
     
-    public void registrarLicencia(PersonaNuevaDTO personaDTO, LicenciaNuevaDTO licenciaDTO) throws NoSuchAlgorithmException, PersistenciaException{
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date fecha = new Date();
-        try {
-            fecha = sdf.parse(personaDTO.getNacimiento());
-        } catch (ParseException ex) {
-            Logger.getLogger(RegistroPlacasBO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Calendar fechaFormateada = Calendar.getInstance();
-        fechaFormateada.setTime(fecha);
+    /**
+     * 
+     * @param personaConsultableDTO
+     * @param licenciaNuevaDTO
+     * @return 
+     * @throws NoSuchAlgorithmException Si la version no es valida con el metodo de cifrado
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
+    @Override
+    public boolean registrarLicencia(PersonaConsultableDTO personaConsultableDTO, LicenciaNuevaDTO licenciaNuevaDTO) throws NoSuchAlgorithmException, PersistenciaException{
         
         IPersonasDAO personasDAO = new PersonasDAO(conexion);  
         ILicenciasDAO licenciasDAO = new LicenciasDAO(conexion);
         
-        Persona persona = new Persona(personaDTO.getNombre(), personaDTO.getApellidopaterno(), personaDTO.getApellidoMaterno(), personaDTO.getRfc(), fechaFormateada, personaDTO.getCurp(), personaDTO.isDiscapacitado(), personaDTO.getTelefono());
+        Persona persona = new Persona(personaConsultableDTO.getNombre(), personaConsultableDTO.getApellidopaterno(), personaConsultableDTO.getApellidoMaterno(), personaConsultableDTO.getRfc(), personaConsultableDTO.getNacimiento(), personaConsultableDTO.getCurp(), null, personaConsultableDTO.getTelefono());
         
-        Licencia licencia = new Licencia(licenciaDTO.getFechaEmision(), personasDAO.consultarPersonaModuloLicencias(persona), licenciaDTO.getVigencia());
+        Licencia licencia = new Licencia(licenciaNuevaDTO.getFechaEmision(), personasDAO.consultarPersonaModuloLicencias(persona), licenciaNuevaDTO.getVigencia());
         licencia.calcularCosto();
         licenciasDAO.agregarLicencia(licencia);
-        
+        return true;
     }
 }

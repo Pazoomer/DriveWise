@@ -41,10 +41,9 @@ public class Placa extends Tramite implements Serializable {
     }
 
     /**
-     * Constructor con todos los atributos propios y de tramite
+     * Constructor con todos los atributos propios y de tramite excepto costo
      * @param fechaEmision
      * @param persona
-     * @param costo
      * @param alfanumerico
      * @param recepcion
      * @param activo

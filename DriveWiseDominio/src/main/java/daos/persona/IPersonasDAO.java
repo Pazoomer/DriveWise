@@ -23,14 +23,15 @@ public interface IPersonasDAO {
     /**
      * Consulta personas segun el modulo de licencias
      *
-     * @param persona Persona a consultar (Necesita nombre, apellido paterno, apellido materno, telefono, rfc y fecha de nacimiento)
-    * @return Persona en la base de datos
-    * @throws PersistenciaException Si hubo un error en la base de datos
-    */
-   Persona consultarPersonaModuloLicencias(Persona persona)throws PersistenciaException;
-   
-   /**
-    * Consulta personas por curp
+     * @param persona Persona a consultar (Necesita nombre, apellido paterno,
+     * apellido materno, telefono, rfc y fecha de nacimiento)
+     * @return Persona en la base de datos
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
+    Persona consultarPersonaModuloLicencias(Persona persona) throws PersistenciaException;
+
+    /**
+     * Consulta personas por curp
     * @param persona Persona a consultar (Necesita curp)
     * @return Persona en la base de datos
     * @throws PersistenciaException Si hubo un error en la base de datos

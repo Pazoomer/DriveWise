@@ -203,7 +203,9 @@ public class Persona implements Serializable {
         sb.append(", apellidoMaterno=").append(apellidoMaterno);
         sb.append(", apellidoPaterno=").append(apellidoPaterno);
         sb.append(", rfc=").append(rfc);
-        sb.append(", nacimiento=").append(nacimiento);
+        sb.append(", AñoNacimiento=").append(nacimiento.get(Calendar.YEAR));
+        sb.append(", MesNacimiento=").append(nacimiento.get(Calendar.MONTH));
+        sb.append(", DiaNacimiento=").append(nacimiento.get(Calendar.DATE));
         sb.append(", curp=").append(curp);
         sb.append(", discapacitado=").append(discapacitado);
         sb.append(", telefonoNoCifrado=").append(telefonoNoCifrado);//Solo sirvo para la insercion masiva TODO:ELIMINAR ANTES DE USAR EN EL MERCADO

@@ -3,8 +3,12 @@ package pruebas;
 
 import daos.conexion.ConexionDAO;
 import daos.conexion.IConexionDAO;
+import daos.licencia.ILicenciasDAO;
+import daos.licencia.LicenciasDAO;
 import daos.persona.IPersonasDAO;
 import daos.persona.PersonasDAO;
+import dtos.licencia.LicenciaNuevaDTO;
+import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -18,6 +22,8 @@ import mapas.tramites.Placa;
 import mapas.tramites.Tramite;
 import mapas.vehiculos.Carro;
 import mapas.vehiculos.Vehiculo;
+import negocio.licencia.IRegistroPlacasBO;
+import negocio.licencia.RegistroPlacasBO;
 
 /**
  *
@@ -25,14 +31,30 @@ import mapas.vehiculos.Vehiculo;
  */
 public class Prueba {
     public static void main(String[] args) {
+        try {
+            
         IConexionDAO conexion=new ConexionDAO();
         
         IPersonasDAO personasDAO=new PersonasDAO(conexion);
-        try {
-            Persona[] personasB=personasDAO.insersionMasiva();
+        ILicenciasDAO licenciasDAO=new LicenciasDAO(conexion);
+        
+        Calendar calendarPersona=Calendar.getInstance();
+        calendarPersona.set(2023, 3, 19);
+        
+        Calendar calendarLicencia=Calendar.getInstance();
+        personasDAO.insersionMasiva();
+        PersonaConsultableDTO personaConsultableDTO=new PersonaConsultableDTO("Marcela","Gómez","Díaz","YZA567","1231231234",calendarPersona);
+        LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia,3);
+        
+        IRegistroPlacasBO registroPlacasBO=new RegistroPlacasBO(conexion);
+        
+        registroPlacasBO.registrarLicencia(personaConsultableDTO, licenciaNuevaDTO);
+        /*
+        
+            
             for (int i = 0; i < 20; i++) {
                 System.out.println(personasB[i]);
-            }
+            }*/
             
             /*
             EntityManager entityManager=conexion.crearConexion();
@@ -65,6 +87,8 @@ public class Prueba {
             entityManager.close();
             */
         } catch (PersistenciaException ex) {
+            Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
         }
         
