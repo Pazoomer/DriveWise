@@ -1,6 +1,8 @@
 package mapas.personas;
 
+import cifrado.Cifrado;
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -51,8 +53,11 @@ public class Persona implements Serializable {
     @Column(name="discapacitado",nullable=false)
     private Boolean discapacitado;
     
-    @Column(name="telefono",nullable=false,length=16)
+    @Column(name="telefono",nullable=false,length=256)
     private String telefono;
+    
+    @Column(name="sal",nullable=false,length=256)
+    private final String sal;
     
     @OneToMany(mappedBy = "persona", cascade = CascadeType.REFRESH)
     private List<Vehiculo> vehiculos;
@@ -61,6 +66,7 @@ public class Persona implements Serializable {
     private List<Tramite> tramite;
 
     public Persona() {
+        this.sal= Cifrado.generarSal();
     }
 
     /**
@@ -72,9 +78,10 @@ public class Persona implements Serializable {
      * @param nacimiento
      * @param curp
      * @param discapacitado
-     * @param telefono 
+     * @param telefono
+     * @throws java.security.NoSuchAlgorithmException
      */
-    public Persona(String nombre, String apellidoMaterno, String apellidoPaterno, String rfc, Calendar nacimiento, String curp, Boolean discapacitado, String telefono) {
+    public Persona(String nombre, String apellidoMaterno, String apellidoPaterno, String rfc, Calendar nacimiento, String curp, Boolean discapacitado, String telefono) throws NoSuchAlgorithmException {
         this.nombre = nombre;
         this.apellidoMaterno = apellidoMaterno;
         this.apellidoPaterno = apellidoPaterno;
@@ -82,7 +89,8 @@ public class Persona implements Serializable {
         this.nacimiento = nacimiento;
         this.curp = curp;
         this.discapacitado = discapacitado;
-        this.telefono = telefono;
+        this.sal = Cifrado.generarSal();
+        this.telefono = Cifrado.encriptarCadena(telefono,this.sal);
     }
     
     public Long getId() {
@@ -148,13 +156,13 @@ public class Persona implements Serializable {
     public void setDiscapacitado(Boolean discapacitado) {
         this.discapacitado = discapacitado;
     }
-
-    public String getTelefono() {
+    
+    public String getTelefono(){
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setTelefono(String telefono) throws NoSuchAlgorithmException {
+        this.telefono = Cifrado.encriptarCadena(telefono,this.sal);
     }
 
     public List<Vehiculo> getVehiculos() {
@@ -171,6 +179,14 @@ public class Persona implements Serializable {
 
     public void setTramite(List<Tramite> tramite) {
         this.tramite = tramite;
+    }
+
+    public String getSal() {
+        return sal;
+    }
+
+    public boolean verificarTelefono(String telefonoEntrante) throws NoSuchAlgorithmException {
+        return Cifrado.verificarCadena(telefonoEntrante, this.telefono, this.sal);
     }
 
 }

@@ -3,7 +3,10 @@ package pruebas;
 
 import daos.conexion.ConexionDAO;
 import daos.conexion.IConexionDAO;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import mapas.personas.Persona;
 import mapas.tramites.Licencia;
@@ -22,8 +25,13 @@ public class Prueba {
         
         EntityManager entityManager=conexion.crearConexion();
         Calendar calendar=Calendar.getInstance();
-        
-        Persona persona=new Persona("Jorge","Zamora","Mejia","00011122233",calendar,"08392309Maha93",false,"6622903444");
+        Persona persona= null;
+        try {
+            persona = new Persona("Jorge", "Zamora", "Mejia", "00011122233", calendar, "08392309Maha93", false, "666666");
+            System.out.println(persona.verificarTelefono("666666"));
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Vehiculo vehiculo=new Vehiculo(true,"060","Ford","Aveo","Rojo","Linux",persona);
         Carro carro=new Carro(true,"090","Nissan","Hui","Azul","Apio",persona);
         //Tramite tramite=new Tramite(calendar,persona,800f);
@@ -31,17 +39,19 @@ public class Prueba {
         Placa placa=new Placa(calendar,persona,800f,"000-AAA",null,false,carro);
         
         entityManager.getTransaction().begin();
-        entityManager.persist(persona);
+        //entityManager.persist(persona);
         
-        entityManager.persist(vehiculo);
-        entityManager.persist(carro);
+        //entityManager.persist(vehiculo);
+        //entityManager.persist(carro);
         //entityManager.persist(tramite);
         
-        entityManager.persist(licencia);
-        entityManager.persist(placa);
+        //entityManager.persist(licencia);
+        //entityManager.persist(placa);
         
         entityManager.getTransaction().commit();
         entityManager.close();
+        
+        
     }
     
 }
