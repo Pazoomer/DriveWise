@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import mapas.tramites.Tramite;
 import mapas.vehiculos.Vehiculo;
 
@@ -64,6 +65,9 @@ public class Persona implements Serializable {
     
     @OneToMany(mappedBy = "persona", cascade = CascadeType.REFRESH)
     private List<Tramite> tramite;
+    
+    @Transient //Solo sirvo para la insercion masiva TODO:ELIMINAR ANTES DE USAR EN EL MERCADO
+    private String telefonoNoCifrado;
 
     public Persona() {
         this.sal= Cifrado.generarSal();
@@ -91,6 +95,7 @@ public class Persona implements Serializable {
         this.discapacitado = discapacitado;
         this.sal = Cifrado.generarSal();
         this.telefono = Cifrado.encriptarCadena(telefono,this.sal);
+        this.telefonoNoCifrado=telefono; //TODO: ELIMINAR ANTES DE USAR EN EL MERCADO
     }
     
     public Long getId() {
@@ -201,10 +206,13 @@ public class Persona implements Serializable {
         sb.append(", nacimiento=").append(nacimiento);
         sb.append(", curp=").append(curp);
         sb.append(", discapacitado=").append(discapacitado);
+        sb.append(", telefonoNoCifrado=").append(telefonoNoCifrado);//Solo sirvo para la insercion masiva TODO:ELIMINAR ANTES DE USAR EN EL MERCADO
         sb.append('}');
         return sb.toString();
     }
 
-    
+    public String telefonoPrueba(){ //Solo sirvo para la insercion masiva TODO:ELIMINAR ANTES DE USAR EN EL MERCADO
+        return this.telefonoNoCifrado;
+    }
     
 }
