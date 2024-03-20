@@ -26,7 +26,7 @@ import mapas.personas.Persona;
 @Table(name="tramites")
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name="tipo")
-public class Tramite implements Serializable {
+public abstract class Tramite implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,10 +53,9 @@ public class Tramite implements Serializable {
      * @param persona
      * @param costo 
      */
-    protected Tramite(Calendar fechaEmision, Persona persona, Float costo) {
+    protected Tramite(Calendar fechaEmision, Persona persona) {
         this.fechaEmision = fechaEmision;
         this.persona = persona;
-        this.costo = costo;
     }
 
     public Long getId() {
@@ -87,8 +86,10 @@ public class Tramite implements Serializable {
         return costo;
     }
 
-    public void setCosto(Float costo) {
+    public void setCosto(float costo){
         this.costo = costo;
     }
+    
+    public abstract void calcularCosto();
     
 }

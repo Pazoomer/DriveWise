@@ -1,24 +1,25 @@
 
-package daos.licencia;
+package daos.vehiculo;
 
-import dtos.licencia.LicenciaNuevaDTO;
-import dtos.persona.PersonaConsultableDTO;
+
 import excepciones.PersistenciaException;
-import mapas.tramites.Licencia;
+import java.util.List;
+import mapas.personas.Persona;
+import mapas.vehiculos.Vehiculo;
 
 /**
  *
  * @author t1pas
  */
-public class LicenciasDAO implements ILicenciasDAO{
+public class Vehiculos implements IVehiculos{
 
     @Override
-    public Licencia agregarLicencia(LicenciaNuevaDTO licencia) throws PersistenciaException {
+    public Vehiculo agregarVehiculo(Vehiculo vehiculo) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public boolean validarLicencia(PersonaConsultableDTO persona) throws PersistenciaException {
+    public List<Vehiculo> consultarVehiculo(Persona persona) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

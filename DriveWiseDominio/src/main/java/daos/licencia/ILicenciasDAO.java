@@ -1,9 +1,9 @@
 
 package daos.licencia;
 
-import dtos.licencia.LicenciaNuevaDTO;
-import dtos.persona.PersonaConsultableDTO;
+
 import excepciones.PersistenciaException;
+import mapas.personas.Persona;
 import mapas.tramites.Licencia;
 
 /**
@@ -17,7 +17,7 @@ public interface ILicenciasDAO {
      * @return Licencia en la base de datos
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    Licencia agregarLicencia(LicenciaNuevaDTO licencia)throws PersistenciaException;
+    Licencia agregarLicencia(Licencia licencia)throws PersistenciaException;
     
     /**
      * Busca una licencia valida segun una persona
@@ -25,5 +25,5 @@ public interface ILicenciasDAO {
      * @return true si encontro una licencia vigente, false en caso contrario
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    boolean validarLicencia(PersonaConsultableDTO persona)throws PersistenciaException;
+    boolean validarLicencia(Persona persona)throws PersistenciaException;
 }

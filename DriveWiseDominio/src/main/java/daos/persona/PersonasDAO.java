@@ -3,7 +3,6 @@ package daos.persona;
 
 import daos.conexion.ConexionDAO;
 import daos.conexion.IConexionDAO;
-import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -13,6 +12,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import mapas.personas.Persona;
 
 /**
@@ -77,17 +78,42 @@ public class PersonasDAO implements IPersonasDAO{
     }
 
     @Override
-    public Persona consultarPersonaPorCurp(PersonaConsultableDTO persona) throws PersistenciaException {
+    public Persona consultarPersonaPorCurp(Persona persona) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Persona consultarPersonaModuloLicencias(PersonaConsultableDTO persona) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Persona consultarPersonaModuloLicencias(Persona persona){
+        EntityManager entityManager = this.conexion.crearConexion();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        
+        String jpqlQuery = """
+                           SELECT p from Persona p
+                           WHERE p.curp = :curp AND
+                           p.nombre = :nombre AND
+                           p.apellidoPaterno = :apellidoPaterno AND
+                           p.apellidoMaterno = :apellidoMaterno AND
+                           p.nacimiento = :nacimiento AND
+                           p.discapacitado = :discapacitado AND
+                           p.telefono = :telefono
+                           """;
+        TypedQuery<Persona> query = entityManager.createQuery(jpqlQuery, Persona.class);
+        query.setParameter("curp", persona.getCurp());
+        query.setParameter("nombre", persona.getNombre());
+        query.setParameter("apellidoPaterno", persona.getApellidoPaterno());
+        query.setParameter("apellidoMaterno", persona.getApellidoMaterno());
+        query.setParameter("nacimiento", persona.getNacimiento());
+        query.setParameter("discapacitado", persona.getDiscapacitado());
+        query.setParameter("telefono", persona.getTelefono());
+ 
+        
+        Persona personaResult = query.getSingleResult();
+        entityManager.close();
+        return persona;
     }
 
     @Override
-    public List<Persona> consultarPersonasModuloConsultas(PersonaConsultableDTO persona) throws PersistenciaException {
+    public List<Persona> consultarPersonasModuloConsultas(Persona persona) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

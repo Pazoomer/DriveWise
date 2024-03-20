@@ -1,13 +1,11 @@
 
 package daos.placa;
 
-import dtos.persona.PersonaConsultableDTO;
-import dtos.placa.PlacaConsultableDTO;
-import dtos.placa.PlacaNuevaDTO;
-import dtos.vehiculo.VehiculoConsultableDTO;
 import excepciones.PersistenciaException;
 import java.util.List;
+import mapas.personas.Persona;
 import mapas.tramites.Placa;
+import mapas.vehiculos.Vehiculo;
 
 /**
  *
@@ -21,7 +19,7 @@ public interface IPlacaDAO {
      * @return Una lista de placas
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    List<Placa> consultarPlacasPorVehiculo(VehiculoConsultableDTO vehiculo) throws PersistenciaException;
+    List<Placa> consultarPlacasPorVehiculo(Vehiculo vehiculo) throws PersistenciaException;
 
     /**
      * Agrega una placa a un vehiculo
@@ -29,7 +27,7 @@ public interface IPlacaDAO {
      * @return La placa agregada
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    Placa agregarPlaca(PlacaNuevaDTO placa) throws PersistenciaException;
+    Placa agregarPlaca(Placa placa) throws PersistenciaException;
 
     /**
      * En el modulo de placas usadas, se consulta todas los vehiculos de la
@@ -41,7 +39,7 @@ public interface IPlacaDAO {
      * @return La placa usada, null en caso contrario
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    Placa consultarPlacaUsada(PersonaConsultableDTO persona, PlacaConsultableDTO placa) throws PersistenciaException;
+    Placa consultarPlacaUsada(Persona persona, Placa placa) throws PersistenciaException;
 
     /**
      * Segun el alfanumerico de la placa, se cambia su estado a activo, y se
@@ -51,5 +49,5 @@ public interface IPlacaDAO {
      * @return Verdadero si la placa se activo, falso en caso contrario
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    boolean cambiarPlaca(PlacaConsultableDTO placa)throws PersistenciaException;
+    boolean cambiarPlaca(Placa placa)throws PersistenciaException;
 }

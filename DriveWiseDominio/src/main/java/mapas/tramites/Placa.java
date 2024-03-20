@@ -50,8 +50,8 @@ public class Placa extends Tramite implements Serializable {
      * @param activo
      * @param vehiculo 
      */
-    public Placa(Calendar fechaEmision, Persona persona, Float costo,String alfanumerico, Calendar recepcion, Boolean activo, Vehiculo vehiculo) {
-        super(fechaEmision,persona,costo);
+    public Placa(Calendar fechaEmision, Persona persona, String alfanumerico, Calendar recepcion, Boolean activo, Vehiculo vehiculo) {
+        super(fechaEmision,persona);
         this.alfanumerico = alfanumerico;
         this.recepcion = recepcion;
         this.activo = activo;
@@ -88,6 +88,11 @@ public class Placa extends Tramite implements Serializable {
 
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
+    }
+
+    @Override
+    public void calcularCosto() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
