@@ -11,16 +11,19 @@ import mapas.personas.Persona;
  * @author t1pas
  */
 public interface IPersonasDAO {
+
     /**
      * Inserta 20 personas con valores predefinidos (SOLO PARA PRUEBAS)
+     *
      * @return La lista de las 20 personas insertadas
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-   List<Persona> insersionMasiva()throws PersistenciaException; 
-   
-   /**
-    * Consulta personas segun el modulo de licencias
-    * @param persona Persona a consultar (Necesita nombre, apellido paterno, apellido materno, telefono, rfc y fecha de nacimiento)
+    Persona[] insersionMasiva() throws PersistenciaException;
+
+    /**
+     * Consulta personas segun el modulo de licencias
+     *
+     * @param persona Persona a consultar (Necesita nombre, apellido paterno, apellido materno, telefono, rfc y fecha de nacimiento)
     * @return Persona en la base de datos
     * @throws PersistenciaException Si hubo un error en la base de datos
     */

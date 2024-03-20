@@ -47,7 +47,7 @@ public class Persona implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar nacimiento;
     
-    @Column(name="curp",nullable=false,length=18)
+    @Column(name="curp",nullable=false,length=18,unique=true)
     private String curp;
     
     @Column(name="discapacitado",nullable=false)
@@ -189,4 +189,22 @@ public class Persona implements Serializable {
         return Cifrado.verificarCadena(telefonoEntrante, this.telefono, this.sal);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Persona{");
+        sb.append("id=").append(id);
+        sb.append(", nombre=").append(nombre);
+        sb.append(", apellidoMaterno=").append(apellidoMaterno);
+        sb.append(", apellidoPaterno=").append(apellidoPaterno);
+        sb.append(", rfc=").append(rfc);
+        sb.append(", nacimiento=").append(nacimiento);
+        sb.append(", curp=").append(curp);
+        sb.append(", discapacitado=").append(discapacitado);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    
+    
 }

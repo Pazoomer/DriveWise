@@ -23,7 +23,7 @@ import mapas.vehiculos.Vehiculo;
 @DiscriminatorValue("placa")
 public class Placa extends Tramite implements Serializable {
     
-    @Column(name="alfanumerico",nullable=false,length=7)
+    @Column(name="alfanumerico",nullable=false,length=7,unique=true)
     private String alfanumerico;
     
     @Column(name="recepcion",nullable=true)
