@@ -1,4 +1,4 @@
-package mapas.personas;
+        package mapas.personas;
 
 import cifrado.Cifrado;
 import java.io.Serializable;
@@ -44,7 +44,7 @@ public class Persona implements Serializable {
     private String rfc;
     
     @Column(name="nacimiento",nullable=false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Calendar nacimiento;
     
     @Column(name="curp",nullable=false,length=18,unique=true)
@@ -81,7 +81,7 @@ public class Persona implements Serializable {
      * @param telefono
      * @throws java.security.NoSuchAlgorithmException
      */
-    public Persona(String nombre, String apellidoMaterno, String apellidoPaterno, String rfc, Calendar nacimiento, String curp, Boolean discapacitado, String telefono) throws NoSuchAlgorithmException {
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar nacimiento, String curp, Boolean discapacitado, String telefono) throws NoSuchAlgorithmException {
         this.nombre = nombre;
         this.apellidoMaterno = apellidoMaterno;
         this.apellidoPaterno = apellidoPaterno;

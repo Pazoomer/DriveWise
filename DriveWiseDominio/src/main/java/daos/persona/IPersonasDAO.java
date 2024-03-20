@@ -1,8 +1,8 @@
 
 package daos.persona;
 
-import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
+
 import java.util.List;
 import mapas.personas.Persona;
 
@@ -27,7 +27,7 @@ public interface IPersonasDAO {
     * @return Persona en la base de datos
     * @throws PersistenciaException Si hubo un error en la base de datos
     */
-   Persona consultarPersonaModuloLicencias(PersonaConsultableDTO persona)throws PersistenciaException;
+   Persona consultarPersonaModuloLicencias(Persona persona)throws PersistenciaException;
    
    /**
     * Consulta personas por curp
@@ -35,7 +35,7 @@ public interface IPersonasDAO {
     * @return Persona en la base de datos
     * @throws PersistenciaException Si hubo un error en la base de datos
     */
-   Persona consultarPersonaPorCurp(PersonaConsultableDTO persona)throws PersistenciaException;
+   Persona consultarPersonaPorCurp(Persona persona)throws PersistenciaException;
    
    /**
     * Consulta personas segun el modulo de consultas
@@ -43,5 +43,5 @@ public interface IPersonasDAO {
     * @return Lista de personas que cumplen con el filtro de la persona
     * @throws PersistenciaException Si hubo un error en la base de datos
     */
-   List<Persona> consultarPersonasModuloConsultas(PersonaConsultableDTO persona)throws PersistenciaException;
+   List<Persona> consultarPersonasModuloConsultas(Persona persona)throws PersistenciaException;
 }
