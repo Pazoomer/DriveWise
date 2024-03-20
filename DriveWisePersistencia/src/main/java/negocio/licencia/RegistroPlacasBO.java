@@ -5,6 +5,8 @@
 package negocio.licencia;
 
 import daos.conexion.IConexionDAO;
+import daos.licencia.ILicenciasDAO;
+import daos.licencia.LicenciasDAO;
 import daos.persona.IPersonasDAO;
 import daos.persona.PersonasDAO;
 import dtos.licencia.LicenciaNuevaDTO;
@@ -43,11 +45,14 @@ public class RegistroPlacasBO {
         Calendar fechaFormateada = Calendar.getInstance();
         fechaFormateada.setTime(fecha);
         
-        IPersonasDAO personasDAO = new PersonasDAO(conexion);      
+        IPersonasDAO personasDAO = new PersonasDAO(conexion);  
+        ILicenciasDAO licenciasDAO = new LicenciasDAO(conexion);
+        
         Persona persona = new Persona(personaDTO.getNombre(), personaDTO.getApellidopaterno(), personaDTO.getApellidoMaterno(), personaDTO.getRfc(), fechaFormateada, personaDTO.getCurp(), personaDTO.isDiscapacitado(), personaDTO.getTelefono());
         
-        Licencia licencia = new Licencia(licenciaDTO.getFechaEmision(), personasDAO.consultarPersonaModuloLicencias(persona), licenciaDTO.getCosto(), licenciaDTO.getVigencia());
-        
+        Licencia licencia = new Licencia(licenciaDTO.getFechaEmision(), personasDAO.consultarPersonaModuloLicencias(persona), licenciaDTO.getVigencia());
+        licencia.calcularCosto();
+        licenciasDAO.agregarLicencia(licencia);
         
     }
 }

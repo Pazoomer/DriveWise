@@ -34,8 +34,8 @@ public class Licencia extends Tramite implements Serializable {
      * @param costo
      * @param vigencia
      */
-    public Licencia(Calendar fechaEmision, Persona persona, Float costo, Integer vigencia) {
-        super(fechaEmision,persona,costo);
+    public Licencia(Calendar fechaEmision, Persona persona, Integer vigencia) {
+        super(fechaEmision,persona);
         this.vigencia = vigencia;
     }
 
@@ -45,6 +45,23 @@ public class Licencia extends Tramite implements Serializable {
 
     public void setVigencia(Integer vigencia) {
         this.vigencia = vigencia;
+    }
+
+    @Override
+    public void calcularCosto() {
+        if(vigencia == 1  && this.getPersona().getDiscapacitado()){
+            this.setCosto(800F);
+        } else if (vigencia == 1  && !this.getPersona().getDiscapacitado()){
+            this.setCosto(600F);
+        } else if (vigencia == 2  && this.getPersona().getDiscapacitado()){
+            this.setCosto(1400F);
+        } else if (vigencia == 2  && !this.getPersona().getDiscapacitado()){
+            this.setCosto(900F);
+        } else if (vigencia == 3  && this.getPersona().getDiscapacitado()){
+            this.setCosto(1800F);
+        } else if (vigencia == 3  && !this.getPersona().getDiscapacitado()){
+            this.setCosto(1100F);
+        }
     }
 
 }
