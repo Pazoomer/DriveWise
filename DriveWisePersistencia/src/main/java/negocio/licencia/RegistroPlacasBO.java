@@ -6,20 +6,13 @@ import daos.licencia.ILicenciasDAO;
 import daos.licencia.LicenciasDAO;
 import daos.persona.IPersonasDAO;
 import daos.persona.PersonasDAO;
-import dtos.licencia.LicenciaConsultableDTO;
 import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
-import dtos.persona.PersonaNuevaDTO;
 import excepciones.PersistenciaException;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mapas.personas.Persona;
 import mapas.tramites.Licencia;
+import mapas.tramites.Tramite;
 
 /**
  *
@@ -49,9 +42,12 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
         
         Persona persona = new Persona(personaConsultableDTO.getNombre(), personaConsultableDTO.getApellidopaterno(), personaConsultableDTO.getApellidoMaterno(), personaConsultableDTO.getRfc(), personaConsultableDTO.getNacimiento(), personaConsultableDTO.getCurp(), null, personaConsultableDTO.getTelefono());
         
-        Licencia licencia = new Licencia(licenciaNuevaDTO.getFechaEmision(), personasDAO.consultarPersonaModuloLicencias(persona), licenciaNuevaDTO.getVigencia());
-        licencia.calcularCosto();
-        licenciasDAO.agregarLicencia(licencia);
+        //Licencia licencia = new Licencia(licenciaNuevaDTO.getFechaEmision(), personasDAO.consultarPersonaModuloLicencias(persona), licenciaNuevaDTO.getVigencia());
+        //licencia.setCosto(licenciasDAO.calcularCosto(licencia));
+        
+        //Tramite tramite=new Tramite(persona,licencia);
+        
+        //licenciasDAO.agregarLicencia(licencia);
         return true;
     }
 }

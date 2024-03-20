@@ -97,7 +97,7 @@ public class PersonasDAO implements IPersonasDAO{
                            FUNCTION('YEAR', p.nacimiento) = FUNCTION('YEAR', :nacimiento) AND
                            FUNCTION('MONTH', p.nacimiento) = FUNCTION('MONTH', :nacimiento) AND
                            FUNCTION('DAY', p.nacimiento) = FUNCTION('DAY', :nacimiento)
-                           """;//TODO FALTA EL TELEFONO
+                           """;//TODO: FALTA EL TELEFONO
         TypedQuery<Persona> query = entityManager.createQuery(jpqlQuery, Persona.class);
         query.setParameter("rfc", persona.getRfc());
         query.setParameter("nombre", persona.getNombre());
@@ -106,12 +106,22 @@ public class PersonasDAO implements IPersonasDAO{
         query.setParameter("nacimiento", persona.getNacimiento());
         //query.setParameter("telefono", persona.getTelefono());
          
-        Persona personaResult = query.getSingleResult();
-        entityManager.close();
-        if (personaResult!=null) {
-            return personaResult;
+        Persona personaResult =query.getSingleResult();
+        System.out.println(personaResult);
+        if (personaResult==null) {
+            return null;
         }
-        return null;
+        
+        try {
+            if (!personaResult.verificarTelefono(persona.getTelefono())) {
+                return null;
+            }
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(PersonasDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        entityManager.close();         
+        return personaResult;
     }
 
     @Override

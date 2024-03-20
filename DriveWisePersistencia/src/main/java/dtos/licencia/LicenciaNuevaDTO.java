@@ -2,7 +2,6 @@
 package dtos.licencia;
 
 import java.util.Calendar;
-import mapas.personas.Persona;
 
 /**
  *

@@ -4,14 +4,16 @@ package mapas.tramites;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import mapas.personas.Persona;
 import mapas.vehiculos.Vehiculo;
 
 /**
@@ -20,15 +22,26 @@ import mapas.vehiculos.Vehiculo;
  */
 @Entity
 @Table(name="placas")
-@DiscriminatorValue("placa")
-public class Placa extends Tramite implements Serializable {
+public class Placa implements Serializable {
     
-    @Column(name="alfanumerico",nullable=false,length=7,unique=true)
-    private String alfanumerico;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_placa")
+    private Long id_placa;
+    
+    @Column(name="emision",nullable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar fechaEmision;
     
     @Column(name="recepcion",nullable=true)
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar recepcion;
+    
+    @Column(name="alfanumerico",nullable=false,length=7,unique=true)
+    private String alfanumerico;
+    
+    @Column(name="costo",nullable=false)
+    private Float costo;
     
     @Column(name="activo",nullable=false)
     private Boolean activo;
@@ -36,25 +49,54 @@ public class Placa extends Tramite implements Serializable {
     @ManyToOne
     @JoinColumn(name = "vehiculo_id", nullable = false)
     private Vehiculo vehiculo;
+    
+    @OneToOne
+    @JoinColumn(name = "tramite_id",nullable = false)
+    private Tramite tramite;
+    
 
     public Placa() {
     }
 
     /**
-     * Constructor con todos los atributos propios y de tramite excepto costo
+     * Constructor sin recepcion, id ni costo
      * @param fechaEmision
-     * @param persona
      * @param alfanumerico
-     * @param recepcion
      * @param activo
-     * @param vehiculo 
+     * @param vehiculo
+     * @param tramite 
      */
-    public Placa(Calendar fechaEmision, Persona persona, String alfanumerico, Calendar recepcion, Boolean activo, Vehiculo vehiculo) {
-        super(fechaEmision,persona);
+    public Placa(Calendar fechaEmision, String alfanumerico, Boolean activo, Vehiculo vehiculo, Tramite tramite) {
+        this.fechaEmision = fechaEmision;
         this.alfanumerico = alfanumerico;
-        this.recepcion = recepcion;
         this.activo = activo;
         this.vehiculo = vehiculo;
+        this.tramite = tramite;
+        calcularCosto();
+    }
+    
+    public Calendar getFechaEmision() {
+        return fechaEmision;
+    }
+
+    public void setFechaEmision(Calendar fechaEmision) {
+        this.fechaEmision = fechaEmision;
+    }
+
+    public Float getCosto() {
+        return costo;
+    }
+
+    public void setCosto(Float costo) {
+        this.costo = costo;
+    }
+
+    public Tramite getTramite() {
+        return tramite;
+    }
+
+    public void setTramite(Tramite tramite) {
+        this.tramite = tramite;
     }
 
     public String getAlfanumerico() {
@@ -89,9 +131,19 @@ public class Placa extends Tramite implements Serializable {
         this.vehiculo = vehiculo;
     }
 
-    @Override
-    public void calcularCosto() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Long getId_placa() {
+        return id_placa;
     }
 
+    public void setId_placa(Long id_placa) {
+        this.id_placa = id_placa;
+    }
+
+    private void calcularCosto() {
+        if (this.getVehiculo().getNuevo()) {
+            this.costo = 1500F;
+        } else if (!this.getVehiculo().getNuevo()) {
+            this.costo = 1000f;
+        }
+    }
 }

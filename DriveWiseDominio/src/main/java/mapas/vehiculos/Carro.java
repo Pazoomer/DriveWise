@@ -20,7 +20,7 @@ public class Carro extends Vehiculo implements Serializable {
     }
 
     public Carro(Boolean nuevo, String numSerie, String marca, String linea, String color, String modelo, Persona persona) {
-        super(nuevo, numSerie, marca, linea, color, modelo, persona);
+        super(nuevo, numSerie, marca, linea, color, modelo,"CARRO", persona);
     }
 
 }

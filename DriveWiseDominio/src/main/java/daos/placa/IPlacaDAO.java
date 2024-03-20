@@ -50,4 +50,5 @@ public interface IPlacaDAO {
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
     boolean cambiarPlaca(Placa placa)throws PersistenciaException;
+    
 }

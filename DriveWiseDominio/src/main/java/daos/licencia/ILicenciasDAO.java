@@ -26,4 +26,6 @@ public interface ILicenciasDAO {
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
     boolean validarLicencia(Persona persona)throws PersistenciaException;
+    
+
 }

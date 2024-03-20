@@ -51,6 +51,9 @@ public class Vehiculo implements Serializable {
     @Column(name = "modelo",nullable= false,length=50)
     private String modelo;
     
+    @Column(name = "tipo",nullable= false,length=20)
+    private String tipo;
+    
     @ManyToOne
     @JoinColumn(name = "id_persona", nullable = false)
     private Persona persona;
@@ -61,23 +64,14 @@ public class Vehiculo implements Serializable {
     public Vehiculo() {
     }
 
-    /**
-     * Constructor sin placas ni id
-     * @param nuevo
-     * @param numSerie
-     * @param marca
-     * @param linea
-     * @param color
-     * @param modelo
-     * @param persona 
-     */
-    public Vehiculo(Boolean nuevo, String numSerie, String marca, String linea, String color, String modelo, Persona persona) {
+    public Vehiculo(Boolean nuevo, String numSerie, String marca, String linea, String color, String modelo, String tipo, Persona persona) {
         this.nuevo = nuevo;
         this.numSerie = numSerie;
         this.marca = marca;
         this.linea = linea;
         this.color = color;
         this.modelo = modelo;
+        this.tipo = tipo;
         this.persona = persona;
     }
     
@@ -151,6 +145,14 @@ public class Vehiculo implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     @Override

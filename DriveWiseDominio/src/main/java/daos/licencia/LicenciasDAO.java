@@ -3,10 +3,7 @@ package daos.licencia;
 
 import daos.conexion.IConexionDAO;
 import excepciones.PersistenciaException;
-import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import mapas.personas.Persona;
 import mapas.tramites.Licencia;
 
@@ -44,5 +41,4 @@ public class LicenciasDAO implements ILicenciasDAO{
     public boolean validarLicencia(Persona persona) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
 }

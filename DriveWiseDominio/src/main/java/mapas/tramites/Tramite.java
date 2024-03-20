@@ -2,20 +2,15 @@
 package mapas.tramites;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import mapas.personas.Persona;
 
 /**
@@ -24,38 +19,53 @@ import mapas.personas.Persona;
  */
 @Entity
 @Table(name="tramites")
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-@DiscriminatorColumn(name="tipo")
-public abstract class Tramite implements Serializable {
+public class Tramite implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_tramite")
     private Long id;
-    
-    @Column(name="emision",nullable=false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Calendar fechaEmision;
 
     @ManyToOne
     @JoinColumn(name = "persona_id", nullable = false)
     private Persona persona;
     
-    @Column(name="costo",nullable=false)
-    private Float costo;
+    @Column(name="tipo",nullable=false)
+    private String tipo;
+    
+    @OneToOne(mappedBy = "tramite")
+    private Placa placa;
+    
+    @OneToOne(mappedBy = "tramite")
+    private Licencia licencia;
     
     protected Tramite() {
     }
 
-    /**
-     * Constructor sin id
-     * @param fechaEmision
-     * @param persona
-     * @param costo 
-     */
-    protected Tramite(Calendar fechaEmision, Persona persona) {
-        this.fechaEmision = fechaEmision;
+    public Tramite(Persona persona) {
         this.persona = persona;
+    }
+
+    /**
+     * Constructor de tramite de placa
+     * @param persona
+     * @param placa 
+     */
+    public Tramite(Persona persona, Placa placa) {
+        this.persona = persona;
+        this.tipo = "PLACA";
+        this.placa = placa;
+    }
+
+    /**
+     * Constructor de tramite de licencia
+     * @param persona
+     * @param licencia 
+     */
+    public Tramite(Persona persona, Licencia licencia) {
+        this.persona = persona;
+        this.tipo = "LICENCIA";
+        this.licencia = licencia;
     }
 
     public Long getId() {
@@ -66,14 +76,6 @@ public abstract class Tramite implements Serializable {
         this.id = id;
     }
 
-    public Calendar getFechaEmision() {
-        return fechaEmision;
-    }
-
-    public void setFechaEmision(Calendar fechaEmision) {
-        this.fechaEmision = fechaEmision;
-    }
-
     public Persona getPersona() {
         return persona;
     }
@@ -82,14 +84,31 @@ public abstract class Tramite implements Serializable {
         this.persona = persona;
     }
 
-    public Float getCosto() {
-        return costo;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setCosto(float costo){
-        this.costo = costo;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public Placa getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(Placa placa) {
+        this.placa = placa;
+        this.tipo="PLACA";
+    }
+
+    public Licencia getLicencia() {
+        return licencia;
+    }
+
+    public void setLicencia(Licencia licencia) {
+        this.licencia = licencia;
+        this.tipo="LICENCIA";
     }
     
-    public abstract void calcularCosto();
     
 }

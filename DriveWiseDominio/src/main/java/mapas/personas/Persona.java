@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import mapas.tramites.Licencia;
 import mapas.tramites.Tramite;
 import mapas.vehiculos.Vehiculo;
 
@@ -66,6 +67,9 @@ public class Persona implements Serializable {
     @OneToMany(mappedBy = "persona", cascade = CascadeType.REFRESH)
     private List<Tramite> tramite;
     
+    @OneToMany(mappedBy = "persona", cascade = CascadeType.REFRESH)
+    private List<Licencia> licencia;
+    
     @Transient //Solo sirvo para la insercion masiva TODO:ELIMINAR ANTES DE USAR EN EL MERCADO
     private String telefonoNoCifrado;
 
@@ -74,7 +78,7 @@ public class Persona implements Serializable {
     }
 
     /**
-     * Constructor sin id, vehiculos ni tramites
+     * Constructor sin id, vehiculos, tramites ni licencias
      * @param nombre
      * @param apellidoMaterno
      * @param apellidoPaterno
@@ -188,6 +192,14 @@ public class Persona implements Serializable {
 
     public String getSal() {
         return sal;
+    }
+
+    public List<Licencia> getLicencia() {
+        return licencia;
+    }
+
+    public void setLicencia(List<Licencia> licencia) {
+        this.licencia = licencia;
     }
 
     public boolean verificarTelefono(String telefonoEntrante) throws NoSuchAlgorithmException {
