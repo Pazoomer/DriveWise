@@ -80,6 +80,7 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModulodeReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModulodeReportesActionPerformed
@@ -87,7 +88,9 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModulodeReportesActionPerformed
 
     private void btnModuloLicenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloLicenciasActionPerformed
-        // TODO add your handling code here:
+        FrmModuloLicencias on = new FrmModuloLicencias();
+        on.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnModuloLicenciasActionPerformed
 
     private void btnModuloPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloPlacasActionPerformed
