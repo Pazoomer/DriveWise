@@ -33,13 +33,13 @@ public interface IPersonasDAO {
     Persona consultarPersonaModuloLicencias(Persona persona) throws PersistenciaException;
 
     /**
-     * Consulta personas por curp
+     * Consulta personas por rfc
      *
-     * @param persona Persona a consultar (Necesita curp)
+     * @param persona Persona a consultar (Necesita rfc)
      * @return Persona en la base de datos
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    Persona consultarPersonaPorCurp(Persona persona) throws PersistenciaException;
+    Persona consultarPersonaPorRfc(Persona persona) throws PersistenciaException;
 
     /**
      * Consulta personas segun el modulo de consultas

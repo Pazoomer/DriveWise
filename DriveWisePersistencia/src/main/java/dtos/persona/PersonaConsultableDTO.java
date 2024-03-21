@@ -8,7 +8,7 @@ import java.util.Calendar;
  * @author t1pas
  */
 public class PersonaConsultableDTO {
-    String nombre, apellidoMaterno, apellidopaterno, rfc, curp, telefono;
+    String nombre, apellidoMaterno, apellidopaterno, rfc, telefono;
     Calendar nacimiento;
 
     /**
@@ -30,11 +30,11 @@ public class PersonaConsultableDTO {
     }
 
     /**
-     * Constructor con curp
-     * @param curp 
+     * Constructor con rfc
+     * @param rfc 
      */
-    public PersonaConsultableDTO(String curp) {
-        this.curp = curp;
+    public PersonaConsultableDTO(String rfc) {
+        this.rfc = rfc;
     }
 
     public void setNombre(String nombre) {
@@ -51,10 +51,6 @@ public class PersonaConsultableDTO {
 
     public void setRfc(String rfc) {
         this.rfc = rfc;
-    }
-
-    public void setCurp(String curp) {
-        this.curp = curp;
     }
 
     public void setTelefono(String telefono) {
@@ -79,10 +75,6 @@ public class PersonaConsultableDTO {
 
     public String getRfc() {
         return rfc;
-    }
-
-    public String getCurp() {
-        return curp;
     }
 
     public String getTelefono() {

@@ -33,8 +33,8 @@ public class CambioPlacasBO implements ICambioPlacasBO {
     public List<Vehiculo> ConsultarVehiculos(PersonaConsultableDTO personaConsultableDTO) throws PersistenciaException, NoSuchAlgorithmException {
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
         //CREA UN OBJETO PERSONA CONSULTANDO LA BASE DE DATOS CON LA CURP
-       Persona persona = new Persona(personaConsultableDTO.getNombre(), personaConsultableDTO.getApellidopaterno(), personaConsultableDTO.getApellidoMaterno(), personaConsultableDTO.getRfc(), personaConsultableDTO.getNacimiento(), personaConsultableDTO.getCurp(), null, personaConsultableDTO.getTelefono());
-       Persona personaEncontrada = personasDAO.consultarPersonaPorCurp(persona); 
+       Persona persona = new Persona(personaConsultableDTO.getNombre(), personaConsultableDTO.getApellidopaterno(), personaConsultableDTO.getApellidoMaterno(), personaConsultableDTO.getRfc(), personaConsultableDTO.getNacimiento(),  null, personaConsultableDTO.getTelefono());
+       Persona personaEncontrada = personasDAO.consultarPersonaPorRfc(persona); 
        
         //VALIDA LA LICENCIA DE LA PERSONA (metodo en PersonasDAO)
         personasDAO.validarLicencia(personaEncontrada);

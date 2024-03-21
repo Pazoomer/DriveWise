@@ -42,15 +42,12 @@ public class Persona implements Serializable {
     @Column(name="apellidoPaterno",nullable=false,length=50)
     private String apellidoPaterno;
     
-    @Column(name="rfc",nullable=false,length=13)
+    @Column(name="rfc",nullable=false,length=13,unique=true)
     private String rfc;
     
     @Column(name="nacimiento",nullable=false)
     @Temporal(TemporalType.DATE)
     private Calendar nacimiento;
-    
-    @Column(name="curp",nullable=false,length=18,unique=true)
-    private String curp;
     
     @Column(name="discapacitado",nullable=false)
     private Boolean discapacitado;
@@ -84,18 +81,16 @@ public class Persona implements Serializable {
      * @param apellidoPaterno
      * @param rfc
      * @param nacimiento
-     * @param curp
      * @param discapacitado
      * @param telefono
      * @throws java.security.NoSuchAlgorithmException
      */
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar nacimiento, String curp, Boolean discapacitado, String telefono) throws NoSuchAlgorithmException {
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar nacimiento, Boolean discapacitado, String telefono) throws NoSuchAlgorithmException {
         this.nombre = nombre;
         this.apellidoMaterno = apellidoMaterno;
         this.apellidoPaterno = apellidoPaterno;
         this.rfc = rfc;
         this.nacimiento = nacimiento;
-        this.curp = curp;
         this.discapacitado = discapacitado;
         this.sal = Cifrado.generarSal();
         this.telefono = Cifrado.encriptarCadena(telefono,this.sal);
@@ -148,14 +143,6 @@ public class Persona implements Serializable {
 
     public void setNacimiento(Calendar nacimiento) {
         this.nacimiento = nacimiento;
-    }
-
-    public String getCurp() {
-        return curp;
-    }
-
-    public void setCurp(String curp) {
-        this.curp = curp;
     }
 
     public Boolean getDiscapacitado() {
@@ -226,7 +213,6 @@ public class Persona implements Serializable {
         sb.append(", AñoNacimiento=").append(nacimiento.get(Calendar.YEAR));
         sb.append(", MesNacimiento=").append(nacimiento.get(Calendar.MONTH));
         sb.append(", DiaNacimiento=").append(nacimiento.get(Calendar.DATE));
-        sb.append(", curp=").append(curp);
         sb.append(", discapacitado=").append(discapacitado);
         sb.append(", telefonoNoCifrado=").append(telefonoNoCifrado);//Solo sirvo para la insercion masiva TODO:ELIMINAR ANTES DE USAR EN EL MERCADO
         sb.append('}');

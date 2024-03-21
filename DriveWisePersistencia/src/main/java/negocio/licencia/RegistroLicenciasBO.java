@@ -42,7 +42,7 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         IPersonasDAO personasDAO = new PersonasDAO(conexion);  
         ILicenciasDAO licenciasDAO = new LicenciasDAO(conexion);
         
-        Persona persona = new Persona(personaConsultableDTO.getNombre(), personaConsultableDTO.getApellidopaterno(), personaConsultableDTO.getApellidoMaterno(), personaConsultableDTO.getRfc(), personaConsultableDTO.getNacimiento(), personaConsultableDTO.getCurp(), null, personaConsultableDTO.getTelefono());
+        Persona persona = new Persona(personaConsultableDTO.getNombre(), personaConsultableDTO.getApellidopaterno(), personaConsultableDTO.getApellidoMaterno(), personaConsultableDTO.getRfc(), personaConsultableDTO.getNacimiento(), null, personaConsultableDTO.getTelefono());
         Persona personaEncontrada= personasDAO.consultarPersonaModuloLicencias(persona);
         
         if (personaEncontrada==null) {
