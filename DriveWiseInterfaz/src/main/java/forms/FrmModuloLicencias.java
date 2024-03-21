@@ -82,6 +82,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
             return;
         }
         mensajeExito();
+        FrmResumenDatos datos = new FrmResumenDatos(personaConsultableDTO);
     }
     
     /**
