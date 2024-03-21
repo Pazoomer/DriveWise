@@ -6,6 +6,7 @@ import daos.persona.PersonasDAO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
 import java.util.logging.Logger;
+import mapas.personas.Persona;
 
 /**
  *
@@ -23,6 +24,14 @@ public class InsercionMasivaBO implements IInsercionMasivaBO {
     @Override
     public PersonaConsultableDTO[] insercionMasiva() throws PersistenciaException {
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
-        return personasDAO.insersionMasiva();
+        Persona[] personas=personasDAO.insersionMasiva();
+        PersonaConsultableDTO[] personasDTO=new PersonaConsultableDTO[personas.length];
+        
+        for (int i = 0; i < personas.length; i++) {
+            PersonaConsultableDTO persona=new PersonaConsultableDTO(personas[i].getNombre(),personas[i].getApellidoMaterno(),personas[i].getApellidoPaterno(),personas[i].getRfc(),personas[i].getTelefonoNoCifrado(),personas[i].getNacimiento(),personas[i].getDiscapacitado());
+            personasDTO[i]=persona;
+        }
+        
+        return personasDTO;
     }
 }

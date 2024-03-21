@@ -31,7 +31,7 @@ public final class FrmInsercionMasiva extends javax.swing.JFrame {
         modelo.setRowCount(0);
 
         for (PersonaConsultableDTO persona : personas) {
-            modelo.addRow(new Object[]{persona.getNombre(), persona.getApellidopaterno(), persona.getApellidoMaterno(), persona.getRfc(),persona.getNacimiento(),persona.getDiscapacitado(),persona.getTelefono()});
+            modelo.addRow(new Object[]{persona.getNombre(), persona.getApellidopaterno(), persona.getApellidoMaterno(), persona.getRfc(),persona.getCadenaNacimiento(),persona.getDiscapacitado(),persona.getTelefono()});
         }
     }
 
@@ -70,7 +70,7 @@ public final class FrmInsercionMasiva extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 832, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 932, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

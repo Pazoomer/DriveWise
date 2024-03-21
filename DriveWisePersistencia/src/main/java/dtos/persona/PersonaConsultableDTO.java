@@ -105,6 +105,13 @@ public class PersonaConsultableDTO {
     public Calendar getNacimiento() {
         return nacimiento;
     }
+    
+    public String getCadenaNacimiento() {
+        String cadenaNacimiento = "Dia: "+String.valueOf(nacimiento.get(Calendar.DATE)) + " ";
+        cadenaNacimiento += "Mes: "+String.valueOf(nacimiento.get(Calendar.MONTH)) + " ";
+        cadenaNacimiento += "Año: "+String.valueOf(nacimiento.get(Calendar.YEAR));
+        return cadenaNacimiento;
+    }
 
     public Boolean getDiscapacitado() {
         return discapacitado;
