@@ -19,7 +19,7 @@ import mapas.tramites.Tramite;
  *
  * @author JoseH
  */
-public class RegistroLicenciasBO implements IRegistroLicenciaBO {
+public class RegistroLicenciasBO implements IRegistroLicenciasBO {
 
     private final IConexionDAO conexion;
     private static final Logger LOG = Logger.getLogger(PersonasDAO.class.getName());
@@ -44,6 +44,10 @@ public class RegistroLicenciasBO implements IRegistroLicenciaBO {
         
         Persona persona = new Persona(personaConsultableDTO.getNombre(), personaConsultableDTO.getApellidopaterno(), personaConsultableDTO.getApellidoMaterno(), personaConsultableDTO.getRfc(), personaConsultableDTO.getNacimiento(), personaConsultableDTO.getCurp(), null, personaConsultableDTO.getTelefono());
         Persona personaEncontrada= personasDAO.consultarPersonaModuloLicencias(persona);
+        
+        if (personaEncontrada==null) {
+            return false;
+        }
         
         Tramite tramite=new Tramite(personaEncontrada);
         

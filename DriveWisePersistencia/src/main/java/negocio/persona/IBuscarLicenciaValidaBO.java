@@ -30,4 +30,7 @@ public interface IBuscarLicenciaValidaBO {
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
     boolean licenciaValidaVehiculoUsado(PersonaConsultableDTO personaconsultableDTO, VehiculoConsultableDTO vehiculoCOnsultableDTO)throws PersistenciaException,ValidacionException;
+
+    
+
 }

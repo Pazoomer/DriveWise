@@ -51,14 +51,15 @@ public class CambioPlacasBO implements ICambioPlacasBO {
         //CONSULTA EL VEHICULO CON LA PLACA
         //CAMBIA LAS PLACAS (METODO EN VEHICULOSDAO)
         
-        
+               throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+ 
     }
 
     @Override
     public List<Placa> consultarPlacas(VehiculoConsultableDTO vehiculoCOnsultableDTO) throws PersistenciaException {
         
         //CREA UN OBJETO VEHICULO
-        Vehiculo vehiculo = new Vehiculo(vehiculoCOnsultableDTO.getNumSerie(), vehiculoCOnsultableDTO.getMarca(), vehiculoCOnsultableDTO.getLinea(), vehiculoCOnsultableDTO.getColor(), );
+        //Vehiculo vehiculo = new Vehiculo(vehiculoCOnsultableDTO.getNumSerie(), vehiculoCOnsultableDTO.getMarca(), vehiculoCOnsultableDTO.getLinea(), vehiculoCOnsultableDTO.getColor(), );
         
         //CONSULTA LA LISTA DE PLACAS DEL VEHICULO
         

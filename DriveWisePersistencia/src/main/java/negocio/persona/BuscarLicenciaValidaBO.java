@@ -2,6 +2,7 @@
 package negocio.persona;
 
 import daos.conexion.IConexionDAO;
+import daos.persona.IPersonasDAO;
 import daos.persona.PersonasDAO;
 import dtos.persona.PersonaConsultableDTO;
 import dtos.vehiculo.VehiculoConsultableDTO;
@@ -44,5 +45,7 @@ public class BuscarLicenciaValidaBO implements IBuscarLicenciaValidaBO {
         
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    
     
 }

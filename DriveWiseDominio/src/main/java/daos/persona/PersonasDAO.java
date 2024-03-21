@@ -63,7 +63,8 @@ public class PersonasDAO implements IPersonasDAO{
             entityManager.getTransaction().begin();
             
             for (int i = 0; i < 20; i++) {
-                entityManager.persist(personasB[i]);
+                    entityManager.persist(personasB[i]);
+                
             }
 
             entityManager.getTransaction().commit();
@@ -117,13 +118,18 @@ public class PersonasDAO implements IPersonasDAO{
         query.setParameter("apellidoPaterno", persona.getApellidoPaterno());
         query.setParameter("apellidoMaterno", persona.getApellidoMaterno());
         query.setParameter("nacimiento", persona.getNacimiento());
-         
-        Persona personaResult =query.getSingleResult();
         
+        Persona personaResult = null;
+        try {
+            personaResult = query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
+
         if (personaResult==null) {
             return null;
         }
-        
+
         try {
             if (!personaResult.verificarTelefono(persona.getTelefonoNoCifrado())) {
                 return null;
@@ -131,7 +137,7 @@ public class PersonasDAO implements IPersonasDAO{
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(PersonasDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
+
         entityManager.close();
         return personaResult;
     }
