@@ -4,9 +4,12 @@
  */
 package forms;
 
+import daos.conexion.IConexionDAO;
 import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
 import java.util.Calendar;
+import negocio.licencia.IRegistroLicenciaBO;
+import negocio.licencia.RegistroLicenciasBO;
 
 /**
  *
@@ -14,11 +17,9 @@ import java.util.Calendar;
  */
 public class FrmModuloLicencias extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmModuloLicencias
-     */
-    public FrmModuloLicencias() {
-        
+    private final IConexionDAO conexion;
+    public FrmModuloLicencias(IConexionDAO conexion) {
+        this.conexion = conexion;
         initComponents();
     }
 
@@ -154,6 +155,9 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         Calendar calendarLicencia=Calendar.getInstance();
         
         LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia,cmbVigencia.getSelectedIndex());
+        
+        
+        IRegistroLicenciaBO registroLicenciasBO = new RegistroLicenciasBO(conexion);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

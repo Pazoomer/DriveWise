@@ -10,9 +10,7 @@ package forms;
  */
 public class FrmPantallaPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmPantallaPrincipal
-     */
+    
     public FrmPantallaPrincipal() {
         initComponents();
     }

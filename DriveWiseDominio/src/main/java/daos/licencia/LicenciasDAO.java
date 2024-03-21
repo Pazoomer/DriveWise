@@ -13,7 +13,7 @@ import mapas.tramites.Licencia;
  */
 public class LicenciasDAO implements ILicenciasDAO{
 
-    private IConexionDAO conexion;
+    private final IConexionDAO conexion;
     
     public LicenciasDAO(IConexionDAO conexion) {
         this.conexion = conexion;
