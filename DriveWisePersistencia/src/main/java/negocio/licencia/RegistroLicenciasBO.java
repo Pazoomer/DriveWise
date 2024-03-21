@@ -19,12 +19,12 @@ import mapas.tramites.Tramite;
  *
  * @author JoseH
  */
-public class RegistroPlacasBO implements IRegistroPlacasBO {
+public class RegistroLicenciasBO implements IRegistroLicenciaBO {
 
     private final IConexionDAO conexion;
     private static final Logger LOG = Logger.getLogger(PersonasDAO.class.getName());
 
-    public RegistroPlacasBO(IConexionDAO conexion) {
+    public RegistroLicenciasBO(IConexionDAO conexion) {
         this.conexion = conexion;
     }
     

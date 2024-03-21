@@ -65,7 +65,7 @@ public interface IPersonasDAO {
      * @return Una lista de vehiculos de la persona
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    List<Vehiculo> consultarVehiculo(Persona persona)throws PersistenciaException;
+    List<Vehiculo> consultarVehiculos(Persona persona)throws PersistenciaException;
     
     /**
      * Busca una licencia valida para la persona

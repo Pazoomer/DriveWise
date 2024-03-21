@@ -22,8 +22,8 @@ import mapas.tramites.Placa;
 import mapas.tramites.Tramite;
 import mapas.vehiculos.Carro;
 import mapas.vehiculos.Vehiculo;
-import negocio.licencia.IRegistroPlacasBO;
-import negocio.licencia.RegistroPlacasBO;
+import negocio.licencia.RegistroLicenciasBO;
+import negocio.licencia.IRegistroLicenciaBO;
 
 /**
  *
@@ -44,7 +44,7 @@ public class Prueba {
         PersonaConsultableDTO personaConsultableDTO=new PersonaConsultableDTO("Marcela","Gómez","Díaz","YZA567","1231231234",calendarPersona);
         LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia,3);
         
-        IRegistroPlacasBO registroPlacasBO = new RegistroPlacasBO(conexion);
+        IRegistroLicenciaBO registroPlacasBO = new RegistroLicenciasBO(conexion);
 
         try {
             personasDAO.insersionMasiva();

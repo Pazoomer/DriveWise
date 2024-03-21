@@ -10,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author t1pas
  */
-public interface IRegistroPlacasBO {
+public interface IRegistroLicenciaBO {
     
     boolean registrarLicencia(PersonaConsultableDTO personaConsultableDTO, LicenciaNuevaDTO licenciaNuevaDTO) throws NoSuchAlgorithmException, PersistenciaException;
 }

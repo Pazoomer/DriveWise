@@ -6,6 +6,7 @@ import dtos.placa.PlacaConsultableDTO;
 import dtos.vehiculo.VehiculoConsultableDTO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import mapas.tramites.Placa;
 import mapas.vehiculos.Vehiculo;
@@ -21,7 +22,7 @@ public interface ICambioPlacasBO {
      * @return Una lista de vehiculos de la persona
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    List<Vehiculo> ConsultarVehiculos(PersonaConsultableDTO personaConsultableDTO)throws PersistenciaException;
+    List<Vehiculo> ConsultarVehiculos(PersonaConsultableDTO personaConsultableDTO)throws PersistenciaException, NoSuchAlgorithmException;
     
     /**
      * Consulta la lista de placas del vehiculo

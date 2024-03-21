@@ -11,6 +11,9 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import mapas.personas.Persona;
 import mapas.tramites.Licencia;
 import mapas.vehiculos.Vehiculo;
@@ -147,16 +150,46 @@ public class PersonasDAO implements IPersonasDAO{
     public boolean validarLicencia(Persona persona) throws PersistenciaException {
         
         //CONSULTA LA LISTA DE LICENCIAS DE LA PERSONA
+        EntityManager entityManager = this.conexion.crearConexion();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        String jpqlQuery = """
+                           SELECT l FROM Licencia l
+                           INNER JOIN Persona p on l.id_persona = p.id_persona
+                           WHERE p.curp = :curp
+                           """;
+        TypedQuery<Licencia> query = entityManager.createQuery(jpqlQuery, Licencia.class);
+        query.setParameter("curp", '%' + persona.getCurp());
+
+        entityManager.close();
+        
         //POR CADA LICENCIA SE TOMA SU FECHA DE EMISION Y SE LE SUMA SU VIGENCIA COMO AÑOS, 
         //SI ALGUNA LICENCIA SUPERA LA FECHA ACTUAL, ENTONCES DEVUELVE TRUE
         //SI NO LA SUPERO NINGUNA O LA PERSONA NO EXISTE, ENTONCES DEVUELVE FALSE
+        List<Licencia> licencias = query.getResultList();
         
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Calendar calendar = Calendar.getInstance();
+        for (Licencia licencia : licencias){
+            Calendar fechaVigencia = licencia.getFechaEmision();
+            fechaVigencia.add(Calendar.YEAR, licencia.getVigencia());
+            if(calendar.compareTo(fechaVigencia) >= 0){
+                return true;
+            }
+        }
+        
+        return false;  
     }
 
     @Override
-    public List<Vehiculo> consultarVehiculo(Persona persona) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Vehiculo> consultarVehiculos(Persona persona) throws PersistenciaException {
+        EntityManager entityManager = this.conexion.crearConexion();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Vehiculo> criteriaQuery = builder.createQuery(Vehiculo.class);
+        Root<Vehiculo> vehiculoRoot = criteriaQuery.from(Vehiculo.class);
+        
+        criteriaQuery.select(vehiculoRoot).where(builder.equal(vehiculoRoot.get("persona").get("id_persona"), persona.getId()));
+        
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
     
 }
