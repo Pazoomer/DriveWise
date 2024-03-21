@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import mapas.personas.Persona;
 import mapas.tramites.Placa;
+import mapas.vehiculos.Carro;
 import mapas.vehiculos.Vehiculo;
 
 /**
@@ -56,12 +57,15 @@ public class CambioPlacasBO implements ICambioPlacasBO {
 
     @Override
     public List<Placa> consultarPlacas(VehiculoConsultableDTO vehiculoCOnsultableDTO) throws PersistenciaException {
-        
+        Carro carro = new Carro();
         //CREA UN OBJETO VEHICULO
-        Vehiculo vehiculo = new Vehiculo(vehiculoCOnsultableDTO.getNumSerie(), vehiculoCOnsultableDTO.getMarca(), vehiculoCOnsultableDTO.getLinea(), vehiculoCOnsultableDTO.getColor(), );
+        if (vehiculoCOnsultableDTO.getTipo() == "CARRO"){
+        carro = new Carro(vehiculoCOnsultableDTO.getNuevo(), vehiculoCOnsultableDTO.getNumSerie(), vehiculoCOnsultableDTO.getMarca(), vehiculoCOnsultableDTO.getLinea(), vehiculoCOnsultableDTO.getColor(), vehiculoCOnsultableDTO.getModelo(), vehiculoCOnsultableDTO.getPersona());
+        }
         
         //CONSULTA LA LISTA DE PLACAS DEL VEHICULO
         
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        
     }
 }

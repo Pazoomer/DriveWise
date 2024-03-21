@@ -37,7 +37,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         txtTelefono = new javax.swing.JTextField();
         txtRFC = new javax.swing.JTextField();
         cmbVigencia = new javax.swing.JComboBox<>();
-        jCalendarFechaNacimiento = new com.github.lgooddatepicker.components.CalendarPanel();
         btnVolver = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -87,7 +86,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
 
         cmbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3" }));
         getContentPane().add(cmbVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 510, 200, -1));
-        getContentPane().add(jCalendarFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, -1, -1));
 
         btnVolver.setContentAreaFilled(false);
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -160,7 +158,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> cmbVigencia;
-    private com.github.lgooddatepicker.components.CalendarPanel jCalendarFechaNacimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField txtAmaterno;
     private javax.swing.JTextField txtApaterno;
