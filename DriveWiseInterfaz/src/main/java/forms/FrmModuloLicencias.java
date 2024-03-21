@@ -4,7 +4,6 @@
  */
 package forms;
 
-import daos.conexion.IConexionDAO;
 import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
 import java.util.Calendar;
@@ -15,7 +14,7 @@ import java.util.Calendar;
  */
 public class FrmModuloLicencias extends javax.swing.JFrame {
 
-    public FrmModuloLicencias(IConexionDAO conexion) {
+    public FrmModuloLicencias() {
         initComponents();
     }
 
