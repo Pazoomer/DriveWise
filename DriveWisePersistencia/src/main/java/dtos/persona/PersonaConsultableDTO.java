@@ -10,9 +10,10 @@ import java.util.Calendar;
 public class PersonaConsultableDTO {
     String nombre, apellidoMaterno, apellidopaterno, rfc, telefono;
     Calendar nacimiento;
+    Boolean discapacitado;
 
     /**
-     * Constructor con todos los atributos excepto curp
+     * Constructor con todos los atributos sin discapacidad
      * @param nombre
      * @param apellidoMaterno
      * @param apellidopaterno
@@ -29,6 +30,26 @@ public class PersonaConsultableDTO {
         this.nacimiento = nacimiento;
     }
 
+    /**
+     * Constructor con todos los atributos
+     * @param nombre
+     * @param apellidoMaterno
+     * @param apellidopaterno
+     * @param rfc
+     * @param telefono
+     * @param nacimiento
+     * @param discapacitado
+     */
+    public PersonaConsultableDTO(String nombre, String apellidoMaterno, String apellidopaterno, String rfc, String telefono, Calendar nacimiento, Boolean discapacitado) {
+        this.nombre = nombre;
+        this.apellidoMaterno = apellidoMaterno;
+        this.apellidopaterno = apellidopaterno;
+        this.rfc = rfc;
+        this.telefono = telefono;
+        this.nacimiento = nacimiento;
+        this.discapacitado = discapacitado;
+    }
+    
     /**
      * Constructor con rfc
      * @param rfc 
@@ -85,4 +106,13 @@ public class PersonaConsultableDTO {
         return nacimiento;
     }
 
+    public Boolean getDiscapacitado() {
+        return discapacitado;
+    }
+
+    public void setDiscapacitado(Boolean discapacitado) {
+        this.discapacitado = discapacitado;
+    }
+
+    
 }

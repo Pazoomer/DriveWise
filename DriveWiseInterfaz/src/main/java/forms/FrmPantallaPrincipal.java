@@ -2,10 +2,12 @@
 package forms;
 
 import daos.conexion.IConexionDAO;
+import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import mapas.personas.Persona;
 import negocio.insercionMasiva.IInsercionMasivaBO;
 import negocio.insercionMasiva.InsercionMasivaBO;
 
@@ -22,26 +24,38 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
      * @param conexion Conexion con la base de datos
      */
     public FrmPantallaPrincipal(IConexionDAO conexion) {
+        this.setResizable(false);
         initComponents();
         this.conexion=conexion;
+        
     }
-    
+
     /**
      * Inserta 20 datos de persona a la base de datos, SOLO PARA PRUEBAS
      */
     private void insercionMasiva() {
         IInsercionMasivaBO insercionMasivaBO = new InsercionMasivaBO(conexion);
+        PersonaConsultableDTO[] personas;
         try {
-            insercionMasivaBO.insercionMasiva();
-            
+            personas=insercionMasivaBO.insercionMasiva();
+
         } catch (PersistenciaException ex) {
             JOptionPane.showMessageDialog(this, "No se puede volver a insertar de forma masiva", "Error al insertar masivamente", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(FrmPantallaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-        JOptionPane.showMessageDialog(this, "Personas agregadas con exito", "Exito en la operacion", JOptionPane.INFORMATION_MESSAGE); 
+        JOptionPane.showMessageDialog(this, "Personas agregadas con exito", "Exito en la operacion", JOptionPane.INFORMATION_MESSAGE);
+        tablaPersonas(personas);
     }
 
+    /**
+     * Abre el frame de la tabla de personas
+     * @param personas Lista de personas a mostrar en la tabla
+     */
+    private void tablaPersonas(PersonaConsultableDTO[] personas){
+        FrmInsercionMasiva on=new FrmInsercionMasiva(personas);
+        on.setVisible(true);
+    }
     /**
      * Abre la pantalla modulo de licencias y cierra esta
      */

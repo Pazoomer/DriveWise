@@ -1,6 +1,7 @@
 
 package negocio.insercionMasiva;
 
+import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
 
 /**
@@ -10,7 +11,8 @@ import excepciones.PersistenciaException;
 public interface IInsercionMasivaBO {
     /**
      * Inserta 20 personas hardcodeadas a la base de datos
+     * @return Lista de personas insertadas
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    void insercionMasiva()throws PersistenciaException;
+    PersonaConsultableDTO[] insercionMasiva()throws PersistenciaException;
 }

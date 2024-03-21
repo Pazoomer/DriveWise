@@ -26,8 +26,10 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
      * @param conexion Conexion de la base de datos
      */
     public FrmModuloLicencias(IConexionDAO conexion) {
+        this.setResizable(false);
         initComponents();
         this.conexion = conexion;
+        
     }
 
     /**
