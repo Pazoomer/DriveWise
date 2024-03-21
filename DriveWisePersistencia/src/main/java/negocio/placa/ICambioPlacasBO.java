@@ -22,7 +22,7 @@ public interface ICambioPlacasBO {
      * @return Una lista de vehiculos de la persona
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    List<Vehiculo> ConsultarVehiculos(PersonaConsultableDTO personaConsultableDTO)throws PersistenciaException, NoSuchAlgorithmException;
+    List<VehiculoConsultableDTO> ConsultarVehiculos(PersonaConsultableDTO personaConsultableDTO)throws PersistenciaException, NoSuchAlgorithmException;
     
     /**
      * Consulta la lista de placas del vehiculo
@@ -30,7 +30,7 @@ public interface ICambioPlacasBO {
      * @return Una lista de placas del vehiculo
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    List<Placa> consultarPlacas(VehiculoConsultableDTO vehiculoCOnsultableDTO)throws PersistenciaException;
+    List<PlacaConsultableDTO> consultarPlacas(VehiculoConsultableDTO vehiculoCOnsultableDTO)throws PersistenciaException;
     
     /**
      * Activa una placa para un vehiculo, desactivando la anterior

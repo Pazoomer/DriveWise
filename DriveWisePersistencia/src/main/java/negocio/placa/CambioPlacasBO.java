@@ -30,7 +30,7 @@ public class CambioPlacasBO implements ICambioPlacasBO {
     }
 
     @Override
-    public List<Vehiculo> ConsultarVehiculos(PersonaConsultableDTO personaConsultableDTO) throws PersistenciaException, NoSuchAlgorithmException {
+    public List<VehiculoConsultableDTO> ConsultarVehiculos(PersonaConsultableDTO personaConsultableDTO) throws PersistenciaException, NoSuchAlgorithmException {
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
         //CREA UN OBJETO PERSONA CONSULTANDO LA BASE DE DATOS CON LA CURP
        Persona persona = new Persona(personaConsultableDTO.getNombre(), personaConsultableDTO.getApellidopaterno(), personaConsultableDTO.getApellidoMaterno(), personaConsultableDTO.getRfc(), personaConsultableDTO.getNacimiento(),  null, personaConsultableDTO.getTelefono());
@@ -40,7 +40,8 @@ public class CambioPlacasBO implements ICambioPlacasBO {
         personasDAO.validarLicencia(personaEncontrada);
         
         //CONSULTA LA LISTA DE VEHICULOS DE LA PERSONA
-        return personasDAO.consultarVehiculos(personaEncontrada);
+        //return personasDAO.consultarVehiculos(personaEncontrada);
+        return null;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class CambioPlacasBO implements ICambioPlacasBO {
     }
 
     @Override
-    public List<Placa> consultarPlacas(VehiculoConsultableDTO vehiculoCOnsultableDTO) throws PersistenciaException {
+    public List<PlacaConsultableDTO> consultarPlacas(VehiculoConsultableDTO vehiculoCOnsultableDTO) throws PersistenciaException {
         
         //CREA UN OBJETO VEHICULO
         //Vehiculo vehiculo = new Vehiculo(vehiculoCOnsultableDTO.getNumSerie(), vehiculoCOnsultableDTO.getMarca(), vehiculoCOnsultableDTO.getLinea(), vehiculoCOnsultableDTO.getColor(), );

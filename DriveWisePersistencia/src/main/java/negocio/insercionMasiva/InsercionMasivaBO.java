@@ -3,6 +3,7 @@ package negocio.insercionMasiva;
 import daos.conexion.IConexionDAO;
 import daos.persona.IPersonasDAO;
 import daos.persona.PersonasDAO;
+import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
 import java.util.logging.Logger;
 
@@ -20,8 +21,8 @@ public class InsercionMasivaBO implements IInsercionMasivaBO {
     }
 
     @Override
-    public void insercionMasiva() throws PersistenciaException {
+    public PersonaConsultableDTO[] insercionMasiva() throws PersistenciaException {
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
-        personasDAO.insersionMasiva();
+        return personasDAO.insersionMasiva();
     }
 }
