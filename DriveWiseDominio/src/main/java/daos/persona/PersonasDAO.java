@@ -102,22 +102,25 @@ public class PersonasDAO implements IPersonasDAO{
         query.setParameter("apellidoPaterno", persona.getApellidoPaterno());
         query.setParameter("apellidoMaterno", persona.getApellidoMaterno());
         query.setParameter("nacimiento", persona.getNacimiento());
-        //query.setParameter("telefono", persona.getTelefono());
          
         Persona personaResult =query.getSingleResult();
-        System.out.println(personaResult);
+        
+        System.out.println("Persona: "+personaResult);
+        System.out.println("Sal: "+personaResult.getSal());
+        System.out.println("Telefono: "+persona.getTelefono());
+        
         if (personaResult==null) {
             return null;
         }
-        /*
+        
         try {
-            if (!personaResult.verificarTelefono(persona.getTelefono())) {
+            if (!personaResult.verificarTelefono(persona.getTelefonoNoCifrado())) {
                 return null;
             }
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(PersonasDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-         */
+         
         entityManager.close();
         return personaResult;
     }

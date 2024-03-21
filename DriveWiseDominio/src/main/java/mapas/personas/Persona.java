@@ -70,7 +70,7 @@ public class Persona implements Serializable {
     @OneToMany(mappedBy = "persona", cascade = {CascadeType.REFRESH,CascadeType.REMOVE})
     private List<Licencia> licencia;
 
-    @Transient //Solo sirvo para la insercion masiva TODO:ELIMINAR ANTES DE USAR EN EL MERCADO
+    @Transient 
     private String telefonoNoCifrado;
 
     public Persona() {
@@ -99,7 +99,7 @@ public class Persona implements Serializable {
         this.discapacitado = discapacitado;
         this.sal = Cifrado.generarSal();
         this.telefono = Cifrado.encriptarCadena(telefono,this.sal);
-        this.telefonoNoCifrado=telefono; //TODO: ELIMINAR ANTES DE USAR EN EL MERCADO
+        this.telefonoNoCifrado=telefono; 
     }
     
     public Long getId() {
@@ -202,6 +202,14 @@ public class Persona implements Serializable {
         this.licencia = licencia;
     }
 
+    public String getTelefonoNoCifrado() {
+        return telefonoNoCifrado;
+    }
+
+    public void setTelefonoNoCifrado(String telefonoNoCifrado) {
+        this.telefonoNoCifrado = telefonoNoCifrado;
+    }
+
     public boolean verificarTelefono(String telefonoEntrante) throws NoSuchAlgorithmException {
         return Cifrado.verificarCadena(telefonoEntrante, this.telefono, this.sal);
     }
@@ -223,10 +231,6 @@ public class Persona implements Serializable {
         sb.append(", telefonoNoCifrado=").append(telefonoNoCifrado);//Solo sirvo para la insercion masiva TODO:ELIMINAR ANTES DE USAR EN EL MERCADO
         sb.append('}');
         return sb.toString();
-    }
-
-    public String telefonoPrueba(){ //Solo sirvo para la insercion masiva TODO:ELIMINAR ANTES DE USAR EN EL MERCADO
-        return this.telefonoNoCifrado;
     }
     
 }
