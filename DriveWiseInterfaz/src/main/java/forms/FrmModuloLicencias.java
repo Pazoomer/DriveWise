@@ -14,6 +14,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
      * Creates new form FrmModuloLicencias
      */
     public FrmModuloLicencias() {
+        
         initComponents();
     }
 
@@ -32,6 +33,9 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         txtTelefono = new javax.swing.JTextField();
         txtRFC = new javax.swing.JTextField();
         cmbVigencia = new javax.swing.JComboBox<>();
+        jCalendarFechaNacimiento = new com.github.lgooddatepicker.components.CalendarPanel();
+        btnVolver = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -79,6 +83,23 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
 
         cmbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3" }));
         getContentPane().add(cmbVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 510, 200, -1));
+        getContentPane().add(jCalendarFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, -1, -1));
+
+        btnVolver.setContentAreaFilled(false);
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 140, 60));
+
+        btnBuscar.setContentAreaFilled(false);
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 450, 140, 60));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Modulo de licencias.jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 540));
@@ -106,6 +127,14 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     private void txtRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRFCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRFCActionPerformed
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,7 +172,10 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> cmbVigencia;
+    private com.github.lgooddatepicker.components.CalendarPanel jCalendarFechaNacimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField txtAmaterno;
     private javax.swing.JTextField txtApaterno;
