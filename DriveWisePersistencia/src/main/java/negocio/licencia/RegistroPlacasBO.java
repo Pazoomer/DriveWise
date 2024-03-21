@@ -6,12 +6,11 @@ import daos.licencia.ILicenciasDAO;
 import daos.licencia.LicenciasDAO;
 import daos.persona.IPersonasDAO;
 import daos.persona.PersonasDAO;
-import daos.tramite.ITramitesDAO;
-import daos.tramite.TramitesDAO;
 import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Logger;
 import mapas.personas.Persona;
 import mapas.tramites.Licencia;
 import mapas.tramites.Tramite;
@@ -20,10 +19,11 @@ import mapas.tramites.Tramite;
  *
  * @author JoseH
  */
-public class RegistroPlacasBO implements IRegistroPlacasBO{
-    
+public class RegistroPlacasBO implements IRegistroPlacasBO {
+
     private final IConexionDAO conexion;
-    
+    private static final Logger LOG = Logger.getLogger(PersonasDAO.class.getName());
+
     public RegistroPlacasBO(IConexionDAO conexion) {
         this.conexion = conexion;
     }
@@ -41,7 +41,6 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
         
         IPersonasDAO personasDAO = new PersonasDAO(conexion);  
         ILicenciasDAO licenciasDAO = new LicenciasDAO(conexion);
-        ITramitesDAO tramitesDAO =new TramitesDAO(conexion);
         
         Persona persona = new Persona(personaConsultableDTO.getNombre(), personaConsultableDTO.getApellidopaterno(), personaConsultableDTO.getApellidoMaterno(), personaConsultableDTO.getRfc(), personaConsultableDTO.getNacimiento(), personaConsultableDTO.getCurp(), null, personaConsultableDTO.getTelefono());
         Persona personaEncontrada= personasDAO.consultarPersonaModuloLicencias(persona);

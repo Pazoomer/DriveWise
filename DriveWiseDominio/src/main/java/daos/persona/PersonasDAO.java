@@ -9,8 +9,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import mapas.personas.Persona;
+import mapas.tramites.Licencia;
+import mapas.vehiculos.Vehiculo;
 
 /**
  *
@@ -75,7 +78,17 @@ public class PersonasDAO implements IPersonasDAO{
 
     @Override
     public Persona consultarPersonaPorCurp(Persona persona) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        EntityManager entityManager = this.conexion.crearConexion();
+        try {
+            String jpqlQuery = "SELECT p FROM Persona p WHERE p.curp = :curp";
+            TypedQuery<Persona> query = entityManager.createQuery(jpqlQuery, Persona.class);
+            query.setParameter("curp", persona.getCurp());
+            return query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null; 
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -84,7 +97,6 @@ public class PersonasDAO implements IPersonasDAO{
         persona.getNacimiento().add(Calendar.YEAR, 1);
         persona.getNacimiento().add(Calendar.MONTH, -1);
         persona.getNacimiento().add(Calendar.DATE, 1);
-        System.out.println(persona);
         
         String jpqlQuery = """
                            SELECT p from Persona p
@@ -105,10 +117,6 @@ public class PersonasDAO implements IPersonasDAO{
          
         Persona personaResult =query.getSingleResult();
         
-        System.out.println("Persona: "+personaResult);
-        System.out.println("Sal: "+personaResult.getSal());
-        System.out.println("Telefono: "+persona.getTelefono());
-        
         if (personaResult==null) {
             return null;
         }
@@ -127,6 +135,27 @@ public class PersonasDAO implements IPersonasDAO{
 
     @Override
     public List<Persona> consultarPersonasModuloConsultas(Persona persona) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Licencia> consultarLicencias(Persona persona) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean validarLicencia(Persona persona) throws PersistenciaException {
+        
+        //CONSULTA LA LISTA DE LICENCIAS DE LA PERSONA
+        //POR CADA LICENCIA SE TOMA SU FECHA DE EMISION Y SE LE SUMA SU VIGENCIA COMO AÑOS, 
+        //SI ALGUNA LICENCIA SUPERA LA FECHA ACTUAL, ENTONCES DEVUELVE TRUE
+        //SI NO LA SUPERO NINGUNA O LA PERSONA NO EXISTE, ENTONCES DEVUELVE FALSE
+        
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Vehiculo> consultarVehiculo(Persona persona) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

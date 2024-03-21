@@ -5,6 +5,7 @@ package daos.vehiculo;
 import excepciones.PersistenciaException;
 import java.util.List;
 import mapas.personas.Persona;
+import mapas.tramites.Placa;
 import mapas.vehiculos.Vehiculo;
 
 /**
@@ -19,7 +20,17 @@ public class Vehiculos implements IVehiculos{
     }
 
     @Override
-    public List<Vehiculo> consultarVehiculo(Persona persona) throws PersistenciaException {
+    public Persona consultarPersona(Vehiculo vehiculo) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Placa> consultarPlacas(Vehiculo vehiculo) throws PersistenciaException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean cambiarPlaca(Vehiculo vehiculo, Placa placa) throws PersistenciaException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

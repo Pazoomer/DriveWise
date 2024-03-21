@@ -40,6 +40,14 @@ public interface IPlacaDAO {
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
     Placa consultarPlacaUsada(Persona persona, Placa placa) throws PersistenciaException;
+    
+    /**
+     * Consulta una placa
+     * @param placa Placa con el mismo alfanumerico a buscar (Necesita alfanumerico)
+     * @return La placa en la base de datos, null en caso contrario
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
+    Placa consultarPlaca(Placa placa) throws PersistenciaException;
 
     /**
      * Segun el alfanumerico de la placa, se cambia su estado a activo, y se
@@ -49,6 +57,13 @@ public interface IPlacaDAO {
      * @return Verdadero si la placa se activo, falso en caso contrario
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    boolean cambiarPlaca(Placa placa)throws PersistenciaException;
-    
+    boolean cambiarPlaca(Placa placa) throws PersistenciaException;
+
+    /**
+     * Consulta el vehiculo de la placa
+     * @param placa Placa a usar como parametro consultor (Necesita alfanumerico)
+     * @return Vehiculo al que le pertenece la placa
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
+    Vehiculo consultarVehiculo(Placa placa) throws PersistenciaException;
 }
