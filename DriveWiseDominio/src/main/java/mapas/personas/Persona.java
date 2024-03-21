@@ -60,16 +60,16 @@ public class Persona implements Serializable {
     
     @Column(name="sal",nullable=false,length=256)
     private final String sal;
-    
-    @OneToMany(mappedBy = "persona", cascade = CascadeType.REFRESH)
+
+    @OneToMany(mappedBy = "persona", cascade = {CascadeType.REFRESH,CascadeType.REMOVE})
     private List<Vehiculo> vehiculos;
-    
-    @OneToMany(mappedBy = "persona", cascade = CascadeType.REFRESH)
+
+    @OneToMany(mappedBy = "persona", cascade = {CascadeType.REFRESH,CascadeType.REMOVE})
     private List<Tramite> tramite;
-    
-    @OneToMany(mappedBy = "persona", cascade = CascadeType.REFRESH)
+
+    @OneToMany(mappedBy = "persona", cascade = {CascadeType.REFRESH,CascadeType.REMOVE})
     private List<Licencia> licencia;
-    
+
     @Transient //Solo sirvo para la insercion masiva TODO:ELIMINAR ANTES DE USAR EN EL MERCADO
     private String telefonoNoCifrado;
 

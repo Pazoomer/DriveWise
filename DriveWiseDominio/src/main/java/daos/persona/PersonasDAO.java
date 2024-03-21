@@ -1,7 +1,6 @@
 
 package daos.persona;
 
-import cifrado.Cifrado;
 import daos.conexion.IConexionDAO;
 import excepciones.PersistenciaException;
 import java.security.NoSuchAlgorithmException;
@@ -42,7 +41,6 @@ public class PersonasDAO implements IPersonasDAO{
             personasB[6] = new Persona("Carlos", "Sánchez", "López", "STU901", Calendar.getInstance(), "CURP901", false, "3334445555");
             personasB[7] = new Persona("Sofía", "Fernández", "Pérez", "VWX234", Calendar.getInstance(), "CURP234", true, "7778889999");
             personasB[8]= new Persona("Marcela", "Díaz", "Gómez", "YZA567", Calendar.getInstance(), "CURP567", false, "1231231234");
-            System.out.println(personasB[8]);
             personasB[9] = new Persona("Javier", "Hernández", "Sánchez", "BCD890", Calendar.getInstance(), "CURP890", true, "3213213210");
             
             personasB[10] = new Persona("Fernanda", "Gómez", "Martínez", "EFG123", Calendar.getInstance(), "CURP124", false, "6661112222");
@@ -111,7 +109,7 @@ public class PersonasDAO implements IPersonasDAO{
         if (personaResult==null) {
             return null;
         }
-        
+        /*
         try {
             if (!personaResult.verificarTelefono(persona.getTelefono())) {
                 return null;
@@ -119,8 +117,8 @@ public class PersonasDAO implements IPersonasDAO{
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(PersonasDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        entityManager.close();         
+         */
+        entityManager.close();
         return personaResult;
     }
 

@@ -26,7 +26,7 @@ import mapas.tramites.Placa;
 @Table(name="vehiculos")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipo")
-public class Vehiculo implements Serializable {
+public abstract class Vehiculo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,13 +58,13 @@ public class Vehiculo implements Serializable {
     @JoinColumn(name = "id_persona", nullable = false)
     private Persona persona;
     
-    @OneToMany(mappedBy = "vehiculo", cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
+    @OneToMany(mappedBy = "vehiculo", cascade = {CascadeType.REMOVE})
     private List<Placa> placas;
 
     public Vehiculo() {
     }
 
-    public Vehiculo(Boolean nuevo, String numSerie, String marca, String linea, String color, String modelo, String tipo, Persona persona) {
+    protected Vehiculo(Boolean nuevo, String numSerie, String marca, String linea, String color, String modelo, String tipo, Persona persona) {
         this.nuevo = nuevo;
         this.numSerie = numSerie;
         this.marca = marca;

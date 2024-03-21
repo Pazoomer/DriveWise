@@ -27,4 +27,12 @@ public interface ITramitesDAO {
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
     List<Tramite> consultarTramitesPorFiltro(Persona filtro)throws PersistenciaException;
+    
+    /**
+     * Agrega un tramite
+     * @param tramite Tramite a agregar
+     * @return Tramite agregado en la base de datos
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
+    Tramite agregarTramite(Tramite tramite)throws PersistenciaException;
 }

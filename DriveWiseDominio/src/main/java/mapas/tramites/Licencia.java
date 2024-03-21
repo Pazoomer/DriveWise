@@ -3,6 +3,7 @@ package mapas.tramites;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,7 +44,7 @@ public class Licencia implements Serializable {
     @Column(name = "vigencia", nullable = false)
     private Integer vigencia;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tramite_id",nullable = false)
     private Tramite tramite;
 
