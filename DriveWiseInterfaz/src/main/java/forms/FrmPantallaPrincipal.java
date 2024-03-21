@@ -88,7 +88,9 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModulodeReportesActionPerformed
 
     private void btnModuloLicenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloLicenciasActionPerformed
-        // TODO add your handling code here:
+        FrmModuloLicencias on = new FrmModuloLicencias();
+        on.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnModuloLicenciasActionPerformed
 
     private void btnModuloPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloPlacasActionPerformed

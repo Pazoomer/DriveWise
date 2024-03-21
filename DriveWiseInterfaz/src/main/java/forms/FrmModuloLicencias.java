@@ -4,6 +4,10 @@
  */
 package forms;
 
+import dtos.licencia.LicenciaNuevaDTO;
+import dtos.persona.PersonaConsultableDTO;
+import java.util.Calendar;
+
 /**
  *
  * @author Enrique Rodriguez
@@ -133,43 +137,24 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        Calendar calendarPersona=Calendar.getInstance();
+        calendarPersona.set(jCalendarFechaNacimiento.getSelectedDate().getDayOfYear(),
+                jCalendarFechaNacimiento.getSelectedDate().getDayOfMonth(),
+                jCalendarFechaNacimiento.getSelectedDate().getYear());
+        
+        //Creamos un objeto de personaConsultableDTO
+        PersonaConsultableDTO personaConsultableDTO = new PersonaConsultableDTO(
+                 txtNombre.getText(),
+                 txtAmaterno.getText(),
+                 txtApaterno.getText(),
+                 txtRFC.getText(),
+                 txtTelefono.getText(),
+                 calendarPersona);
+        
+        Calendar calendarLicencia=Calendar.getInstance();
+        
+        LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia,cmbVigencia.getSelectedIndex());
     }//GEN-LAST:event_btnBuscarActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmModuloLicencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmModuloLicencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmModuloLicencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmModuloLicencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmModuloLicencias().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
