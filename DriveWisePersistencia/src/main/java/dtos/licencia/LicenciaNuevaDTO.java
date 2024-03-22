@@ -14,6 +14,12 @@ public class LicenciaNuevaDTO {
     Persona persona;
     Integer vigencia;
     Tramite tramite;
+    
+    public LicenciaNuevaDTO(Calendar fechaEmision, Persona persona, Integer vigencia){
+        this.fechaEmision = fechaEmision;
+        this.vigencia = vigencia;
+        this.persona = persona;
+    }
 
     public Calendar getFechaEmision() {
         return fechaEmision;
