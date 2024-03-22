@@ -159,8 +159,8 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         txtFechaNac = new javax.swing.JTextField();
         lblCosto = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         btnConfirmar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -234,16 +234,17 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         lblCosto.setForeground(new java.awt.Color(255, 255, 255));
         getContentPane().add(lblCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 220, 30));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Modulo de licencias.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 550));
-
-        btnConfirmar.setText("jButton1");
+        btnConfirmar.setBorderPainted(false);
+        btnConfirmar.setContentAreaFilled(false);
         btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConfirmarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 150, 50));
+        getContentPane().add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 140, 60));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Modulo de licencias.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 550));
 
         pack();
         setLocationRelativeTo(null);
@@ -278,7 +279,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFechaNacActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-       registrar();
+        registrar();
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
