@@ -43,7 +43,7 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         IPersonasDAO personasDAO = new PersonasDAO(conexion);  
         ILicenciasDAO licenciasDAO = new LicenciasDAO(conexion);
         
-        Persona persona = new Persona(personaConsultableDTO.getRfc());
+        Persona persona = licenciaNuevaDTO.getPersona();
         Persona personaEncontrada= personasDAO.consultarPersonaModuloLicencias(persona);
         
         if (personaEncontrada==null) {
@@ -57,7 +57,6 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         tramite.setLicencia(licencia);
         
         licenciasDAO.agregarLicencia(licencia);
-        //tramitesDAO.agregarTramite(tramite); NO ES NECESARIO AÑADIR EL TRAMITE POR LA CASCADA DE LA LICENCIA
         
         return true;
     }
