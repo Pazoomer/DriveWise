@@ -97,6 +97,10 @@ public class Persona implements Serializable {
         this.telefonoNoCifrado=telefono; 
     }
     
+    public Persona (String rfc){
+        this.rfc = rfc;
+    }
+    
     public Long getId() {
         return id;
     }

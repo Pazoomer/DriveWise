@@ -10,6 +10,7 @@ import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 import java.util.logging.Logger;
 import mapas.personas.Persona;
 import mapas.tramites.Licencia;
@@ -42,7 +43,7 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         IPersonasDAO personasDAO = new PersonasDAO(conexion);  
         ILicenciasDAO licenciasDAO = new LicenciasDAO(conexion);
         
-        Persona persona = new Persona(personaConsultableDTO.getNombre(), personaConsultableDTO.getApellidopaterno(), personaConsultableDTO.getApellidoMaterno(), personaConsultableDTO.getRfc(), personaConsultableDTO.getNacimiento(), null, personaConsultableDTO.getTelefono());
+        Persona persona = new Persona(personaConsultableDTO.getRfc());
         Persona personaEncontrada= personasDAO.consultarPersonaModuloLicencias(persona);
         
         if (personaEncontrada==null) {
@@ -59,5 +60,19 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         //tramitesDAO.agregarTramite(tramite); NO ES NECESARIO AÑADIR EL TRAMITE POR LA CASCADA DE LA LICENCIA
         
         return true;
+    }
+    
+    public PersonaConsultableDTO buscarPersonaRfc(PersonaConsultableDTO personaDTO) throws PersistenciaException{
+        IPersonasDAO personasDAO = new PersonasDAO(conexion);
+        Persona persona = new Persona(personaDTO.getRfc());
+        Persona personaEncontrada= personasDAO.consultarPersonaModuloLicencias(persona);
+        
+        if (personaEncontrada== null){
+            return null;
+        }
+        
+        PersonaConsultableDTO personaEnviadaDTO = new PersonaConsultableDTO(personaEncontrada.getNombre(), personaEncontrada.getApellidoPaterno(), personaEncontrada.getApellidoMaterno(), personaEncontrada.getRfc(), personaEncontrada.getTelefono(), personaEncontrada.getNacimiento());
+        
+        return personaEnviadaDTO;
     }
 }

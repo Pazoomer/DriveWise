@@ -21,7 +21,7 @@ public class PersonaConsultableDTO {
      * @param telefono
      * @param nacimiento
      */
-    public PersonaConsultableDTO(String nombre, String apellidoMaterno, String apellidopaterno, String rfc, String telefono, Calendar nacimiento) {
+    public PersonaConsultableDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, String telefono, Calendar nacimiento) {
         this.nombre = nombre;
         this.apellidoMaterno = apellidoMaterno;
         this.apellidopaterno = apellidopaterno;
