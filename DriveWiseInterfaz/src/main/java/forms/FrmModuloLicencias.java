@@ -93,7 +93,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
      * Muestra la pantalla de licencia agregada con exito
      */
     private void mensajeExito() {
-        DlgValido on = new DlgValido(this, true, conexion);
+        DlgValido on = new DlgValido(this, true);
         on.setVisible(true);
     }
     
@@ -156,7 +156,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         btnVolver = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         txtFechaNac = new javax.swing.JTextField();
-        btnBuscar1 = new javax.swing.JButton();
+        btnConfirmar = new javax.swing.JButton();
         lblCosto = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -236,14 +236,14 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         });
         getContentPane().add(txtFechaNac, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 382, 290, 30));
 
-        btnBuscar1.setBorderPainted(false);
-        btnBuscar1.setContentAreaFilled(false);
-        btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
+        btnConfirmar.setBorderPainted(false);
+        btnConfirmar.setContentAreaFilled(false);
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscar1ActionPerformed(evt);
+                btnConfirmarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 140, 60));
+        getContentPane().add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 140, 60));
 
         lblCosto.setBackground(new java.awt.Color(255, 255, 255));
         lblCosto.setFont(new java.awt.Font("Sitka Text", 0, 24)); // NOI18N
@@ -285,9 +285,9 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         buscar();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         registrar();
-    }//GEN-LAST:event_btnBuscar1ActionPerformed
+    }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void txtFechaNacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaNacActionPerformed
         // TODO add your handling code here:
@@ -295,7 +295,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnBuscar1;
+    private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> cmbVigencia;
     private javax.swing.JLabel jLabel1;
