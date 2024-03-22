@@ -1,19 +1,14 @@
 package forms;
 
 import daos.conexion.IConexionDAO;
-import daos.licencia.ILicenciasDAO;
-import daos.licencia.LicenciasDAO;
-import daos.persona.IPersonasDAO;
-import daos.persona.PersonasDAO;
 import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import negocio.insercionMasiva.IInsercionMasivaBO;
-import negocio.insercionMasiva.InsercionMasivaBO;
 import negocio.licencia.IRegistroLicenciasBO;
 import negocio.licencia.RegistroLicenciasBO;
 
@@ -24,7 +19,7 @@ import negocio.licencia.RegistroLicenciasBO;
 public class FrmModuloLicencias extends javax.swing.JFrame {
 
     IConexionDAO conexion;
-
+    private PersonaConsultableDTO persona;
     /**
      * Constructor que recibe la conexion
      *
@@ -63,14 +58,14 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
             RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
 
             try {
-                PersonaConsultableDTO i = buscar.buscarPersonaRfc(personaConsultada);
-
+                persona = buscar.buscarPersonaRfc(personaConsultada);
+                
                 //Se establcen los valores en los labels
-                txtNombre.setText(i.getNombre());
-                txtApaterno.setText(i.getApellidopaterno());
-                txtAmaterno.setText(i.getApellidoMaterno());
-                txtTelefono.setText(i.getTelefono());
-                txtFechaNac.setText(i.getCadenaNacimiento());
+                txtNombre.setText(persona.getNombre());
+                txtApaterno.setText(persona.getApellidopaterno());
+                txtAmaterno.setText(persona.getApellidoMaterno());
+                txtTelefono.setText(persona.getTelefono());
+                txtFechaNac.setText(persona.getCadenaNacimiento());
             } catch (PersistenciaException ex) {
                 Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -98,18 +93,24 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     }
 
     private void registrar() {
-        if(verificarCampos()){
-            JOptionPane error = new JOptionPane("Rellene todos los campos", JOptionPane.ERROR_MESSAGE);
+        try {
+            if(verificarCampos()){
+                JOptionPane error = new JOptionPane("Rellene todos los campos", JOptionPane.ERROR_MESSAGE);
+            }
+            Calendar calendarLicencia=Calendar.getInstance();
+            
+            //Se crea un objeto de licencia nueva
+            LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia.getSelectedIndex());
+            
+            IRegistroLicenciasBO registroLicenciasBO= new RegistroLicenciasBO(conexion);
+            registroLicenciasBO.registrarLicencia(persona, licenciaNuevaDTO);
+            
+            mensajeExito();
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Calendar calendarLicencia=Calendar.getInstance();
-        
-        //Se crea un objeto de licencia nueva
-        //LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia);
-        
-        IRegistroLicenciasBO registroPlacasBO = new RegistroLicenciasBO(conexion);
-        
-        
-        mensajeExito();
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
