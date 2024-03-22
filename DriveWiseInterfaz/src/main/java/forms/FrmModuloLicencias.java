@@ -5,13 +5,16 @@ import daos.licencia.ILicenciasDAO;
 import daos.licencia.LicenciasDAO;
 import daos.persona.IPersonasDAO;
 import daos.persona.PersonasDAO;
+import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import negocio.insercionMasiva.IInsercionMasivaBO;
 import negocio.insercionMasiva.InsercionMasivaBO;
+import negocio.licencia.IRegistroLicenciasBO;
 import negocio.licencia.RegistroLicenciasBO;
 
 /**
@@ -45,7 +48,14 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         }
         return true;
     }
-    
+
+    private boolean verificarCampos() {
+        if (txtRFC.getText().isEmpty() || txtFechaNac.getText().isEmpty() || txtTelefono.getText().isEmpty() || txtAmaterno.getText().isEmpty() || txtApaterno.getText().isEmpty() || txtNombre.getText().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
     private void buscar() {
         if (verificarRFC()) {
             PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRFC.getText());
@@ -54,7 +64,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
 
             try {
                 PersonaConsultableDTO i = buscar.buscarPersonaRfc(personaConsultada);
-                
+
                 //Se establcen los valores en los labels
                 txtNombre.setText(i.getNombre());
                 txtApaterno.setText(i.getApellidopaterno());
@@ -86,8 +96,21 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         DlgValido on = new DlgValido(this, true);
         on.setVisible(true);
     }
-    
-    
+
+    private void registrar() {
+        if(verificarCampos()){
+            JOptionPane error = new JOptionPane("Rellene todos los campos", JOptionPane.ERROR_MESSAGE);
+        }
+        Calendar calendarLicencia=Calendar.getInstance();
+        
+        //Se crea un objeto de licencia nueva
+        LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia);
+        
+        IRegistroLicenciasBO registroPlacasBO = new RegistroLicenciasBO(conexion);
+        
+        
+        mensajeExito();
+    }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -214,7 +237,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
-        // TODO add your handling code here:
+        registrar();
     }//GEN-LAST:event_btnBuscar1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

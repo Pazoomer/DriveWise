@@ -33,8 +33,8 @@ public class Prueba {
     public static void main(String[] args) {
         IConexionDAO conexion=new ConexionDAO();
         
-        IPersonasDAO personasDAO=new PersonasDAO(conexion);
-        ILicenciasDAO licenciasDAO=new LicenciasDAO(conexion);
+        //IPersonasDAO personasDAO=new PersonasDAO(conexion);
+        //ILicenciasDAO licenciasDAO=new LicenciasDAO(conexion);
         
         Calendar calendarPersona=Calendar.getInstance();
         calendarPersona.set(2023, 3, 19);
@@ -42,13 +42,13 @@ public class Prueba {
         Calendar calendarLicencia=Calendar.getInstance();
        
         PersonaConsultableDTO personaConsultableDTO=new PersonaConsultableDTO("Marcela","Gómez","Díaz","YZA567","1231231234",calendarPersona);
-        //LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia,3);
+        LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia,3);
         
         IRegistroLicenciasBO registroPlacasBO = new RegistroLicenciasBO(conexion);
 
-        //try {
-            //personasDAO.insersionMasiva();
-            //registroPlacasBO.registrarLicencia(personaConsultableDTO, licenciaNuevaDTO);
+        try {
+           // personasDAO.insersionMasiva();
+            registroPlacasBO.registrarLicencia(personaConsultableDTO, licenciaNuevaDTO);
 
             /*
             for (int i = 0; i < 20; i++) {
@@ -84,11 +84,11 @@ public class Prueba {
             entityManager.getTransaction().commit();
             entityManager.close();
             */
-        //} catch (NoSuchAlgorithmException ex) {
-       //     Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
-       // } catch (PersistenciaException ex) {
-         //   Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
-        //}
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
