@@ -41,7 +41,6 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
 
         } catch (PersistenciaException ex) {
             JOptionPane.showMessageDialog(this, "No se puede volver a insertar de forma masiva", "Error al insertar masivamente", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(FrmPantallaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
         JOptionPane.showMessageDialog(this, "Personas agregadas con exito", "Exito en la operacion", JOptionPane.INFORMATION_MESSAGE);
