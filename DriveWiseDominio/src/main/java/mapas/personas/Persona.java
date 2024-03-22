@@ -56,7 +56,7 @@ public class Persona implements Serializable {
     private String telefono;
     
     @Column(name="sal",nullable=false,length=256)
-    private final String sal;
+    private String sal;
 
     @OneToMany(mappedBy = "persona", cascade = {CascadeType.REFRESH,CascadeType.REMOVE})
     private List<Vehiculo> vehiculos;

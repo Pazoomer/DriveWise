@@ -46,10 +46,6 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         Persona persona = licenciaNuevaDTO.getPersona();
         Persona personaEncontrada= personasDAO.consultarPersonaModuloLicencias(persona);
         
-        if (personaEncontrada==null) {
-            return false;
-        }
-        
         Tramite tramite=new Tramite(personaEncontrada);
         
         Licencia licencia = new Licencia(licenciaNuevaDTO.getFechaEmision(),personaEncontrada, licenciaNuevaDTO.getVigencia(),tramite);
