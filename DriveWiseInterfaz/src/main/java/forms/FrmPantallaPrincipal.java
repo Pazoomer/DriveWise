@@ -27,7 +27,7 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         this.setResizable(false);
         initComponents();
         this.conexion=conexion;
-        
+         
     }
 
     /**
@@ -47,7 +47,21 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Personas agregadas con exito", "Exito en la operacion", JOptionPane.INFORMATION_MESSAGE);
         tablaPersonas(personas);
     }
+    
+    public void insercionMasivaConsulta() {
+        IInsercionMasivaBO insercionMasivaBO = new InsercionMasivaBO(conexion);
+        PersonaConsultableDTO[] personas;
+        try {
+            personas=insercionMasivaBO.insercionMasiva();
 
+        } catch (PersistenciaException ex) {
+            JOptionPane.showMessageDialog(this, "No se puede volver a insertar de forma masiva", "Error al insertar masivamente", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(FrmPantallaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+        
+    }
+    
     /**
      * Abre el frame de la tabla de personas
      * @param personas Lista de personas a mostrar en la tabla

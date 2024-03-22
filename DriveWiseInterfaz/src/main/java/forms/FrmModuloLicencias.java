@@ -47,8 +47,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     }
     
     private void buscar() {
-        //FrmPantallaPrincipal on = new FrmPantallaPrincipal(conexion);
-        //on.insercionMasiva();
         if (verificarRFC()) {
             PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRFC.getText());
 
@@ -210,6 +208,8 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        FrmPantallaPrincipal on = new FrmPantallaPrincipal(conexion);
+        on.insercionMasivaConsulta();
         buscar();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
