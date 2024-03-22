@@ -20,6 +20,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
 
     IConexionDAO conexion;
     private PersonaConsultableDTO persona;
+    
     /**
      * Constructor que recibe la conexion
      *
@@ -66,6 +67,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
                 txtAmaterno.setText(persona.getApellidoMaterno());
                 txtTelefono.setText(persona.getTelefono());
                 txtFechaNac.setText(persona.getCadenaNacimiento());
+                
             } catch (PersistenciaException ex) {
                 Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -73,6 +75,8 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         } else {
             JOptionPane s = new JOptionPane("Indique un RFC", JOptionPane.ERROR_MESSAGE);
         }
+        LicenciaNuevaDTO licenciaNuevaDTO = new LicenciaNuevaDTO(persona, cmbVigencia.getSelectedIndex() + 1);
+        lblCosto.setText("Costo: $" + licenciaNuevaDTO.getCosto().toString() + "0");
     }
 
     /**
@@ -88,7 +92,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
      * Muestra la pantalla de licencia agregada con exito
      */
     private void mensajeExito() {
-        DlgValido on = new DlgValido(this, true);
+        DlgValido on = new DlgValido(this, true, conexion);
         on.setVisible(true);
     }
     
@@ -124,7 +128,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
                 return;
             }
             //Se crea un objeto de licencia nueva
-            LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia.getSelectedIndex() + 1);
+            LicenciaNuevaDTO licenciaNuevaDTO = new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia.getSelectedIndex() + 1);
             
             IRegistroLicenciasBO registroLicenciasBO= new RegistroLicenciasBO(conexion);
             registroLicenciasBO.registrarLicencia(persona, licenciaNuevaDTO);
@@ -149,11 +153,13 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         txtFechaNac = new javax.swing.JTextField();
         btnBuscar1 = new javax.swing.JButton();
+        lblCosto = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        txtNombre.setEditable(false);
         txtNombre.setOpaque(true);
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +168,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         });
         getContentPane().add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 40, 290, 30));
 
+        txtApaterno.setEditable(false);
         txtApaterno.setOpaque(true);
         txtApaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,6 +177,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         });
         getContentPane().add(txtApaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 120, 290, 30));
 
+        txtAmaterno.setEditable(false);
         txtAmaterno.setOpaque(true);
         txtAmaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,6 +186,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         });
         getContentPane().add(txtAmaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 200, 290, 30));
 
+        txtTelefono.setEditable(false);
         txtTelefono.setOpaque(true);
         txtTelefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,6 +206,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         cmbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3" }));
         getContentPane().add(cmbVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 472, 200, 30));
 
+        btnVolver.setBorderPainted(false);
         btnVolver.setContentAreaFilled(false);
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,6 +215,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         });
         getContentPane().add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 140, 60));
 
+        btnBuscar.setBorderPainted(false);
         btnBuscar.setContentAreaFilled(false);
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,9 +224,15 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         });
         getContentPane().add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 240, 140, 60));
 
-        txtFechaNac.setText("jTextField1");
+        txtFechaNac.setEditable(false);
+        txtFechaNac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFechaNacActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtFechaNac, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 382, 290, 30));
 
+        btnBuscar1.setBorderPainted(false);
         btnBuscar1.setContentAreaFilled(false);
         btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,6 +240,11 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 140, 60));
+
+        lblCosto.setBackground(new java.awt.Color(255, 255, 255));
+        lblCosto.setFont(new java.awt.Font("Sitka Text", 0, 24)); // NOI18N
+        lblCosto.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 220, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Modulo de licencia.jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 540));
@@ -263,12 +285,17 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         registrar();
     }//GEN-LAST:event_btnBuscar1ActionPerformed
 
+    private void txtFechaNacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaNacActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFechaNacActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscar1;
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> cmbVigencia;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblCosto;
     private javax.swing.JTextField txtAmaterno;
     private javax.swing.JTextField txtApaterno;
     private javax.swing.JTextField txtFechaNac;

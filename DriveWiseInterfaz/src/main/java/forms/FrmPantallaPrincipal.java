@@ -79,6 +79,7 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btnModulodeReportes.setBorder(null);
         btnModulodeReportes.setContentAreaFilled(false);
         btnModulodeReportes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,14 +88,16 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         });
         getContentPane().add(btnModulodeReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 400, 60));
 
+        btnModuloLicencias.setBorder(null);
         btnModuloLicencias.setContentAreaFilled(false);
         btnModuloLicencias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnModuloLicenciasActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModuloLicencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 400, 50));
+        getContentPane().add(btnModuloLicencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 400, 50));
 
+        btnModuloPlacas.setBorder(null);
         btnModuloPlacas.setContentAreaFilled(false);
         btnModuloPlacas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,6 +106,7 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         });
         getContentPane().add(btnModuloPlacas, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 400, 60));
 
+        btnCambioPlacas.setBorder(null);
         btnCambioPlacas.setContentAreaFilled(false);
         btnCambioPlacas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,6 +115,7 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         });
         getContentPane().add(btnCambioPlacas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 400, 60));
 
+        btnModuloConsultas.setBorder(null);
         btnModuloConsultas.setContentAreaFilled(false);
         btnModuloConsultas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,12 +124,14 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         });
         getContentPane().add(btnModuloConsultas, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 370, 400, 60));
 
+        btnInsercionMasiva.setBorder(null);
+        btnInsercionMasiva.setContentAreaFilled(false);
         btnInsercionMasiva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInsercionMasivaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 90, 190, 20));
+        getContentPane().add(btnInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 70, 210, 50));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PantallaPrincipa.jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, -1));

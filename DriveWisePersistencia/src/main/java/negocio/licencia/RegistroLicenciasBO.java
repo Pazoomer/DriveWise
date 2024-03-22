@@ -66,8 +66,10 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
             return null;
         }
         
-        PersonaConsultableDTO personaEnviadaDTO = new PersonaConsultableDTO(personaEncontrada.getNombre(), personaEncontrada.getApellidoPaterno(), personaEncontrada.getApellidoMaterno(), personaEncontrada.getRfc(), personaEncontrada.getTelefono(), personaEncontrada.getNacimiento());
+        PersonaConsultableDTO personaEnviadaDTO = new PersonaConsultableDTO(personaEncontrada.getNombre(), personaEncontrada.getApellidoPaterno(), personaEncontrada.getApellidoMaterno(), personaEncontrada.getRfc(), personaEncontrada.getTelefono(), personaEncontrada.getNacimiento(), personaEncontrada.getDiscapacitado());
         
         return personaEnviadaDTO;
     }
+    
+    
 }
