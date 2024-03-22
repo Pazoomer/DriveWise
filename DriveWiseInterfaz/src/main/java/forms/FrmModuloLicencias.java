@@ -91,6 +91,26 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         DlgValido on = new DlgValido(this, true);
         on.setVisible(true);
     }
+    
+    private boolean mayorEdad(Calendar nacimiento){
+        // Obtener la fecha actual
+        Calendar fechaActual = Calendar.getInstance();
+
+        // Calcular la edad restando el año de nacimiento al año actual
+        int edad = fechaActual.get(Calendar.YEAR) - nacimiento.get(Calendar.YEAR);
+
+        // Si aún no ha pasado el mes de nacimiento, restamos un año a la edad
+        if (fechaActual.get(Calendar.MONTH) < nacimiento.get(Calendar.MONTH)) {
+            edad--;
+        }
+        // Si están en el mismo mes pero aún no ha pasado el día de nacimiento, restamos un año a la edad
+        else if (fechaActual.get(Calendar.MONTH) == nacimiento.get(Calendar.MONTH)
+                && fechaActual.get(Calendar.DAY_OF_MONTH) < nacimiento.get(Calendar.DAY_OF_MONTH)) {
+            edad--;
+        }
+        // Verificar si la persona tiene al menos 18 años
+        return edad >= 18;
+    }
 
     private void registrar() {
         try {
@@ -99,6 +119,10 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
             }
             Calendar calendarLicencia=Calendar.getInstance();
             
+            if (!mayorEdad(persona.getNacimiento())) {
+                JOptionPane error = new JOptionPane("No puede agregar una licencia a un menor de edad", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             //Se crea un objeto de licencia nueva
             LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia.getSelectedIndex());
             
