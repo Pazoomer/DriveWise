@@ -52,6 +52,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     }
 
     private void buscar() {
+       
         if (verificarRFC()) {
             PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRFC.getText());
 
@@ -114,13 +115,16 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
 
     private void registrar() {
         try {
-            if(verificarCampos()){
+            if (verificarCampos()) {
                 JOptionPane error = new JOptionPane("Rellene todos los campos", JOptionPane.ERROR_MESSAGE);
+                error.setVisible(true);
+                return;
             }
-            Calendar calendarLicencia=Calendar.getInstance();
-            
+            Calendar calendarLicencia = Calendar.getInstance();
+
             if (!mayorEdad(persona.getNacimiento())) {
                 JOptionPane error = new JOptionPane("No puede agregar una licencia a un menor de edad", JOptionPane.ERROR_MESSAGE);
+                error.setVisible(true);
                 return;
             }
             //Se crea un objeto de licencia nueva
