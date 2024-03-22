@@ -39,7 +39,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
      * @return true si ningun campo esta vacio, false en caso contrario
      */
     private boolean verificarRFC() {
-        if (txtRFC.getText().isEmpty()) {
+        if (txtRFC.getText().isEmpty()||txtRFC.getText().isBlank()) {
             return false;
         }
         return true;
@@ -47,20 +47,22 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
 
     private boolean verificarCampos() {
         if (txtRFC.getText().isEmpty() || txtFechaNac.getText().isEmpty() || txtTelefono.getText().isEmpty() || txtAmaterno.getText().isEmpty() || txtApaterno.getText().isEmpty() || txtNombre.getText().isEmpty()) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private void buscar() {
-       
         if (verificarRFC()) {
             PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRFC.getText());
-
             RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
-
             try {
                 persona = buscar.buscarPersonaRfc(personaConsultada);
+
+                if (persona == null) {
+                    JOptionPane.showMessageDialog(this, "No se encontro a la persona", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 
                 //Se establcen los valores en los labels
                 txtNombre.setText(persona.getNombre());
@@ -68,13 +70,15 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
                 txtAmaterno.setText(persona.getApellidoMaterno());
                 txtTelefono.setText(persona.getTelefono());
                 txtFechaNac.setText(persona.getCadenaNacimiento());
-                
+
             } catch (PersistenciaException ex) {
+
                 Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } else {
-            JOptionPane s = new JOptionPane("Indique un RFC", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Indique un rfc", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
         LicenciaNuevaDTO licenciaNuevaDTO = new LicenciaNuevaDTO(persona, cmbVigencia.getSelectedIndex() + 1);
         lblCosto.setText("Costo: $" + licenciaNuevaDTO.getCosto().toString() + "0");
@@ -93,8 +97,10 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
      * Muestra la pantalla de licencia agregada con exito
      */
     private void mensajeExito() {
-        DlgValido on = new DlgValido(this, true);
-        on.setVisible(true);
+        JOptionPane.showMessageDialog(this, "Licencia añadida con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                    
+        //DlgValido on = new DlgValido(this, true);
+        //on.setVisible(true);
     }
     
     private boolean mayorEdad(Calendar nacimiento){
@@ -120,15 +126,13 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     private void registrar() {
         try {
             if (verificarCampos()) {
-                JOptionPane error = new JOptionPane("Rellene todos los campos", JOptionPane.ERROR_MESSAGE);
-                error.setVisible(true);
+                JOptionPane.showMessageDialog(this, "Primero consulte una persona", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             Calendar calendarLicencia = Calendar.getInstance();
 
             if (!mayorEdad(persona.getNacimiento())) {
-                JOptionPane error = new JOptionPane("No puede agregar una licencia a un menor de edad", JOptionPane.ERROR_MESSAGE);
-                error.setVisible(true);
+                JOptionPane.showMessageDialog(this, "No se puede agregar una licencia a un menor de edad", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             //Se crea un objeto de licencia nueva
@@ -156,9 +160,9 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         btnVolver = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         txtFechaNac = new javax.swing.JTextField();
-        btnConfirmar = new javax.swing.JButton();
         lblCosto = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        btnConfirmar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -236,22 +240,21 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         });
         getContentPane().add(txtFechaNac, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 382, 290, 30));
 
-        btnConfirmar.setBorderPainted(false);
-        btnConfirmar.setContentAreaFilled(false);
-        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConfirmarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 140, 60));
-
         lblCosto.setBackground(new java.awt.Color(255, 255, 255));
         lblCosto.setFont(new java.awt.Font("Sitka Text", 0, 24)); // NOI18N
         lblCosto.setForeground(new java.awt.Color(255, 255, 255));
         getContentPane().add(lblCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 220, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Modulo de licencia.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 540));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 550));
+
+        btnConfirmar.setText("jButton1");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 150, 50));
 
         pack();
         setLocationRelativeTo(null);
@@ -285,13 +288,13 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         buscar();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        registrar();
-    }//GEN-LAST:event_btnConfirmarActionPerformed
-
     private void txtFechaNacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaNacActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFechaNacActionPerformed
+
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+       registrar();
+    }//GEN-LAST:event_btnConfirmarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
