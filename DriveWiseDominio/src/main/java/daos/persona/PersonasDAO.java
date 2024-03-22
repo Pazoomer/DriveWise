@@ -45,10 +45,8 @@ public class PersonasDAO implements IPersonasDAO{
                 Calendar calendar=Calendar.getInstance();
                 calendar.set(Calendar.YEAR, 2014);
                 calendar.add(Calendar.YEAR, -i);
-                calendarios[i]=calendar;
-                
+                calendarios[i]=calendar;  
             }
-            
             
             personasB[0] = new Persona("Juan", "Pérez", "Gómez", "ABC123", calendarios[0],false, "1234567890");
             personasB[1] = new Persona("María", "López", "Hernández", "DEF456", calendarios[1],true, "0987654321");
@@ -110,26 +108,13 @@ public class PersonasDAO implements IPersonasDAO{
     @Override
     public Persona consultarPersonaModuloLicencias(Persona persona){
         EntityManager entityManager = this.conexion.crearConexion();
-        persona.getNacimiento().add(Calendar.YEAR, 1);
-        persona.getNacimiento().add(Calendar.MONTH, -1);
-        persona.getNacimiento().add(Calendar.DATE, 1);
         
         String jpqlQuery = """
                            SELECT p from Persona p
-                           WHERE p.rfc = :rfc AND
-                           p.nombre = :nombre AND
-                           p.apellidoPaterno = :apellidoPaterno AND
-                           p.apellidoMaterno = :apellidoMaterno AND
-                           FUNCTION('YEAR', p.nacimiento) = FUNCTION('YEAR', :nacimiento) AND
-                           FUNCTION('MONTH', p.nacimiento) = FUNCTION('MONTH', :nacimiento) AND
-                           FUNCTION('DAY', p.nacimiento) = FUNCTION('DAY', :nacimiento)
-                           """;//TODO: FALTA EL TELEFONO
+                           WHERE p.rfc = :rfc
+                           """;
         TypedQuery<Persona> query = entityManager.createQuery(jpqlQuery, Persona.class);
         query.setParameter("rfc", persona.getRfc());
-        query.setParameter("nombre", persona.getNombre());
-        query.setParameter("apellidoPaterno", persona.getApellidoPaterno());
-        query.setParameter("apellidoMaterno", persona.getApellidoMaterno());
-        query.setParameter("nacimiento", persona.getNacimiento());
         
         Persona personaResult = null;
         try {
@@ -140,14 +125,6 @@ public class PersonasDAO implements IPersonasDAO{
 
         if (personaResult==null) {
             return null;
-        }
-
-        try {
-            if (!personaResult.verificarTelefono(persona.getTelefonoNoCifrado())) {
-                return null;
-            }
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(PersonasDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         entityManager.close();

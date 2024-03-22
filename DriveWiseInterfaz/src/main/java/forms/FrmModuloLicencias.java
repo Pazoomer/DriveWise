@@ -104,7 +104,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         Calendar calendarLicencia=Calendar.getInstance();
         
         //Se crea un objeto de licencia nueva
-        LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia);
+        //LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia);
         
         IRegistroLicenciasBO registroPlacasBO = new RegistroLicenciasBO(conexion);
         
@@ -231,8 +231,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        FrmPantallaPrincipal on = new FrmPantallaPrincipal(conexion);
-        on.insercionMasivaConsulta();
         buscar();
     }//GEN-LAST:event_btnBuscarActionPerformed
 

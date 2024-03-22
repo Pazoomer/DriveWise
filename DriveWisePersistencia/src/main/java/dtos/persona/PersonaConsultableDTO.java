@@ -15,8 +15,8 @@ public class PersonaConsultableDTO {
     /**
      * Constructor con todos los atributos sin discapacidad
      * @param nombre
+     * @param apellidoPaterno
      * @param apellidoMaterno
-     * @param apellidopaterno
      * @param rfc
      * @param telefono
      * @param nacimiento
