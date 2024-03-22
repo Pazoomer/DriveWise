@@ -33,7 +33,7 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
     /**
      * Inserta 20 datos de persona a la base de datos, SOLO PARA PRUEBAS
      */
-    private void insercionMasiva() {
+    public void insercionMasiva() {
         IInsercionMasivaBO insercionMasivaBO = new InsercionMasivaBO(conexion);
         PersonaConsultableDTO[] personas;
         try {
@@ -73,8 +73,8 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         btnModuloPlacas = new javax.swing.JButton();
         btnCambioPlacas = new javax.swing.JButton();
         btnModuloConsultas = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         btnInsercionMasiva = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -119,15 +119,15 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         });
         getContentPane().add(btnModuloConsultas, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 370, 400, 60));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PantallaPrincipa.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, -1));
-
         btnInsercionMasiva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInsercionMasivaActionPerformed(evt);
             }
         });
         getContentPane().add(btnInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 90, 190, 20));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PantallaPrincipa.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, -1));
 
         pack();
         setLocationRelativeTo(null);

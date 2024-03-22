@@ -60,7 +60,7 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
     public PersonaConsultableDTO buscarPersonaRfc(PersonaConsultableDTO personaDTO) throws PersistenciaException{
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
         Persona persona = new Persona(personaDTO.getRfc());
-        Persona personaEncontrada= personasDAO.consultarPersonaModuloLicencias(persona);
+        Persona personaEncontrada= personasDAO.consultarPersonaPorRfc(persona);
         
         if (personaEncontrada== null){
             return null;

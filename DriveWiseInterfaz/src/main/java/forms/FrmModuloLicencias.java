@@ -10,6 +10,8 @@ import excepciones.PersistenciaException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import negocio.insercionMasiva.IInsercionMasivaBO;
+import negocio.insercionMasiva.InsercionMasivaBO;
 import negocio.licencia.RegistroLicenciasBO;
 
 /**
@@ -43,8 +45,10 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         }
         return true;
     }
-
+    
     private void buscar() {
+        //FrmPantallaPrincipal on = new FrmPantallaPrincipal(conexion);
+        //on.insercionMasiva();
         if (verificarRFC()) {
             PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRFC.getText());
 
@@ -59,8 +63,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
                 txtAmaterno.setText(i.getApellidoMaterno());
                 txtTelefono.setText(i.getTelefono());
                 txtFechaNac.setText(i.getCadenaNacimiento());
-                
-                System.out.println(personaConsultada.getNombre());
             } catch (PersistenciaException ex) {
                 Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -68,7 +70,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         } else {
             JOptionPane s = new JOptionPane("Indique un RFC", JOptionPane.ERROR_MESSAGE);
         }
-        mensajeExito();
     }
 
     /**
