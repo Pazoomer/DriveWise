@@ -100,7 +100,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
             Calendar calendarLicencia=Calendar.getInstance();
             
             //Se crea un objeto de licencia nueva
-            LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia.getSelectedIndex());
+            LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia.getSelectedIndex() + 1);
             
             IRegistroLicenciasBO registroLicenciasBO= new RegistroLicenciasBO(conexion);
             registroLicenciasBO.registrarLicencia(persona, licenciaNuevaDTO);
