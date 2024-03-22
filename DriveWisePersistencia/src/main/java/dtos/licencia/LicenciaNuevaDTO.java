@@ -1,6 +1,7 @@
 
 package dtos.licencia;
 
+import dtos.persona.PersonaConsultableDTO;
 import java.util.Calendar;
 import mapas.personas.Persona;
 import mapas.tramites.Tramite;
@@ -11,11 +12,11 @@ import mapas.tramites.Tramite;
  */
 public class LicenciaNuevaDTO {
     Calendar fechaEmision;
-    Persona persona;
+    PersonaConsultableDTO persona;
     Integer vigencia;
     Tramite tramite;
     
-    public LicenciaNuevaDTO(Calendar fechaEmision, Persona persona, Integer vigencia){
+    public LicenciaNuevaDTO(Calendar fechaEmision, PersonaConsultableDTO persona, Integer vigencia){
         this.fechaEmision = fechaEmision;
         this.vigencia = vigencia;
         this.persona = persona;
@@ -25,7 +26,7 @@ public class LicenciaNuevaDTO {
         return fechaEmision;
     }
 
-    public Persona getPersona() {
+    public PersonaConsultableDTO getPersona() {
         return persona;
     }
 
@@ -41,7 +42,7 @@ public class LicenciaNuevaDTO {
         this.fechaEmision = fechaEmision;
     }
 
-    public void setPersona(Persona persona) {
+    public void setPersona(PersonaConsultableDTO persona) {
         this.persona = persona;
     }
 

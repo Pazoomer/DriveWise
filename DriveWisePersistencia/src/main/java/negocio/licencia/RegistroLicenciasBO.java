@@ -43,12 +43,12 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         IPersonasDAO personasDAO = new PersonasDAO(conexion);  
         ILicenciasDAO licenciasDAO = new LicenciasDAO(conexion);
         
-        Persona persona = licenciaNuevaDTO.getPersona();
-        Persona personaEncontrada= personasDAO.consultarPersonaModuloLicencias(persona);
+        Persona persona = new Persona(licenciaNuevaDTO.getPersona().getRfc());
+        Persona personaEncontrada= personasDAO.consultarPersonaPorRfc(persona);
         
         Tramite tramite=new Tramite(personaEncontrada);
         
-        Licencia licencia = new Licencia(licenciaNuevaDTO.getFechaEmision(),personaEncontrada, licenciaNuevaDTO.getVigencia(),tramite);
+        Licencia licencia = new Licencia(licenciaNuevaDTO.getFechaEmision(),personaEncontrada, licenciaNuevaDTO.getVigencia(), tramite);
         
         tramite.setLicencia(licencia);
         
