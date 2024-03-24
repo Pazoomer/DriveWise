@@ -47,8 +47,9 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         Persona personaEncontrada= personasDAO.consultarPersonaPorRfc(persona);
         
         Tramite tramite=new Tramite(personaEncontrada);
+        float costoLicencia = calcularCosto(licenciaNuevaDTO.getVigencia(), personaConsultableDTO.getDiscapacitado());
         
-        Licencia licencia = new Licencia(licenciaNuevaDTO.getFechaEmision(),personaEncontrada, licenciaNuevaDTO.getVigencia(), tramite);
+        Licencia licencia = new Licencia(licenciaNuevaDTO.getFechaEmision(),costoLicencia, personaEncontrada, licenciaNuevaDTO.getVigencia(), tramite);
         
         tramite.setLicencia(licencia);
         
@@ -57,6 +58,7 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         return true;
     }
     
+    @Override
     public PersonaConsultableDTO buscarPersonaRfc(PersonaConsultableDTO personaDTO) throws PersistenciaException{
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
         Persona persona = new Persona(personaDTO.getRfc());
@@ -71,5 +73,42 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         return personaEnviadaDTO;
     }
     
+    private float calcularCosto(int vigencia, boolean isDiscapacitado) {
+        float costo = 0;
+        if (vigencia == 1 && isDiscapacitado) {
+            costo = 800F;
+        } else if (vigencia == 1 && !isDiscapacitado) {
+            costo = 600f;
+        } else if (vigencia == 2 && isDiscapacitado) {
+            costo = 1400f;
+        } else if (vigencia == 2 && !isDiscapacitado) {
+            costo = 900f;
+        } else if (vigencia == 3 && isDiscapacitado) {
+            costo = 1800f;
+        } else if (vigencia == 3 && !isDiscapacitado) {
+            costo = 1100f;
+        }
+        return costo;
+    }
     
+    
+     public boolean mayorEdad(Calendar nacimiento){
+        // Obtener la fecha actual
+        Calendar fechaActual = Calendar.getInstance();
+
+        // Calcular la edad restando el año de nacimiento al año actual
+        int edad = fechaActual.get(Calendar.YEAR) - nacimiento.get(Calendar.YEAR);
+
+        // Si aún no ha pasado el mes de nacimiento, restamos un año a la edad
+        if (fechaActual.get(Calendar.MONTH) < nacimiento.get(Calendar.MONTH)) {
+            edad--;
+        }
+        // Si están en el mismo mes pero aún no ha pasado el día de nacimiento, restamos un año a la edad
+        else if (fechaActual.get(Calendar.MONTH) == nacimiento.get(Calendar.MONTH)
+                && fechaActual.get(Calendar.DAY_OF_MONTH) < nacimiento.get(Calendar.DAY_OF_MONTH)) {
+            edad--;
+        }
+        // Verificar si la persona tiene al menos 18 años
+        return edad >= 18;
+    }
 }

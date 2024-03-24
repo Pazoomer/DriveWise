@@ -122,7 +122,6 @@ public class PersonasDAO implements IPersonasDAO{
         } catch (NoResultException ex) {
             return null;
         }
-
         if (personaResult==null) {
             return null;
         }

@@ -1,9 +1,9 @@
 
-package ejectuable;
+package ejecutable;
 
 import daos.conexion.ConexionDAO;
 import daos.conexion.IConexionDAO;
-import forms.FrmPantallaPrincipal;
+import frames.FrmPantallaPrincipal;
 
 /**
  *

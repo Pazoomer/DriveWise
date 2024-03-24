@@ -1,5 +1,5 @@
 
-package forms;
+package frames;
 
 import daos.conexion.IConexionDAO;
 import dtos.persona.PersonaConsultableDTO;

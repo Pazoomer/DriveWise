@@ -1,4 +1,4 @@
-package forms;
+package frames;
 
 import daos.conexion.IConexionDAO;
 import dtos.licencia.LicenciaNuevaDTO;
@@ -30,6 +30,8 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         this.setResizable(false);
         initComponents();
         this.conexion = conexion;
+        cmbVigencia.setVisible(false);
+        txtVigencia.setText("");
 
     }
 
@@ -54,6 +56,8 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
 
     private void buscar() {
         if (verificarRFC()) {
+            cmbVigencia.setVisible(true);
+            txtVigencia.setText("Vigencia");
             PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRFC.getText());
             RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
             try {
@@ -79,8 +83,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Indique un rfc", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        LicenciaNuevaDTO licenciaNuevaDTO = new LicenciaNuevaDTO(persona, cmbVigencia.getSelectedIndex() + 1);
-        lblCosto.setText("Costo: $" + licenciaNuevaDTO.getCosto().toString() + "0");
     }
 
     /**
@@ -102,25 +104,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         //on.setVisible(true);
     }
     
-    private boolean mayorEdad(Calendar nacimiento){
-        // Obtener la fecha actual
-        Calendar fechaActual = Calendar.getInstance();
-
-        // Calcular la edad restando el año de nacimiento al año actual
-        int edad = fechaActual.get(Calendar.YEAR) - nacimiento.get(Calendar.YEAR);
-
-        // Si aún no ha pasado el mes de nacimiento, restamos un año a la edad
-        if (fechaActual.get(Calendar.MONTH) < nacimiento.get(Calendar.MONTH)) {
-            edad--;
-        }
-        // Si están en el mismo mes pero aún no ha pasado el día de nacimiento, restamos un año a la edad
-        else if (fechaActual.get(Calendar.MONTH) == nacimiento.get(Calendar.MONTH)
-                && fechaActual.get(Calendar.DAY_OF_MONTH) < nacimiento.get(Calendar.DAY_OF_MONTH)) {
-            edad--;
-        }
-        // Verificar si la persona tiene al menos 18 años
-        return edad >= 18;
-    }
+    
 
     private void registrar() {
         try {
@@ -128,16 +112,16 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Primero consulte una persona", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            IRegistroLicenciasBO registroLicenciasBO= new RegistroLicenciasBO(conexion);
             Calendar calendarLicencia = Calendar.getInstance();
 
-            if (!mayorEdad(persona.getNacimiento())) {
+            if (!registroLicenciasBO.mayorEdad(persona.getNacimiento())) {
                 JOptionPane.showMessageDialog(this, "No se puede agregar una licencia a un menor de edad", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             //Se crea un objeto de licencia nueva
             LicenciaNuevaDTO licenciaNuevaDTO = new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia.getSelectedIndex() + 1);
             
-            IRegistroLicenciasBO registroLicenciasBO= new RegistroLicenciasBO(conexion);
             registroLicenciasBO.registrarLicencia(persona, licenciaNuevaDTO);
             
             mensajeExito();
@@ -150,6 +134,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txtVigencia = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         txtApaterno = new javax.swing.JTextField();
         txtAmaterno = new javax.swing.JTextField();
@@ -164,6 +149,18 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtVigencia.setEditable(false);
+        txtVigencia.setBackground(new java.awt.Color(240, 236, 236));
+        txtVigencia.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        txtVigencia.setText("Vigencia");
+        txtVigencia.setBorder(null);
+        txtVigencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtVigenciaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 470, 90, 40));
 
         txtNombre.setEditable(false);
         txtNombre.setOpaque(true);
@@ -200,7 +197,12 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         });
         getContentPane().add(txtRFC, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 230, 30));
 
-        cmbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3" }));
+        cmbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar años", "1", "2", "3" }));
+        cmbVigencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbVigenciaActionPerformed(evt);
+            }
+        });
         getContentPane().add(cmbVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 472, 200, 30));
 
         btnVolver.setBorderPainted(false);
@@ -241,7 +243,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
                 btnConfirmarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 140, 60));
+        getContentPane().add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 150, 60));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Modulo de licencias.jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 550));
@@ -282,6 +284,19 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         registrar();
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
+    private void txtVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVigenciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtVigenciaActionPerformed
+
+    private void cmbVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbVigenciaActionPerformed
+        if (cmbVigencia.getSelectedIndex() == 0){
+            JOptionPane.showMessageDialog(this, "Selecciona una vigencia válida", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        LicenciaNuevaDTO licenciaNuevaDTO = new LicenciaNuevaDTO(persona, cmbVigencia.getSelectedIndex());
+        lblCosto.setText("Costo: $" + licenciaNuevaDTO.getCosto().toString() + "0");  
+    }//GEN-LAST:event_cmbVigenciaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnConfirmar;
@@ -294,5 +309,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     private javax.swing.JTextField txtFechaNac;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtRFC;
+    private javax.swing.JTextField txtVigencia;
     // End of variables declaration//GEN-END:variables
 }

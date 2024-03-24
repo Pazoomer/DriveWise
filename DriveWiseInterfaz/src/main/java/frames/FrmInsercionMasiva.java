@@ -1,5 +1,5 @@
 
-package forms;
+package frames;
 
 import dtos.persona.PersonaConsultableDTO;
 import javax.swing.table.DefaultTableModel;

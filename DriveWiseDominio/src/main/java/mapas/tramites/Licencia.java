@@ -35,7 +35,7 @@ public class Licencia implements Serializable {
     private Calendar fechaEmision;
     
     @Column(name="costo",nullable=false)
-    private Float costo;
+    private float costo;
     
     @ManyToOne
     @JoinColumn(name = "id_persona", nullable = false)
@@ -58,12 +58,12 @@ public class Licencia implements Serializable {
      * @param vigencia
      * @param tramite
      */
-    public Licencia(Calendar fechaEmision, Persona persona, Integer vigencia, Tramite tramite) {
+    public Licencia(Calendar fechaEmision, float costo, Persona persona, Integer vigencia, Tramite tramite) {
         this.fechaEmision = fechaEmision;
         this.persona = persona;
         this.vigencia = vigencia;
         this.tramite=tramite;
-        calcularCosto();
+        this.costo = costo;
     }
 
     public Calendar getFechaEmision() {
@@ -114,20 +114,6 @@ public class Licencia implements Serializable {
         this.id_licencia = id_licencia;
     }
 
-    private void calcularCosto() {
-        if (this.getVigencia() == 1 && this.getPersona().getDiscapacitado()) {
-            this.costo = 800F;
-        } else if (this.getVigencia() == 1 && !this.getPersona().getDiscapacitado()) {
-            this.costo = 600f;
-        } else if (this.getVigencia() == 2 && this.getPersona().getDiscapacitado()) {
-            this.costo = 1400f;
-        } else if (this.getVigencia() == 2 && !this.getPersona().getDiscapacitado()) {
-            this.costo = 900f;
-        } else if (this.getVigencia() == 3 && this.getPersona().getDiscapacitado()) {
-            this.costo = 1800f;
-        } else if (this.getVigencia() == 3 && !this.getPersona().getDiscapacitado()) {
-            this.costo = 1100f;
-        }
-    }
+    
 
 }
