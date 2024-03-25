@@ -58,6 +58,10 @@ public class Placa implements Serializable {
 
     public Placa() {
     }
+    
+    public Placa(String numSerie){
+        
+    }
 
     /**
      * Constructor sin recepcion, id ni costo

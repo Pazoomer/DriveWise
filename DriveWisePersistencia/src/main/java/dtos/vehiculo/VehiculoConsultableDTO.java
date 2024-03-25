@@ -15,6 +15,7 @@ public class VehiculoConsultableDTO {
     String numSerie, marca, linea, color, modelo, tipo;
     Persona persona;
 
+    
     public Boolean getNuevo() {
         return nuevo;
     }
