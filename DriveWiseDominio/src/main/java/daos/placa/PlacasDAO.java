@@ -54,11 +54,6 @@ public class PlacasDAO implements IPlacasDAO{
     }
 
     @Override
-    public boolean cambiarPlaca(Placa placa) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public Vehiculo consultarVehiculo(Placa placa) throws PersistenciaException {
         EntityManager entityManager = this.conexion.crearConexion();
         String jpqlQuery = """

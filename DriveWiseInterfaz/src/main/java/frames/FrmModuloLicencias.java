@@ -112,6 +112,11 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Primero consulte una persona", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if (cmbVigencia.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this, "Selecciona una vigencia válida", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             IRegistroLicenciasBO registroLicenciasBO= new RegistroLicenciasBO(conexion);
             Calendar calendarLicencia = Calendar.getInstance();
 
@@ -120,9 +125,9 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
                 return;
             }
             //Se crea un objeto de licencia nueva
-            LicenciaNuevaDTO licenciaNuevaDTO = new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia.getSelectedIndex() + 1);
+            LicenciaNuevaDTO licenciaNuevaDTO = new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia.getSelectedIndex());
             
-            registroLicenciasBO.registrarLicencia(persona, licenciaNuevaDTO);
+            registroLicenciasBO.registrarLicencia(licenciaNuevaDTO);
             
             mensajeExito();
         } catch (NoSuchAlgorithmException ex) {
@@ -289,10 +294,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     }//GEN-LAST:event_txtVigenciaActionPerformed
 
     private void cmbVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbVigenciaActionPerformed
-        if (cmbVigencia.getSelectedIndex() == 0){
-            JOptionPane.showMessageDialog(this, "Selecciona una vigencia válida", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         LicenciaNuevaDTO licenciaNuevaDTO = new LicenciaNuevaDTO(persona, cmbVigencia.getSelectedIndex());
         lblCosto.setText("Costo: $" + licenciaNuevaDTO.getCosto().toString() + "0");  
     }//GEN-LAST:event_cmbVigenciaActionPerformed

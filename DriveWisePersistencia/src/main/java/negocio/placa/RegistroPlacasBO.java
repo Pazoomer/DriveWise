@@ -38,32 +38,61 @@ public class RegistroPlacasBO {
         this.conexion = conexion;
     }
     
-    public Vehiculo buscarVehiculo(PlacaConsultableDTO placaDTO) throws PersistenciaException {
+    /**
+     * Busca un vehiculo que tenga la placa recibida en el parámetro.
+     * @param placaDTO Placa
+     * @return Vehículo coincidente con la placa o null si no se encuentra ningún vehículo
+     * @throws PersistenciaException 
+     */
+    public VehiculoConsultableDTO buscarVehiculo(PlacaConsultableDTO placaDTO) throws PersistenciaException {
         IPlacasDAO placasDAO = new PlacasDAO(conexion);
         Placa placa = new Placa(placaDTO.getAlfanumerico());
-        return placasDAO.consultarVehiculo(placa);
+        VehiculoConsultableDTO vehiculoDTO = new VehiculoConsultableDTO(placasDAO.consultarVehiculo(placa).getNumSerie(), placasDAO.consultarVehiculo(placa).getMarca(), placasDAO.consultarVehiculo(placa).getLinea(), placasDAO.consultarVehiculo(placa).getColor(), placasDAO.consultarVehiculo(placa).getModelo());
+        return vehiculoDTO;
     }
     
+    /**
+     * Se registra la placa de un vehículo enviandola a la base de datos
+     * @param placaDTO Placa de un vehículo
+     * @throws PersistenciaException 
+     */
     public void registrarPlaca(PlacaNuevaDTO placaDTO) throws PersistenciaException {
+        // Se crean instancias de Vehiculo y Placa
         Vehiculo vehiculo = null;
         Placa placa = null;
+        
+        // Se declara una variable de costo para inicializarla más adelante
         float costoPlaca;
+        
+        // Se crea una instancia de Persona con el RFC ingresada en el frame, para luego buscarla en la base de datos
         Persona persona = new Persona(placaDTO.getVehiculo().getPersona().getRfc());
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
         IPlacasDAO placasDAO = new PlacasDAO(conexion);
         Persona personaEncontrada = personasDAO.consultarPersonaPorRfc(persona);
+        
+        //Se crea un trámite con la persona encontrada en la base de datos
         Tramite tramite = new Tramite(personaEncontrada);
+        
+        // Si el vehículo es nuevo, se inicializará un nuevo vehículo con los datos ingresados en el frame, y este se usará
+        // para construir una nueva placa
         if (placaDTO.getVehiculo().getNuevo()) {
-            vehiculo = new Carro(placaDTO.getVehiculo().getNuevo(), placaDTO.getVehiculo().getNumSerie(), placaDTO.getVehiculo().getMarca(), placaDTO.getVehiculo().getLinea(), placaDTO.getVehiculo().getColor(), placaDTO.getVehiculo().getModelo(), personaEncontrada);
-            placa = new Placa(placaDTO.getFechaEmision(), generarAlfanumericoPlaca(), calcularCosto(true), placaDTO.getActivo(), vehiculo, placaDTO.getTramite());
+            vehiculo = new Carro(true, placaDTO.getVehiculo().getNumSerie(), placaDTO.getVehiculo().getMarca(), placaDTO.getVehiculo().getLinea(), placaDTO.getVehiculo().getColor(), placaDTO.getVehiculo().getModelo(), personaEncontrada);
+            placa = new Placa(placaDTO.getFechaEmision(), generarAlfanumericoPlaca(), calcularCosto(true), placaDTO.getActivo(), vehiculo, tramite);
+            placa.setVehiculo(vehiculo);
+            tramite.setPlaca(placa);
+            placasDAO.agregarPlaca(placa);
+        // Si el vehículo es viejo, se creará un objeto Placa con solo el alfanumérico viejo, para luego consultarla en la base de      
+        // datos y cambiar su estado a inactiva. Se creará una nueva placa, que se registrará en la base de datos y se establece
+        // la fecha de recepción de la anterior
         } else {
             placa = new Placa(placaDTO.getAlfanumerico());
             placasDAO.consultarPlaca(placa).setActivo(false);
-            Placa nuevaPlaca = new Placa(Calendar.getInstance(), generarAlfanumericoPlaca(), calcularCosto(false), placaDTO.getActivo(), vehiculo, placaDTO.getTramite());
+            placasDAO.consultarPlaca(placa).setRecepcion(Calendar.getInstance());
+            Placa nuevaPlaca = new Placa(Calendar.getInstance(), generarAlfanumericoPlaca(), calcularCosto(false), true, vehiculo, tramite);
+            placa.setVehiculo(vehiculo);
+            tramite.setPlaca(nuevaPlaca);
+            placasDAO.agregarPlaca(nuevaPlaca);
         }
-        placa.setVehiculo(vehiculo);
-        tramite.setPlaca(placa);
-        placasDAO.agregarPlaca(placa);
         
     }
     

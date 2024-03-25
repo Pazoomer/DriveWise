@@ -39,15 +39,6 @@ public interface IPlacasDAO {
      */
     Placa consultarPlaca(Placa placa) throws PersistenciaException;
 
-    /**
-     * Segun el alfanumerico de la placa, se cambia su estado a activo, y se
-     * desactiva el estado activo si lo tenia otra placa del mismo vehiculo
-     *
-     * @param placa Placa a activar (Necesita alfanumerico)
-     * @return Verdadero si la placa se activo, falso en caso contrario
-     * @throws PersistenciaException Si hubo un error en la base de datos
-     */
-    boolean cambiarPlaca(Placa placa) throws PersistenciaException;
 
     /**
      * Consulta el vehiculo de la placa
