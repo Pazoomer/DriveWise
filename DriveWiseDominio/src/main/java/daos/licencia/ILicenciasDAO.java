@@ -19,13 +19,7 @@ public interface ILicenciasDAO {
      */
     Licencia agregarLicencia(Licencia licencia)throws PersistenciaException;
     
-    /**
-     * Busca una licencia valida segun una persona
-     * @param persona Persona a validar si tiene licencia (Necesita curp)
-     * @return true si encontro una licencia vigente, false en caso contrario
-     * @throws PersistenciaException Si hubo un error en la base de datos
-     */
-    boolean validarLicencia(Persona persona)throws PersistenciaException;
+    
     
 
 }

@@ -68,4 +68,11 @@ public interface IPersonasDAO {
     List<Vehiculo> consultarVehiculos(Persona persona)throws PersistenciaException;
     
     
+    /**
+     * Busca una licencia valida segun una persona
+     * @param persona Persona a validar si tiene licencia (Necesita curp)
+     * @return true si encontro una licencia vigente, false en caso contrario
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
+    public boolean validarLicencia(Persona persona) throws PersistenciaException;
 }

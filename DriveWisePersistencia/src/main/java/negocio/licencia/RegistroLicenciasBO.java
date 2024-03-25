@@ -38,7 +38,7 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
     @Override
-    public boolean registrarLicencia(PersonaConsultableDTO personaConsultableDTO, LicenciaNuevaDTO licenciaNuevaDTO) throws NoSuchAlgorithmException, PersistenciaException{
+    public boolean registrarLicencia(LicenciaNuevaDTO licenciaNuevaDTO) throws NoSuchAlgorithmException, PersistenciaException{
         
         IPersonasDAO personasDAO = new PersonasDAO(conexion);  
         ILicenciasDAO licenciasDAO = new LicenciasDAO(conexion);
@@ -47,7 +47,7 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         Persona personaEncontrada= personasDAO.consultarPersonaPorRfc(persona);
         
         Tramite tramite=new Tramite(personaEncontrada);
-        float costoLicencia = calcularCosto(licenciaNuevaDTO.getVigencia(), personaConsultableDTO.getDiscapacitado());
+        float costoLicencia = calcularCosto(licenciaNuevaDTO.getVigencia(), licenciaNuevaDTO.getPersona().getDiscapacitado());
         
         Licencia licencia = new Licencia(licenciaNuevaDTO.getFechaEmision(),costoLicencia, personaEncontrada, licenciaNuevaDTO.getVigencia(), tramite);
         

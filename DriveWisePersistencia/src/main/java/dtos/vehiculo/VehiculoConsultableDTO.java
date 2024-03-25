@@ -4,6 +4,7 @@
  */
 package dtos.vehiculo;
 
+import dtos.persona.PersonaConsultableDTO;
 import mapas.personas.Persona;
 
 /**
@@ -13,7 +14,7 @@ import mapas.personas.Persona;
 public class VehiculoConsultableDTO {
     Boolean nuevo;
     String numSerie, marca, linea, color, modelo, tipo;
-    Persona persona;
+    PersonaConsultableDTO persona;
 
     
     public Boolean getNuevo() {
@@ -44,7 +45,7 @@ public class VehiculoConsultableDTO {
         return tipo;
     }
 
-    public Persona getPersona() {
+    public PersonaConsultableDTO getPersona() {
         return persona;
     }
 
@@ -76,7 +77,7 @@ public class VehiculoConsultableDTO {
         this.tipo = tipo;
     }
 
-    public void setPersona(Persona persona) {
+    public void setPersona(PersonaConsultableDTO persona) {
         this.persona = persona;
     }
 }

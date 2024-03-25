@@ -59,25 +59,26 @@ public class Placa implements Serializable {
     public Placa() {
     }
     
-    public Placa(String numSerie){
-        
+    public Placa(String alfanumerico){
+        this.alfanumerico = alfanumerico;
     }
 
     /**
      * Constructor sin recepcion, id ni costo
      * @param fechaEmision
      * @param alfanumerico
+     * @param costo
      * @param activo
      * @param vehiculo
      * @param tramite 
      */
-    public Placa(Calendar fechaEmision, String alfanumerico, Boolean activo, Vehiculo vehiculo, Tramite tramite) {
+    public Placa(Calendar fechaEmision, String alfanumerico, float costo, Boolean activo, Vehiculo vehiculo, Tramite tramite) {
         this.fechaEmision = fechaEmision;
         this.alfanumerico = alfanumerico;
         this.activo = activo;
         this.vehiculo = vehiculo;
         this.tramite = tramite;
-        calcularCosto();
+        this.costo = costo;
     }
     
     public Calendar getFechaEmision() {

@@ -13,7 +13,7 @@ import java.util.Calendar;
  */
 public interface IRegistroLicenciasBO {
     
-    boolean registrarLicencia(PersonaConsultableDTO personaConsultableDTO, LicenciaNuevaDTO licenciaNuevaDTO) throws NoSuchAlgorithmException, PersistenciaException;
+    boolean registrarLicencia(LicenciaNuevaDTO licenciaNuevaDTO) throws NoSuchAlgorithmException, PersistenciaException;
     public PersonaConsultableDTO buscarPersonaRfc(PersonaConsultableDTO personaDTO) throws PersistenciaException;
     public boolean mayorEdad(Calendar nacimiento);
     

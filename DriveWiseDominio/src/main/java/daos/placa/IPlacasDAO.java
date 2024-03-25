@@ -11,7 +11,7 @@ import mapas.vehiculos.Vehiculo;
  *
  * @author t1pas
  */
-public interface IPlacaDAO {
+public interface IPlacasDAO {
 
     /**
      * Consulta todas las placas de un vehiculo
@@ -29,17 +29,7 @@ public interface IPlacaDAO {
      */
     Placa agregarPlaca(Placa placa) throws PersistenciaException;
 
-    /**
-     * En el modulo de placas usadas, se consulta todas los vehiculos de la
-     * persona, de cada vehiculo se consultan todas sus placas y se consulta una
-     * placa con el mismo alfanumerico que la placa ingresada
-     *
-     * @param persona Persona a buscarle la placa (Necesita CURP)
-     * @param placa Placa con el mismo alfanumerico a buscar (Necesita alfanumerico)
-     * @return La placa usada, null en caso contrario
-     * @throws PersistenciaException Si hubo un error en la base de datos
-     */
-    Placa consultarPlacaUsada(Persona persona, Placa placa) throws PersistenciaException;
+    
     
     /**
      * Consulta una placa
