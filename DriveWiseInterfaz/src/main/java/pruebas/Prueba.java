@@ -7,6 +7,7 @@ import daos.licencia.ILicenciasDAO;
 import daos.licencia.LicenciasDAO;
 import daos.persona.IPersonasDAO;
 import daos.persona.PersonasDAO;
+import daos.tramite.TramitesDAO;
 import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
@@ -46,7 +47,9 @@ public class Prueba {
         //LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia,3);
         
         IRegistroLicenciasBO registroPlacasBO = new RegistroLicenciasBO(conexion);
-
+        
+        TramitesDAO tramite = new TramitesDAO(conexion);
+        //tramite.consultarTramitesPorPersona();
         //try {
            // personasDAO.insersionMasiva();
             //registroPlacasBO.registrarLicencia(personaConsultableDTO, licenciaNuevaDTO);
