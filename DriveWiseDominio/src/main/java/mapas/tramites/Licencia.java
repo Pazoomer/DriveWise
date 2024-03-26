@@ -54,6 +54,7 @@ public class Licencia implements Serializable {
     /**
      * Constructor sin id ni costo
      * @param fechaEmision
+     * @param costo
      * @param persona
      * @param vigencia
      * @param tramite

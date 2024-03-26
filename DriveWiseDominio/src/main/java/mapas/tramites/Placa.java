@@ -3,6 +3,7 @@ package mapas.tramites;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Random;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -72,13 +73,13 @@ public class Placa implements Serializable {
      * @param vehiculo
      * @param tramite 
      */
-    public Placa(Calendar fechaEmision, String alfanumerico, float costo, Boolean activo, Vehiculo vehiculo, Tramite tramite) {
+    public Placa(Calendar fechaEmision, float costo, Boolean activo, Vehiculo vehiculo, Tramite tramite) {
         this.fechaEmision = fechaEmision;
-        this.alfanumerico = alfanumerico;
         this.activo = activo;
         this.vehiculo = vehiculo;
         this.tramite = tramite;
         this.costo = costo;
+        generarAlfanumericoPlaca();
     }
     
     public Calendar getFechaEmision() {
@@ -144,12 +145,23 @@ public class Placa implements Serializable {
     public void setId_placa(Long id_placa) {
         this.id_placa = id_placa;
     }
+    
+    private String generarAlfanumericoPlaca(){
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
 
-    private void calcularCosto() {
-        if (this.getVehiculo().getNuevo()) {
-            this.costo = 1500F;
-        } else if (!this.getVehiculo().getNuevo()) {
-            this.costo = 1000f;
+        for (int i = 0; i < 3; i++) {
+            char letra = (char) ('A' + random.nextInt(26));
+            sb.append(letra);
         }
+
+        sb.append('-');
+
+        for (int i = 0; i < 3; i++) {
+            int digito = random.nextInt(10);
+            sb.append(digito);
+        }
+
+        return sb.toString();
     }
 }

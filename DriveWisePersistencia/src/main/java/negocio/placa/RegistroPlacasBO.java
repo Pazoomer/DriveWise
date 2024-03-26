@@ -77,7 +77,7 @@ public class RegistroPlacasBO {
         // para construir una nueva placa
         if (placaDTO.getVehiculo().getNuevo()) {
             vehiculo = new Carro(true, placaDTO.getVehiculo().getNumSerie(), placaDTO.getVehiculo().getMarca(), placaDTO.getVehiculo().getLinea(), placaDTO.getVehiculo().getColor(), placaDTO.getVehiculo().getModelo(), personaEncontrada);
-            placa = new Placa(placaDTO.getFechaEmision(), generarAlfanumericoPlaca(), calcularCosto(true), placaDTO.getActivo(), vehiculo, tramite);
+            placa = new Placa(placaDTO.getFechaEmision(), calcularCosto(true), placaDTO.getActivo(), vehiculo, tramite);
             placa.setVehiculo(vehiculo);
             tramite.setPlaca(placa);
             placasDAO.agregarPlaca(placa);
@@ -88,43 +88,12 @@ public class RegistroPlacasBO {
             placa = new Placa(placaDTO.getAlfanumerico());
             placasDAO.consultarPlaca(placa).setActivo(false);
             placasDAO.consultarPlaca(placa).setRecepcion(Calendar.getInstance());
-            Placa nuevaPlaca = new Placa(Calendar.getInstance(), generarAlfanumericoPlaca(), calcularCosto(false), true, vehiculo, tramite);
+            Placa nuevaPlaca = new Placa(Calendar.getInstance(), calcularCosto(false), true, vehiculo, tramite);
             placa.setVehiculo(vehiculo);
             tramite.setPlaca(nuevaPlaca);
             placasDAO.agregarPlaca(nuevaPlaca);
         }
         
-    }
-    
-    private String generarAlfanumericoPlaca(){
-        Random random = new Random();
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < 3; i++) {
-            char letra = (char) ('A' + random.nextInt(26));
-            sb.append(letra);
-        }
-
-        sb.append('-');
-
-        for (int i = 0; i < 3; i++) {
-            int digito = random.nextInt(10);
-            sb.append(digito);
-        }
-
-        return sb.toString();
-    }
-    
-    public boolean validarLicencia(PersonaConsultableDTO personaDTO) throws PersistenciaException{
-        IPersonasDAO personasDAO = new PersonasDAO(conexion);
-        Persona persona = new Persona(personaDTO.getRfc());
-        Persona personaEncontrada = personasDAO.consultarPersonaPorRfc(persona);
-        
-        
-        if (personasDAO.validarLicencia(personaEncontrada)){
-            return true;
-        }
-        return false;
     }
     
     private float calcularCosto(boolean nuevo){
