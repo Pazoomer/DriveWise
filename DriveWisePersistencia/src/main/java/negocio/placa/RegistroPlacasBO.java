@@ -1,12 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package negocio.placa;
 
 import daos.conexion.IConexionDAO;
-import daos.licencia.ILicenciasDAO;
-import daos.licencia.LicenciasDAO;
 import daos.persona.IPersonasDAO;
 import daos.persona.PersonasDAO;
 import daos.placa.IPlacasDAO;
@@ -16,6 +11,7 @@ import dtos.placa.PlacaConsultableDTO;
 import dtos.placa.PlacaNuevaDTO;
 import dtos.vehiculo.VehiculoConsultableDTO;
 import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
 import java.util.Calendar;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -29,7 +25,7 @@ import mapas.vehiculos.Vehiculo;
  *
  * @author JoseH
  */
-public class RegistroPlacasBO {
+public class RegistroPlacasBO implements IRegistroPlacasBO{
     
     private final IConexionDAO conexion;
     private static final Logger LOG = Logger.getLogger(PersonasDAO.class.getName());
@@ -40,10 +36,11 @@ public class RegistroPlacasBO {
     
     /**
      * Busca un vehiculo que tenga la placa recibida en el parámetro.
-     * @param placaDTO Placa
+     * @param placaDTO Placa con las que busca
      * @return Vehículo coincidente con la placa o null si no se encuentra ningún vehículo
-     * @throws PersistenciaException 
+     * @throws PersistenciaException Si hubo un error en la base de datos
      */
+    @Override
     public VehiculoConsultableDTO buscarVehiculo(PlacaConsultableDTO placaDTO) throws PersistenciaException {
         IPlacasDAO placasDAO = new PlacasDAO(conexion);
         Placa placa = new Placa(placaDTO.getAlfanumerico());
@@ -53,9 +50,10 @@ public class RegistroPlacasBO {
     
     /**
      * Se registra la placa de un vehículo enviandola a la base de datos
-     * @param placaDTO Placa de un vehículo
-     * @throws PersistenciaException 
+     * @param placaDTO Placa de un vehículo a registrar
+     * @throws PersistenciaException Si hubo un error en la base de datos
      */
+    @Override
     public void registrarPlaca(PlacaNuevaDTO placaDTO) throws PersistenciaException {
         // Se crean instancias de Vehiculo y Placa
         Vehiculo vehiculo = null;
@@ -96,6 +94,10 @@ public class RegistroPlacasBO {
         
     }
     
+    /**
+     * Genera un alfanumerico para la placa
+     * @return Una cadena con el valor alfanumerico de la placa
+     */
     private String generarAlfanumericoPlaca(){
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
@@ -115,7 +117,15 @@ public class RegistroPlacasBO {
         return sb.toString();
     }
     
-    public boolean validarLicencia(PersonaConsultableDTO personaDTO) throws PersistenciaException{
+    /**
+     * Busca una licencia valida de una persona
+     * @param personaDTO Persona a validar
+     * @return verdadero si encontro una licencia vigente, falso en caso contrario
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     * @throws excepciones.ValidacionException
+     */
+    @Override
+    public boolean validarLicencia(PersonaConsultableDTO personaDTO) throws PersistenciaException,ValidacionException{
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
         Persona persona = new Persona(personaDTO.getRfc());
         Persona personaEncontrada = personasDAO.consultarPersonaPorRfc(persona);
@@ -127,14 +137,18 @@ public class RegistroPlacasBO {
         return false;
     }
     
+    /**
+     * Calcula el costo de la placa segun si el carro es nuevo o usado
+     * @param nuevo Atributo del carro que define el costo
+     * @return El costo de la placa
+     */
     private float calcularCosto(boolean nuevo){
         if (nuevo){
             return 1500f;
         } else {
             return 1000f;
         }
-    }
-    
+    }    
     
     
 }
