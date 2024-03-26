@@ -88,23 +88,31 @@ public class FrmRegPlacaUsado extends javax.swing.JFrame {
 
         lblVehiculoDinamico.setBackground(new java.awt.Color(127, 0, 0));
         lblVehiculoDinamico.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jPanel1.add(lblVehiculoDinamico);
 
         lblLogoEstatico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.png"))); // NOI18N
+        jPanel1.add(lblLogoEstatico);
+        jPanel1.add(jSeparator1);
 
         lblTituloEstatico.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTituloEstatico.setText("Placa para automóvil usado");
+        jPanel1.add(lblTituloEstatico);
 
         lblRfcEstatico.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblRfcEstatico.setForeground(new java.awt.Color(127, 0, 0));
         lblRfcEstatico.setText("RFC del dueño");
+        jPanel1.add(lblRfcEstatico);
 
         txfRfc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.add(txfRfc);
 
         lnlPlacasEstatico.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lnlPlacasEstatico.setForeground(new java.awt.Color(127, 0, 0));
         lnlPlacasEstatico.setText("Número de placas anteriores");
+        jPanel1.add(lnlPlacasEstatico);
 
         txfPlacasAnteriores.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.add(txfPlacasAnteriores);
 
         btnConfirmar.setBackground(new java.awt.Color(127, 0, 0));
         btnConfirmar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -115,6 +123,7 @@ public class FrmRegPlacaUsado extends javax.swing.JFrame {
                 btnConfirmarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnConfirmar);
 
         btnVolver.setBackground(new java.awt.Color(127, 0, 0));
         btnVolver.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -125,106 +134,23 @@ public class FrmRegPlacaUsado extends javax.swing.JFrame {
                 btnVolverActionPerformed(evt);
             }
         });
+        jPanel1.add(btnVolver);
 
         lblVehiculoEstatico.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblVehiculoEstatico.setText("Vehículo encontrado");
+        jPanel1.add(lblVehiculoEstatico);
 
         lblModeloEstatico.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblModeloEstatico.setText("Modelo");
+        jPanel1.add(lblModeloEstatico);
 
         lblMarcaEstatica.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblMarcaEstatica.setText("Marca");
+        jPanel1.add(lblMarcaEstatica);
 
         lblLineaEstatico.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         lblLineaEstatico.setText("Línea");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblTituloEstatico, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txfRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblRfcEstatico))
-                                        .addGap(71, 71, 71)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(lnlPlacasEstatico, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-                                            .addComponent(txfPlacasAnteriores, javax.swing.GroupLayout.Alignment.LEADING))))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(106, 106, 106)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel8)
-                                                .addGap(111, 111, 111)
-                                                .addComponent(jLabel9)
-                                                .addGap(105, 105, 105)
-                                                .addComponent(jLabel10)
-                                                .addGap(0, 134, Short.MAX_VALUE)))
-                                        .addGap(177, 177, 177))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(85, 85, 85))))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 755, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(lblLogoEstatico)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblTituloEstatico, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblRfcEstatico)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txfRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lnlPlacasEstatico)
-                                .addGap(18, 18, 18)
-
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblLineaEstatico, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblMarcaEstatica, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblModeloEstatico, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblVehiculoDinamico, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(58, 58, 58)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35))
-        );
+        jPanel1.add(lblLineaEstatico);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -264,9 +190,6 @@ public class FrmRegPlacaUsado extends javax.swing.JFrame {
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblLineaEstatico;
     private javax.swing.JLabel lblLogoEstatico;
