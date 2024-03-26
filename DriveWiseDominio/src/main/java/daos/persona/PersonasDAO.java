@@ -3,6 +3,7 @@ package daos.persona;
 
 import daos.conexion.IConexionDAO;
 import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.List;
@@ -106,7 +107,7 @@ public class PersonasDAO implements IPersonasDAO{
     }
 
     @Override
-    public Persona consultarPersonaModuloLicencias(Persona persona){
+    public Persona consultarPersonaModuloLicencias(Persona persona)throws PersistenciaException{
         EntityManager entityManager = this.conexion.crearConexion();
         
         String jpqlQuery = """
@@ -131,8 +132,37 @@ public class PersonasDAO implements IPersonasDAO{
     }
 
     @Override
-    public List<Persona> consultarPersonasModuloConsultas(Persona persona) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Persona> consultarPersonasModuloConsultas(Persona persona) throws PersistenciaException, ValidacionException {
+        EntityManager entityManager = this.conexion.crearConexion();
+
+        String jpqlQuery = """
+                           SELECT p from Persona p
+                           WHERE p.rfc = :rfc OR
+                           p.nombre LIKE :nombre OR
+                           p.apellidoMaterno LIKE :nombre OR
+                           p.apellidoPaterno LIKE :nombre OR
+                           FUNCTION('YEAR', p.nacimiento) = :anio
+                           """;
+        TypedQuery<Persona> query = entityManager.createQuery(jpqlQuery, Persona.class);
+
+        query.setParameter("rfc", persona.getRfc());
+
+        query.setParameter("nombre", "%" + persona.getNombre() + "%");
+
+        if (persona.getNacimiento() != null) {
+            query.setParameter("anio", persona.getNacimiento().get(Calendar.YEAR));
+        } else {
+            query.setParameter("anio", null);
+        }
+
+        List<Persona> personasResult = query.getResultList();
+        
+        if (personasResult.isEmpty()) {
+            throw new ValidacionException("No hay resultados de la consulta");
+        }
+        
+        entityManager.close();
+        return personasResult;
     }
 
     @Override

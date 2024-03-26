@@ -2,6 +2,7 @@
 package daos.persona;
 
 import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
 
 import java.util.List;
 import mapas.personas.Persona;
@@ -48,8 +49,9 @@ public interface IPersonasDAO {
      * de nacimiento
      * @return Lista de personas que cumplen con el filtro de la persona
      * @throws PersistenciaException Si hubo un error en la base de datos
+     * @throws excepciones.ValidacionException
      */
-    List<Persona> consultarPersonasModuloConsultas(Persona persona) throws PersistenciaException;
+    List<Persona> consultarPersonasModuloConsultas(Persona persona) throws PersistenciaException,ValidacionException;
     
     /**
      * Consulta las licencias de una persona

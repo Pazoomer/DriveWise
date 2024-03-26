@@ -3,6 +3,7 @@ package negocio.consulta;
 
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
 import java.util.List;
 import mapas.personas.Persona;
 import mapas.tramites.Tramite;
@@ -11,7 +12,7 @@ import mapas.tramites.Tramite;
  *
  * @author t1pas
  */
-public interface IConsultarHistorial {
+public interface IConsultarHistorialBO {
 
     /**
      * Consulta una lista de personas basado en un filtro
@@ -19,11 +20,10 @@ public interface IConsultarHistorial {
      * @param personaConsultableDTO Persona que comparte informacion con los
      * buscados Filtros: (curp, nombre, apellido paterno, apellido materno,
      * nacimiento)
-     * @param filtro Filtro que decide como decantar Filtros: CURP, NOMBRE, AÑO
      * @return Una lista de personas con el filtro igual que la persona del parametro
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    List<Persona> consultarPersonaPorFiltros(PersonaConsultableDTO personaConsultableDTO, String filtro) throws PersistenciaException;
+    List<PersonaConsultableDTO> consultarPersonaPorFiltros(PersonaConsultableDTO personaConsultableDTO) throws PersistenciaException,ValidacionException;
     
     /**
      * Consulta la liste de tramites de una persona

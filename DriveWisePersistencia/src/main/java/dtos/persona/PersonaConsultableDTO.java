@@ -49,7 +49,20 @@ public class PersonaConsultableDTO {
         this.nacimiento = nacimiento;
         this.discapacitado = discapacitado;
     }
+
+    public PersonaConsultableDTO(String nombre, String rfc, Calendar nacimiento) {
+        this.nombre = nombre;
+        this.rfc = rfc;
+        this.nacimiento = nacimiento;
+    }
     
+    
+
+    public PersonaConsultableDTO(String nombre, String rfc) {
+        this.nombre = nombre;
+        this.rfc = rfc;
+    }
+
     /**
      * Constructor con rfc
      * @param rfc 
@@ -119,6 +132,21 @@ public class PersonaConsultableDTO {
 
     public void setDiscapacitado(Boolean discapacitado) {
         this.discapacitado = discapacitado;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("PersonaConsultableDTO{");
+        sb.append("nombre=").append(nombre);
+        sb.append(", apellidoMaterno=").append(apellidoMaterno);
+        sb.append(", apellidopaterno=").append(apellidopaterno);
+        sb.append(", rfc=").append(rfc);
+        sb.append(", telefono=").append(telefono);
+        sb.append(", nacimiento=").append(nacimiento);
+        sb.append(", discapacitado=").append(discapacitado);
+        sb.append('}');
+        return sb.toString();
     }
 
     
