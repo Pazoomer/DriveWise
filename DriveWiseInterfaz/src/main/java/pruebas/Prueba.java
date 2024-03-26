@@ -1,4 +1,3 @@
-
 package pruebas;
 
 import daos.conexion.ConexionDAO;
@@ -31,34 +30,37 @@ import negocio.licencia.IRegistroLicenciasBO;
  * @author t1pas
  */
 public class Prueba {
-    
+
     public static void main(String[] args) {
-        IConexionDAO conexion=new ConexionDAO();
-        
+        IConexionDAO conexion = new ConexionDAO();
+//LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia,3);
         //IPersonasDAO personasDAO=new PersonasDAO(conexion);
         //ILicenciasDAO licenciasDAO=new LicenciasDAO(conexion);
-        
-        Calendar calendarPersona=Calendar.getInstance();
+        Calendar calendarPersona = Calendar.getInstance();
         calendarPersona.set(2023, 3, 19);
-        
-        Calendar calendarLicencia=Calendar.getInstance();
-       
-        PersonaConsultableDTO personaConsultableDTO=new PersonaConsultableDTO("Marcela","Gómez","Díaz","YZA567","1231231234",calendarPersona);
-        //LicenciaNuevaDTO licenciaNuevaDTO=new LicenciaNuevaDTO(calendarLicencia,3);
-        
-        IRegistroLicenciasBO registroPlacasBO = new RegistroLicenciasBO(conexion);
-        
-        TramitesDAO tramite = new TramitesDAO(conexion);
-        //tramite.consultarTramitesPorPersona();
-        //try {
-           // personasDAO.insersionMasiva();
-            //registroPlacasBO.registrarLicencia(personaConsultableDTO, licenciaNuevaDTO);
 
-            /*
+        Calendar calendarLicencia = Calendar.getInstance();
+
+        PersonaConsultableDTO personaConsultableDTO = new PersonaConsultableDTO("QRS345");
+        IPersonasDAO personasDAO = new PersonasDAO(conexion);
+        Persona persona = new Persona(personaConsultableDTO.getRfc());
+        try {
+            Persona personaEncontrada = personasDAO.consultarPersonaPorRfc(persona);
+            TramitesDAO tramite = new TramitesDAO(conexion);
+            tramite.consultarTramitesPorPersona(personaEncontrada);
+            
+        } catch (Exception e) {
+        }
+
+        //try {
+        // personasDAO.insersionMasiva();
+        //registroPlacasBO.registrarLicencia(personaConsultableDTO, licenciaNuevaDTO);
+
+        /*
             for (int i = 0; i < 20; i++) {
             System.out.println(personasB[i]);
             }*/
-            /*
+ /*
             ILicenciasDAO licenciaDAO=new LicenciasDAO(conexion);
             EntityManager entityManager = conexion.crearConexion();
             Calendar calendar = Calendar.getInstance();
@@ -87,13 +89,13 @@ public class Prueba {
             entityManager.persist(tramiteL);
             entityManager.getTransaction().commit();
             entityManager.close();
-            */
-            /*
+         */
+ /*
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
         } catch (PersistenciaException ex) {
             Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
         }*/
     }
-    
+
 }

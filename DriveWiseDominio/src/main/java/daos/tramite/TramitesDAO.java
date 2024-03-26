@@ -24,9 +24,9 @@ public class TramitesDAO implements ITramitesDAO {
     public List<Tramite> consultarTramitesPorPersona(Persona persona) throws PersistenciaException {
         EntityManager entityManager = this.conexion.crearConexion();
         try {
-            String jpqlQuery = "SELECT t FROM tramites t WHERE t.persona_id = :persona_id";
+            String jpqlQuery = "SELECT t FROM Tramite t WHERE t.persona = :persona";
             TypedQuery<Tramite> query = entityManager.createQuery(jpqlQuery, Tramite.class);
-            query.setParameter("persona_id", persona.getId());
+            query.setParameter("persona", persona);
             return query.getResultList();
         } finally {
             entityManager.close();
