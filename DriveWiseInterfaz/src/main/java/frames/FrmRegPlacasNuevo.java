@@ -5,6 +5,18 @@
 package frames;
 
 import daos.conexion.IConexionDAO;
+import dtos.persona.PersonaConsultableDTO;
+import excepciones.PersistenciaException;
+import java.awt.Color;
+import java.awt.Component;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import negocio.persona.BuscarLicenciaValidaBO;
+import negocio.persona.IBuscarLicenciaValidaBO;
 
 /**
  *
@@ -21,6 +33,64 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
         this.setResizable(false);
         initComponents();
         this.conexion = conexion;
+        for (Component comp : jPanel1.getComponents()) {
+            if (comp instanceof JLabel || comp instanceof JTextField) {
+                comp.setVisible(false);
+            }
+        }
+        btnConfirmar.setVisible(false);
+        lblLogo.setVisible(true);
+        lblTitulo.setVisible(true);
+        lblRfc.setVisible(true);
+        txtRfc.setVisible(true);
+
+        }
+   
+    private boolean verificarRfc(){
+        if (txtRfc.getText().isBlank() || txtRfc.getText().isEmpty()){
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean verificarCampos() {
+        if (txtNumSerie.getText().isBlank()
+                || txtNumSerie.getText().isEmpty() || txtMarca.getText().isBlank() || txtMarca.getText().isEmpty()
+                || txtLinea.getText().isBlank() || txtLinea.getText().isEmpty() || txtColor.getText().isBlank()
+                || txtColor.getText().isEmpty() || txtModelo.getText().isBlank() || txtModelo.getText().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+    
+    private void validarLicencia(){
+        if (verificarRfc()) {
+            IBuscarLicenciaValidaBO blvBO = new BuscarLicenciaValidaBO(conexion);
+            PersonaConsultableDTO personaDTO = new PersonaConsultableDTO(txtRfc.getText());
+            
+            try {
+                if (blvBO.validarLicencia(personaDTO)){
+                    btnValidarLicencia.setBackground(Color.GREEN);
+                    btnValidarLicencia.setEnabled(false);
+                    btnValidarLicencia.setText("Licencia vigente");
+                    btnValidarLicencia.setForeground(Color.BLACK);
+                    for (Component comp : jPanel1.getComponents()) {
+                        if (comp instanceof JLabel || comp instanceof JTextField) {
+                            comp.setVisible(true);
+                        }
+                    }
+                    btnConfirmar.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Debe tener una licencia vigente", "No autorizado", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } catch (PersistenciaException ex){
+                Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Indique un rfc", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
     }
 
     /**
@@ -33,52 +103,106 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblLogo = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel5 = new javax.swing.JLabel();
+        lblNumSerie = new javax.swing.JLabel();
         btnVolver = new javax.swing.JButton();
         txtNumSerie = new javax.swing.JTextField();
-        btnConfirmar = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
+        btnValidarLicencia = new javax.swing.JButton();
+        lblRfc = new javax.swing.JLabel();
         txtRfc = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
+        lblLinea = new javax.swing.JLabel();
         txtLinea = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
+        lblColor = new javax.swing.JLabel();
         txtColor = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
+        lblMarca = new javax.swing.JLabel();
         txtMarca = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
+        lblModelo = new javax.swing.JLabel();
         txtModelo = new javax.swing.JTextField();
+        btnConfirmar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(930, 550));
-        setPreferredSize(new java.awt.Dimension(930, 550));
+        setMinimumSize(new java.awt.Dimension(940, 550));
+        setPreferredSize(new java.awt.Dimension(940, 550));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setMinimumSize(new java.awt.Dimension(940, 550));
+        jPanel1.setPreferredSize(new java.awt.Dimension(940, 550));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.png"))); // NOI18N
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 26, -1, -1));
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.png"))); // NOI18N
+        jPanel1.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel3.setText("Placa para automovil nuevo");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 135, 321, 44));
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTitulo.setText("Placa para automovil nuevo");
+        jPanel1.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 135, 321, 44));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 106, 810, 17));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(127, 0, 0));
-        jLabel5.setText("Número de serie");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, -1, -1));
+        lblNumSerie.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblNumSerie.setForeground(new java.awt.Color(127, 0, 0));
+        lblNumSerie.setText("Número de serie");
+        jPanel1.add(lblNumSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, -1, -1));
 
         btnVolver.setBackground(new java.awt.Color(153, 0, 0));
         btnVolver.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnVolver.setForeground(new java.awt.Color(255, 255, 255));
         btnVolver.setText("Volver");
-        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 480, 135, 40));
+        jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 470, 135, 40));
 
         txtNumSerie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.add(txtNumSerie, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 210, -1));
+
+        btnValidarLicencia.setBackground(new java.awt.Color(255, 108, 62));
+        btnValidarLicencia.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnValidarLicencia.setForeground(new java.awt.Color(255, 255, 255));
+        btnValidarLicencia.setText("Validar licencia");
+        btnValidarLicencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnValidarLicenciaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnValidarLicencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 230, 170, -1));
+
+        lblRfc.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblRfc.setForeground(new java.awt.Color(127, 0, 0));
+        lblRfc.setText("RFC del dueño");
+        jPanel1.add(lblRfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 209, -1, -1));
+
+        txtRfc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.add(txtRfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 210, -1));
+
+        lblLinea.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblLinea.setForeground(new java.awt.Color(127, 0, 0));
+        lblLinea.setText("Línea");
+        jPanel1.add(lblLinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, -1, -1));
+
+        txtLinea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.add(txtLinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, 170, -1));
+
+        lblColor.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblColor.setForeground(new java.awt.Color(127, 0, 0));
+        lblColor.setText("Color");
+        jPanel1.add(lblColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, -1, -1));
+
+        txtColor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.add(txtColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, 170, -1));
+
+        lblMarca.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblMarca.setForeground(new java.awt.Color(127, 0, 0));
+        lblMarca.setText("Marca");
+        jPanel1.add(lblMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 290, -1, -1));
+
+        txtMarca.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.add(txtMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, 170, -1));
+
+        lblModelo.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblModelo.setForeground(new java.awt.Color(127, 0, 0));
+        lblModelo.setText("Modelo");
+        jPanel1.add(lblModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 360, -1, -1));
+
+        txtModelo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.add(txtModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 390, 170, -1));
 
         btnConfirmar.setBackground(new java.awt.Color(153, 0, 0));
         btnConfirmar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -89,65 +213,31 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
                 btnConfirmarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 480, 135, 40));
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(127, 0, 0));
-        jLabel6.setText("RFC del dueño");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 209, -1, -1));
-
-        txtRfc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.add(txtRfc, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 210, -1));
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(127, 0, 0));
-        jLabel8.setText("Línea");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, -1, -1));
-
-        txtLinea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.add(txtLinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, 170, -1));
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(127, 0, 0));
-        jLabel9.setText("Color");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, -1, -1));
-
-        txtColor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.add(txtColor, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, 170, -1));
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(127, 0, 0));
-        jLabel10.setText("Marca");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 290, -1, -1));
-
-        txtMarca.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.add(txtMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, 170, -1));
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(127, 0, 0));
-        jLabel11.setText("Modelo");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 360, -1, -1));
-
-        txtModelo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.add(txtModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 390, 170, -1));
+        jPanel1.add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 470, 135, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 930, Short.MAX_VALUE)
+            .addGap(0, 940, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 550, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    
+    
+    private void btnValidarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarLicenciaActionPerformed
+       validarLicencia();
+    }//GEN-LAST:event_btnValidarLicenciaActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         // TODO add your handling code here:
@@ -156,17 +246,18 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmar;
+    private javax.swing.JButton btnValidarLicencia;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblColor;
+    private javax.swing.JLabel lblLinea;
+    private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel lblMarca;
+    private javax.swing.JLabel lblModelo;
+    private javax.swing.JLabel lblNumSerie;
+    private javax.swing.JLabel lblRfc;
+    private javax.swing.JLabel lblTitulo;
     private javax.swing.JTextField txtColor;
     private javax.swing.JTextField txtLinea;
     private javax.swing.JTextField txtMarca;
