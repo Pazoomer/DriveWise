@@ -2,7 +2,6 @@
 package daos.persona;
 
 import excepciones.PersistenciaException;
-import excepciones.ValidacionException;
 
 import java.util.List;
 import mapas.personas.Persona;
@@ -72,9 +71,8 @@ public interface IPersonasDAO {
     /**
      * Busca una licencia valida segun una persona
      * @param persona Persona a validar si tiene licencia (Necesita curp)
-     * @return true si encontro una licencia vigente
+     * @return true si encontro una licencia vigente, false en caso contrario
      * @throws PersistenciaException Si hubo un error en la base de datos
-     * @throws excepciones.ValidacionException Si la persona no tiene ninguna licencia valida
      */
-    public boolean validarLicencia(Persona persona) throws PersistenciaException,ValidacionException;
+    public boolean validarLicencia(Persona persona) throws PersistenciaException;
 }
