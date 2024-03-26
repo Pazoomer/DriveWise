@@ -4,10 +4,7 @@ package frames;
 import daos.conexion.IConexionDAO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import mapas.personas.Persona;
 import negocio.insercionMasiva.IInsercionMasivaBO;
 import negocio.insercionMasiva.InsercionMasivaBO;
 
@@ -60,6 +57,15 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
      */
     private void moduloLicencias(){
         FrmModuloLicencias on = new FrmModuloLicencias(conexion);
+        on.setVisible(true);
+        this.dispose();
+    }
+    
+    /**
+     * Abre la pantalla modulo de placas y cierra esta
+     */
+    private void moduloPlacas(){
+        FrmRegPlacaUsado on = new FrmRegPlacaUsado(conexion);
         on.setVisible(true);
         this.dispose();
     }
@@ -148,7 +154,7 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModuloLicenciasActionPerformed
 
     private void btnModuloPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloPlacasActionPerformed
-        // TODO add your handling code here:
+        moduloPlacas();
     }//GEN-LAST:event_btnModuloPlacasActionPerformed
 
     private void btnCambioPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambioPlacasActionPerformed

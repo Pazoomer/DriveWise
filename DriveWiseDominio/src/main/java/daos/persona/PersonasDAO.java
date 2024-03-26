@@ -3,6 +3,7 @@ package daos.persona;
 
 import daos.conexion.IConexionDAO;
 import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.List;
@@ -153,11 +154,11 @@ public class PersonasDAO implements IPersonasDAO{
     }
     
     @Override
-    public boolean validarLicencia(Persona persona) throws PersistenciaException {
+    public boolean validarLicencia(Persona persona) throws PersistenciaException,ValidacionException {
         
         //CONSULTA LA LISTA DE LICENCIAS DE LA PERSONA
         EntityManager entityManager = this.conexion.crearConexion();
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        //CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
         String jpqlQuery = """
                            SELECT l FROM Licencia l
@@ -184,7 +185,7 @@ public class PersonasDAO implements IPersonasDAO{
             }
         }
         
-        return false;  
+        throw new ValidacionException();
     }
     
 }
