@@ -9,6 +9,7 @@ import daos.persona.PersonasDAO;
 import daos.tramite.TramitesDAO;
 import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
+import dtos.tramite.TramiteConsultableDTO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
 import java.security.NoSuchAlgorithmException;
@@ -37,11 +38,20 @@ public class Prueba {
     public static void main(String[] args) {
         IConexionDAO conexion = new ConexionDAO();
         
-        ConsultarHistorialBO consultarHistorialBO=new ConsultarHistorialBO(conexion);
-        
-        PersonaConsultableDTO persona=new PersonaConsultableDTO("ana","QRS345",null);
-        
+        ConsultarHistorialBO consultarHistorialBO = new ConsultarHistorialBO(conexion);
+
+        PersonaConsultableDTO persona = new PersonaConsultableDTO("QRS345");
+
         try {
+            List<TramiteConsultableDTO> tramites = consultarHistorialBO.consultarTramitePorPersona(persona);
+            
+            System.out.println(tramites.size());
+
+            for (TramiteConsultableDTO tramite : tramites) {
+                System.out.println(tramite);
+            }
+
+            /*
             List<PersonaConsultableDTO> personas=consultarHistorialBO.consultarPersonaPorFiltros(persona);
             
             System.out.println(personas.size());

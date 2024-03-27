@@ -2,14 +2,19 @@
 package negocio.consulta;
 
 import daos.conexion.IConexionDAO;
+import daos.persona.IPersonasDAO;
 import daos.persona.PersonasDAO;
 import dtos.persona.PersonaConsultableDTO;
+import dtos.tramite.TramiteConsultableDTO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
 import mapas.personas.Persona;
+import mapas.tramites.Licencia;
+import mapas.tramites.Placa;
 import mapas.tramites.Tramite;
 
 /**
@@ -50,11 +55,46 @@ public class ConsultarHistorialBO implements IConsultarHistorialBO {
     }
 
     @Override
-    public List<Tramite> consultarTramitePorPersona(PersonaConsultableDTO personaConsultableDTO) throws PersistenciaException {
-        
+    public List<TramiteConsultableDTO> consultarTramitePorPersona(PersonaConsultableDTO personaConsultableDTO) throws PersistenciaException,ValidacionException {
+
         //CONSTRUIR EL OBJETO PERSONA
-        //LLAMAR A LA DAO CON EL MISMO NOMBRE EN PERSONASDAO
+        Persona persona=new Persona(personaConsultableDTO.getRfc());
         
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        IPersonasDAO personasDAO=new PersonasDAO(conexion);
+        
+        //LLAMAR A LA DAO CON EL MISMO NOMBRE EN PERSONASDAO
+        List<Tramite> tramites=personasDAO.consultarTramitesPorPersona(persona);
+        
+        List<TramiteConsultableDTO> tramitesConsultables=new ArrayList<>();
+        
+        for (Tramite tramite : tramites) {
+            
+            // Obtener la información de licencia o placa
+            Float costo = null;
+            Calendar fechaEmision = null;
+            
+            // Verificar si hay una licencia asociada
+            Licencia licencia = tramite.getLicencia();
+            if (licencia != null) {
+                costo = licencia.getCosto();
+                fechaEmision = licencia.getFechaEmision();
+            }
+
+            // Verificar si hay una placa asociada
+            Placa placa = tramite.getPlaca();
+            if (placa != null) {
+                costo = placa.getCosto();
+                fechaEmision = placa.getFechaEmision();
+            }
+
+            // Obtener el tipo de trámite
+            String tipoTramite = tramite.getTipo();
+
+            // Crear el DTO de trámite consultable y agregarlo a la lista
+            TramiteConsultableDTO tramiteAuxiliar = new TramiteConsultableDTO(tipoTramite, costo, fechaEmision);
+            tramitesConsultables.add(tramiteAuxiliar);
+        }
+
+        return tramitesConsultables;
     }
 }

@@ -5,6 +5,7 @@ import daos.conexion.IConexionDAO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,6 +18,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import mapas.personas.Persona;
 import mapas.tramites.Licencia;
+import mapas.tramites.Tramite;
 import mapas.vehiculos.Vehiculo;
 
 /**
@@ -184,7 +186,7 @@ public class PersonasDAO implements IPersonasDAO{
     
     @Override
     public boolean validarLicencia(Persona persona) throws PersistenciaException {
-        
+
         //CONSULTA LA LISTA DE LICENCIAS DE LA PERSONA
         EntityManager entityManager = this.conexion.crearConexion();
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -194,25 +196,45 @@ public class PersonasDAO implements IPersonasDAO{
                            WHERE l.persona.rfc = :rfc
                            """;
         TypedQuery<Licencia> query = entityManager.createQuery(jpqlQuery, Licencia.class);
-        query.setParameter("rfc",  persona.getRfc());
-        
+        query.setParameter("rfc", persona.getRfc());
+
         //POR CADA LICENCIA SE TOMA SU FECHA DE EMISION Y SE LE SUMA SU VIGENCIA COMO AÑOS, 
         //SI ALGUNA LICENCIA SUPERA LA FECHA ACTUAL, ENTONCES DEVUELVE TRUE
         //SI NO LA SUPERO NINGUNA O LA PERSONA NO EXISTE, ENTONCES DEVUELVE FALSE
-        
         List<Licencia> licencias = query.getResultList();
         entityManager.close();
-        
+
         Calendar calendar = Calendar.getInstance();
-        for (Licencia licencia : licencias){
+        for (Licencia licencia : licencias) {
             Calendar fechaVigencia = licencia.getFechaEmision();
             fechaVigencia.add(Calendar.YEAR, licencia.getVigencia());
-            if(calendar.compareTo(fechaVigencia) >= 0){
+            if (calendar.compareTo(fechaVigencia) >= 0) {
                 return true;
             }
         }
-        
-        return false;  
+
+        return false;
     }
-    
+
+        @Override
+        public List<Tramite> consultarTramitesPorPersona(Persona persona) throws PersistenciaException,ValidacionException {
+            EntityManager entityManager = this.conexion.crearConexion();
+
+            String jpqlQuery = """
+                               SELECT t FROM Tramite t
+                               JOIN FETCH t.persona p
+                               LEFT JOIN FETCH t.licencia l
+                               LEFT JOIN FETCH t.placa pl
+                               WHERE p.rfc = :rfc
+                               """;
+
+            TypedQuery<Tramite> query = entityManager.createQuery(jpqlQuery, Tramite.class);
+            query.setParameter("rfc", persona.getRfc());
+
+            List<Tramite> tramites = query.getResultList();
+
+            return tramites;
+        }
 }
+
+
