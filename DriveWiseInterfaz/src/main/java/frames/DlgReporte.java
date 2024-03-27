@@ -9,9 +9,13 @@ import dtos.persona.PersonaConsultableDTO;
 import dtos.tramite.TramiteConsultableDTO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import negocio.licencia.RegistroLicenciasBO;
 import negocio.tramite.ConsultarTramitesBO;
 import negocio.tramite.IConsultarTramitesBO;
 
@@ -124,12 +128,35 @@ public class DlgReporte extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
     private void llenarTabla(){
         IConsultarTramitesBO consultarTramitesBO = new ConsultarTramitesBO(conexion);
+        List<TramiteConsultableDTO> tramites = new LinkedList<>();
         try {
-            List<TramiteConsultableDTO> tramites = consultarTramitesBO.consultarTramitePorPersona(persona);
+            //Buscar persona
+            RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
+            PersonaConsultableDTO personaux = buscar.buscarPersonaRfc(persona);
+            
+            //Buscar tramites de la persona
+            tramites = consultarTramitesBO.consultarTramitePorPersona(persona);
+            
+            DefaultTableModel modelo = new DefaultTableModel();
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Trámite");
+            modelo.addColumn("Fecha Emisión");
+            modelo.addColumn("Costo");
             
             
-            
-            
+            for (TramiteConsultableDTO tramite : tramites) {
+                Object[] fila = {
+                    personaux.getNombre() + " " 
+                        + personaux.getApellidopaterno() + " " 
+                        + personaux.getApellidoMaterno(),
+                    tramite.getTipo(),
+                    tramite.getEmision(),
+                    tramite.getCosto()
+                };
+                modelo.addRow(fila);
+            }
+            tblTramites.setModel(modelo);
+            TableColumnModel columnModel = tblTramites.getColumnModel();
             
         } catch (PersistenciaException ex) {
             Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
