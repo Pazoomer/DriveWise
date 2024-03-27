@@ -12,7 +12,6 @@ import mapas.personas.Persona;
  * @author t1pas
  */
 public class VehiculoConsultableDTO {
-    Boolean nuevo;
     String numSerie, marca, linea, color, modelo, tipo;
     PersonaConsultableDTO persona;
 
@@ -22,12 +21,6 @@ public class VehiculoConsultableDTO {
         this.linea = linea;
         this.color = color;
         this.modelo = modelo;
-    }
-
-    
-    
-    public Boolean getNuevo() {
-        return nuevo;
     }
 
     public String getNumSerie() {
@@ -56,10 +49,6 @@ public class VehiculoConsultableDTO {
 
     public PersonaConsultableDTO getPersona() {
         return persona;
-    }
-
-    public void setNuevo(Boolean nuevo) {
-        this.nuevo = nuevo;
     }
 
     public void setNumSerie(String numSerie) {

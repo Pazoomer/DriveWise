@@ -6,7 +6,9 @@ package negocio.placa;
 
 import dtos.persona.PersonaConsultableDTO;
 import dtos.placa.PlacaConsultableDTO;
+import dtos.placa.PlacaNuevaDTO;
 import dtos.vehiculo.VehiculoConsultableDTO;
+import excepciones.PersistenciaException;
 import mapas.vehiculos.Vehiculo;
 
 /**
@@ -14,7 +16,8 @@ import mapas.vehiculos.Vehiculo;
  * @author JoseH
  */
 public interface IRegistroPlacasBO {
-    public Vehiculo buscarVehiculo(PersonaConsultableDTO personaDTO, PlacaConsultableDTO placaDTO);
+    public VehiculoConsultableDTO buscarVehiculo(PlacaConsultableDTO placaDTO) throws PersistenciaException;
     
-    public void registrarPlaca(VehiculoConsultableDTO vehiculoDTO);
+    public void registrarPlaca(PlacaNuevaDTO placaDTO, boolean esNuevo) throws PersistenciaException;
+   
 }

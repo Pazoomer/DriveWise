@@ -5,6 +5,7 @@
 package dtos.placa;
 
 import dtos.vehiculo.VehiculoConsultableDTO;
+import dtos.vehiculo.VehiculoNuevoDTO;
 import java.util.Calendar;
 import mapas.tramites.Tramite;
 import mapas.vehiculos.Vehiculo;
@@ -17,13 +18,19 @@ public class PlacaNuevaDTO {
     Calendar fechaEmision; 
     String alfanumerico; 
     Boolean activo;
-    VehiculoConsultableDTO vehiculo;
+    VehiculoConsultableDTO vehiculoUsado;
+    VehiculoNuevoDTO vehiculoNuevo;
 
-    public PlacaNuevaDTO(Calendar fechaEmision, String alfanumerico, Boolean activo, VehiculoConsultableDTO vehiculo) {
+    public PlacaNuevaDTO(Calendar fechaEmision, Boolean activo, VehiculoConsultableDTO vehiculo) {
         this.fechaEmision = fechaEmision;
-        this.alfanumerico = alfanumerico;
         this.activo = activo;
-        this.vehiculo = vehiculo;
+        this.vehiculoUsado = vehiculo;
+    }
+    
+    public PlacaNuevaDTO(Calendar fechaEmision, Boolean activo, VehiculoNuevoDTO vehiculo) {
+        this.fechaEmision = fechaEmision;
+        this.activo = activo;
+        this.vehiculoNuevo = vehiculo;
     }
 
     public void setFechaEmision(Calendar fechaEmision) {
@@ -38,10 +45,6 @@ public class PlacaNuevaDTO {
         this.activo = activo;
     }
 
-    public void setVehiculo(VehiculoConsultableDTO vehiculo) {
-        this.vehiculo = vehiculo;
-    }
-
     public Calendar getFechaEmision() {
         return fechaEmision;
     }
@@ -54,8 +57,22 @@ public class PlacaNuevaDTO {
         return activo;
     }
 
-    public VehiculoConsultableDTO getVehiculo() {
-        return vehiculo;
+    public void setVehiculoUsado(VehiculoConsultableDTO vehiculoUsado) {
+        this.vehiculoUsado = vehiculoUsado;
     }
+
+    public void setVehiculoNuevo(VehiculoNuevoDTO vehiculoNuevo) {
+        this.vehiculoNuevo = vehiculoNuevo;
+    }
+
+    public VehiculoConsultableDTO getVehiculoUsado() {
+        return vehiculoUsado;
+    }
+
+    public VehiculoNuevoDTO getVehiculoNuevo() {
+        return vehiculoNuevo;
+    }
+    
+    
 
 }

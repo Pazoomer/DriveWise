@@ -29,7 +29,7 @@ import mapas.vehiculos.Vehiculo;
  *
  * @author JoseH
  */
-public class RegistroPlacasBO {
+public class RegistroPlacasBO implements IRegistroPlacasBO{
     
     private final IConexionDAO conexion;
     private static final Logger LOG = Logger.getLogger(PersonasDAO.class.getName());
@@ -44,6 +44,7 @@ public class RegistroPlacasBO {
      * @return Vehículo coincidente con la placa o null si no se encuentra ningún vehículo
      * @throws PersistenciaException 
      */
+    @Override
     public VehiculoConsultableDTO buscarVehiculo(PlacaConsultableDTO placaDTO) throws PersistenciaException {
         IPlacasDAO placasDAO = new PlacasDAO(conexion);
         Placa placa = new Placa(placaDTO.getAlfanumerico());
@@ -56,7 +57,8 @@ public class RegistroPlacasBO {
      * @param placaDTO Placa de un vehículo
      * @throws PersistenciaException 
      */
-    public void registrarPlaca(PlacaNuevaDTO placaDTO) throws PersistenciaException {
+    @Override
+    public void registrarPlaca(PlacaNuevaDTO placaDTO, boolean esNuevo) throws PersistenciaException {
         // Se crean instancias de Vehiculo y Placa
         Vehiculo vehiculo = null;
         Placa placa = null;
@@ -65,7 +67,7 @@ public class RegistroPlacasBO {
         float costoPlaca;
         
         // Se crea una instancia de Persona con el RFC ingresada en el frame, para luego buscarla en la base de datos
-        Persona persona = new Persona(placaDTO.getVehiculo().getPersona().getRfc());
+        Persona persona = new Persona(placaDTO.getVehiculoUsado().getPersona().getRfc());
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
         IPlacasDAO placasDAO = new PlacasDAO(conexion);
         Persona personaEncontrada = personasDAO.consultarPersonaPorRfc(persona);
@@ -75,8 +77,8 @@ public class RegistroPlacasBO {
         
         // Si el vehículo es nuevo, se inicializará un nuevo vehículo con los datos ingresados en el frame, y este se usará
         // para construir una nueva placa
-        if (placaDTO.getVehiculo().getNuevo()) {
-            vehiculo = new Carro(true, placaDTO.getVehiculo().getNumSerie(), placaDTO.getVehiculo().getMarca(), placaDTO.getVehiculo().getLinea(), placaDTO.getVehiculo().getColor(), placaDTO.getVehiculo().getModelo(), personaEncontrada);
+        if (esNuevo) {
+            vehiculo = new Carro(placaDTO.getVehiculoNuevo().getNumSerie(), placaDTO.getVehiculoNuevo().getMarca(), placaDTO.getVehiculoNuevo().getLinea(), placaDTO.getVehiculoNuevo().getColor(), placaDTO.getVehiculoNuevo().getModelo(), personaEncontrada);
             placa = new Placa(placaDTO.getFechaEmision(), calcularCosto(true), placaDTO.getActivo(), vehiculo, tramite);
             placa.setVehiculo(vehiculo);
             tramite.setPlaca(placa);
@@ -96,8 +98,8 @@ public class RegistroPlacasBO {
         
     }
     
-    private float calcularCosto(boolean nuevo){
-        if (nuevo){
+    private float calcularCosto(boolean esNuevo){
+        if (esNuevo){
             return 1500f;
         } else {
             return 1000f;

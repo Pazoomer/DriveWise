@@ -57,10 +57,10 @@ public class PlacasDAO implements IPlacasDAO{
     public Vehiculo consultarVehiculo(Placa placa) throws PersistenciaException {
         EntityManager entityManager = this.conexion.crearConexion();
         String jpqlQuery = """
-                           SELECT v from Vehiculo v
-                           INNER JOIN Placa p on v.id_vehiculo = p.id_vehiculo
-                           WHERE v.id_placa = :id_placa
-                           """;
+                   SELECT v FROM Vehiculo v
+                   JOIN v.placas p
+                   WHERE p.id_placa = :id_placa
+                   """;
         
         TypedQuery<Vehiculo> query = entityManager.createQuery(jpqlQuery, Vehiculo.class);
         query.setParameter("id_placa", placa.getId_placa());

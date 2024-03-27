@@ -33,9 +33,6 @@ public abstract class Vehiculo implements Serializable {
     @Column(name="id_vehiculo")
     private Long id;
 
-    @Column(name = "nuevo",nullable= false)
-    private Boolean nuevo;
-
     @Column(name = "numSerie",nullable= false,length=50)
     private String numSerie;
 
@@ -64,8 +61,7 @@ public abstract class Vehiculo implements Serializable {
     public Vehiculo() {
     }
 
-    protected Vehiculo(Boolean nuevo, String numSerie, String marca, String linea, String color, String modelo, String tipo, Persona persona) {
-        this.nuevo = nuevo;
+    protected Vehiculo(String numSerie, String marca, String linea, String color, String modelo, String tipo, Persona persona) {
         this.numSerie = numSerie;
         this.marca = marca;
         this.linea = linea;
@@ -73,14 +69,6 @@ public abstract class Vehiculo implements Serializable {
         this.modelo = modelo;
         this.tipo = tipo;
         this.persona = persona;
-    }
-    
-    public Boolean getNuevo() {
-        return nuevo;
-    }
-
-    public void setNuevo(Boolean nuevo) {
-        this.nuevo = nuevo;
     }
 
     public String getNumSerie() {

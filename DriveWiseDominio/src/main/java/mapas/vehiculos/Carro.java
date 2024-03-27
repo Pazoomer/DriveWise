@@ -19,8 +19,8 @@ public class Carro extends Vehiculo implements Serializable {
     public Carro() {
     }
 
-    public Carro(Boolean nuevo, String numSerie, String marca, String linea, String color, String modelo, Persona persona) {
-        super(nuevo, numSerie, marca, linea, color, modelo,"CARRO", persona);
+    public Carro(String numSerie, String marca, String linea, String color, String modelo, Persona persona) {
+        super(numSerie, marca, linea, color, modelo,"CARRO", persona);
     }
     
     

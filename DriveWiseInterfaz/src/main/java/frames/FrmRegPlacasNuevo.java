@@ -7,10 +7,13 @@ package frames;
 import daos.conexion.IConexionDAO;
 import dtos.persona.PersonaConsultableDTO;
 import dtos.placa.PlacaNuevaDTO;
+import dtos.vehiculo.VehiculoConsultableDTO;
+import dtos.vehiculo.VehiculoNuevoDTO;
 import excepciones.PersistenciaException;
 import java.awt.Color;
 import java.awt.Component;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -18,6 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import negocio.persona.BuscarLicenciaValidaBO;
 import negocio.persona.IBuscarLicenciaValidaBO;
+import negocio.placa.IRegistroPlacasBO;
+import negocio.placa.RegistroPlacasBO;
 import validadores.Validadores;
 
 /**
@@ -62,18 +67,25 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
                 || txtLinea.getText().isBlank() || txtLinea.getText().isEmpty() || txtColor.getText().isBlank()
                 || txtColor.getText().isEmpty() || txtModelo.getText().isBlank() || txtModelo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Llene todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         } else if (!validadores.validarNumSerie(txtNumSerie.getText())){
             JOptionPane.showMessageDialog(this, "Ingrese el número de serie con el formato indicado", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         } else if (!validadores.validarString(txtNumSerie.getText())){
             lblErrorNumSerie.setForeground(Color.RED);
+            return;
         } else if(!validadores.validarString(txtMarca.getText())){
             lblErrorMarca.setVisible(true);
+            return;
         } else if(!validadores.validarString(txtLinea.getText())){
             lblErrorLinea.setVisible(true);
+            return;
         } else if(!validadores.validarString(txtColor.getText())){
             lblErrorColor.setVisible(true);
+            return;
         } else if(!validadores.validarString(txtModelo.getText())){
             lblErrorModelo.setVisible(true);
+            return;
         }
     }
     
@@ -114,9 +126,13 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
     }
     
     private void registrar(){
-        if (verificarCampos()){
-            
-        }
+        verificarCampos();
+        IRegistroPlacasBO rpBO = new RegistroPlacasBO(this.conexion);
+        Calendar calendarPlaca = Calendar.getInstance();
+        
+        VehiculoNuevoDTO vehiculo = new VehiculoNuevoDTO(txtNumSerie.getText(), txtMarca.getText(), txtLinea.getText(), txtColor.getText(), txtModelo.getText());
+        
+        PlacaNuevaDTO placaDTO = new PlacaNuevaDTO(calendarPlaca, true, vehiculo);
     }
     
 //    private void registrar(){
