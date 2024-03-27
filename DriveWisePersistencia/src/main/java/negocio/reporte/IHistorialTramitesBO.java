@@ -5,6 +5,6 @@ package negocio.reporte;
  *
  * @author t1pas
  */
-public class HistorialTramites {
+public interface IHistorialTramitesBO {
     
 }

@@ -78,13 +78,4 @@ public interface IPersonasDAO {
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
     public boolean validarLicencia(Persona persona) throws PersistenciaException;
-    
-    /**
-     * Consulta los tramites de una persona, con los costos y fecha de emision
-     * @param persona Persona a quien se le consulta
-     * @return List de objetos que esta formada por el tipo de tramite, fecha de emision y costo
-     * @throws PersistenciaException Si hubo un error en la base de datos
-     * @throws excepciones.ValidacionException Si no devuelve resultados
-     */
-    List<Tramite> consultarTramitesPorPersona(Persona persona)throws PersistenciaException,ValidacionException;
 }

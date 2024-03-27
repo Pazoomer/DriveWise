@@ -215,26 +215,6 @@ public class PersonasDAO implements IPersonasDAO{
 
         return false;
     }
-
-        @Override
-        public List<Tramite> consultarTramitesPorPersona(Persona persona) throws PersistenciaException,ValidacionException {
-            EntityManager entityManager = this.conexion.crearConexion();
-
-            String jpqlQuery = """
-                               SELECT t FROM Tramite t
-                               JOIN FETCH t.persona p
-                               LEFT JOIN FETCH t.licencia l
-                               LEFT JOIN FETCH t.placa pl
-                               WHERE p.rfc = :rfc
-                               """;
-
-            TypedQuery<Tramite> query = entityManager.createQuery(jpqlQuery, Tramite.class);
-            query.setParameter("rfc", persona.getRfc());
-
-            List<Tramite> tramites = query.getResultList();
-
-            return tramites;
-        }
 }
 
 

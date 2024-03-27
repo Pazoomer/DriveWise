@@ -26,8 +26,11 @@ import mapas.tramites.Tramite;
 import mapas.vehiculos.Carro;
 import mapas.vehiculos.Vehiculo;
 import negocio.consulta.ConsultarHistorialBO;
+import negocio.consulta.IConsultarHistorialBO;
 import negocio.licencia.RegistroLicenciasBO;
 import negocio.licencia.IRegistroLicenciasBO;
+import negocio.tramite.ConsultarTramitesBO;
+import negocio.tramite.IConsultarTramitesBO;
 
 /**
  *
@@ -38,12 +41,14 @@ public class Prueba {
     public static void main(String[] args) {
         IConexionDAO conexion = new ConexionDAO();
         
-        ConsultarHistorialBO consultarHistorialBO = new ConsultarHistorialBO(conexion);
+        IConsultarHistorialBO consultarHistorialBO = new ConsultarHistorialBO(conexion);
+        
+        IConsultarTramitesBO consultarTramitesBO=new ConsultarTramitesBO(conexion);
 
         PersonaConsultableDTO persona = new PersonaConsultableDTO("QRS345");
 
         try {
-            List<TramiteConsultableDTO> tramites = consultarHistorialBO.consultarTramitePorPersona(persona);
+            List<TramiteConsultableDTO> tramites = consultarTramitesBO.consultarTramitePorPersona(persona);
             
             System.out.println(tramites.size());
 
