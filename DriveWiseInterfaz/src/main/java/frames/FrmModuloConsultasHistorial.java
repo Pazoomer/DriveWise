@@ -2,6 +2,14 @@
 package frames;
 
 import daos.conexion.IConexionDAO;
+import dtos.persona.PersonaConsultableDTO;
+import dtos.tramite.TramiteConsultableDTO;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -10,15 +18,66 @@ import daos.conexion.IConexionDAO;
 public class FrmModuloConsultasHistorial extends javax.swing.JFrame {
 
      IConexionDAO conexion;
-
+     List<TramiteConsultableDTO> tramites;
+     String nombrePersona;
+     
     /**
      * Creates new form FrmModuloConsultasHistorial
      * @param conexion
+     * @param tramites
+     * @param nombrePersona
      */
-    public FrmModuloConsultasHistorial(IConexionDAO conexion) {
+    public FrmModuloConsultasHistorial(IConexionDAO conexion, List<TramiteConsultableDTO> tramites,String nombrePersona) {
         this.setResizable(false);
         initComponents();
         this.conexion = conexion;
+        this.tramites=tramites;
+        this.nombrePersona=nombrePersona;
+        actualizarTabla();
+        actualizarTitulo();
+    }
+    
+    private void actualizarTitulo(){
+        this.lblTituloDinamico.setText("Historial de tramites de "+nombrePersona);
+    }
+    
+    /**
+     * Actualiza la tabla con las personas
+     */
+    private void actualizarTabla() {
+        // Crear un modelo de tabla sin encabezados
+        DefaultTableModel modeloTabla = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Esto evita que las celdas sean editables
+            }
+        };
+
+        // Agregar las columnas
+        modeloTabla.addColumn("Tipo");
+        modeloTabla.addColumn("Fecha de emision");
+        modeloTabla.addColumn("Costo");
+
+        // Crear un DecimalFormat para el formato de costo
+        DecimalFormat df = new DecimalFormat("#,##0.00");
+        // Formatear el Calendar como DD/MM/AAAA
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        // Agregar los datos de las personas
+        for (TramiteConsultableDTO tramite : tramites) {
+
+            //Formatear la fecha
+            String fechaFormateada = sdf.format(tramite.getEmision().getTime());
+
+            // Formatear el costo
+            String costoFormateado = df.format(tramite.getCosto());
+
+            Object[] fila = {tramite.getTipo(), fechaFormateada, costoFormateado};
+            modeloTabla.addRow(fila);
+        }
+
+        // Establecer el modelo de la tabla
+        this.tblTramites.setModel(modeloTabla);
+        tblTramites.getTableHeader().setVisible(false);
     }
 
     /**

@@ -63,6 +63,12 @@ public class PersonaConsultableDTO {
         this.rfc = rfc;
     }
 
+    //Constructor vacio
+    public PersonaConsultableDTO() {
+    }
+
+    
+    
     /**
      * Constructor con rfc
      * @param rfc 

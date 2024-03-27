@@ -2,6 +2,19 @@
 package frames;
 
 import daos.conexion.IConexionDAO;
+import dtos.persona.PersonaConsultableDTO;
+import dtos.tramite.TramiteConsultableDTO;
+import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import negocio.tramite.ConsultarTramitesBO;
+import negocio.tramite.IConsultarTramitesBO;
 
 /**
  *
@@ -10,16 +23,106 @@ import daos.conexion.IConexionDAO;
 public class FrmModuloConsultasResultados extends javax.swing.JFrame {
 
     IConexionDAO conexion;
+    List<PersonaConsultableDTO> personas;
+    String nombrePersona;
+    String titulo;
 
     /**
      * Creates new form FrmModuloConsultasResultados
+     *
      * @param conexion
+     * @param personas
      */
-    public FrmModuloConsultasResultados(IConexionDAO conexion) {
+    public FrmModuloConsultasResultados(IConexionDAO conexion, List<PersonaConsultableDTO> personas,String titulo) {
         this.setResizable(false);
         initComponents();
         this.conexion = conexion;
+        this.personas = personas;
+        this.titulo=titulo;
+        actualizarTabla();
+        actualizarTitulo();
     }
+    
+    private void actualizarTitulo(){
+        this.lblTituloDinamico.setText("Resultados coincidentes para "+titulo);
+    }
+
+    /**
+     * Actualiza la tabla con las personas
+     */
+    private void actualizarTabla() {
+        // Crear un modelo de tabla sin encabezados
+        DefaultTableModel modeloTabla = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Esto evita que las celdas sean editables
+            }
+        };
+
+        // Agregar las columnas
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("RFC");
+
+        // Agregar los datos de las personas
+        for (PersonaConsultableDTO persona : personas) {
+            Object[] fila = {persona.getNombre(), persona.getRfc()};
+            modeloTabla.addRow(fila);
+        }
+
+        // Establecer el modelo de la tabla
+        this.tablaPersonas.setModel(modeloTabla);
+        tablaPersonas.getTableHeader().setVisible(false);
+
+        tablaPersonas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int filaSeleccionada = tablaPersonas.getSelectedRow();
+                if (filaSeleccionada != -1) {
+                    // Obtener el RFC de la persona seleccionada
+                    String nombre = (String) tablaPersonas.getValueAt(filaSeleccionada, 0); // La columna 1 contiene el RFC
+                    nombrePersona=nombre;
+                    String rfc = (String) tablaPersonas.getValueAt(filaSeleccionada, 1); // La columna 1 contiene el RFC
+
+                    abrirHistorial(consultarTramitesPorRfc(rfc));
+                }
+            }
+        });
+    }
+    
+    /**
+     * Consulta los tramites de una persona
+     */
+    private List<TramiteConsultableDTO> consultarTramitesPorRfc(String rfc){
+        IConsultarTramitesBO consultarTramites=new ConsultarTramitesBO(conexion);
+        
+        PersonaConsultableDTO persona=new PersonaConsultableDTO(rfc);
+        
+        List<TramiteConsultableDTO> tramites;
+        try {
+            tramites=consultarTramites.consultarTramitePorPersona(persona);
+        } catch (PersistenciaException ex) {
+            JOptionPane.showMessageDialog(this, "No se pudo acceder a la base de datos", "Error en la base de datos", JOptionPane.ERROR_MESSAGE);
+            return null;
+        } catch (ValidacionException ex) {
+            JOptionPane.showMessageDialog(this, "La persona no tiene tramites", "No hay resultados", JOptionPane.INFORMATION_MESSAGE);
+            return null;
+        }
+        return tramites;
+    }
+
+    /**
+     * Abre la pantalla consultas historial y cierra esta
+     */
+    private void abrirHistorial(List<TramiteConsultableDTO> tramites) {
+
+        if (tramites == null) {
+            return;
+        }
+        FrmModuloConsultasHistorial on = new FrmModuloConsultasHistorial(conexion, tramites,nombrePersona);
+        on.setVisible(true);
+        this.dispose();
+    }
+
 
     /**
      * Abre la pantalla principal y cierra esta

@@ -1,7 +1,18 @@
 
 package frames;
 
+import calendario.JGoodDatePicker;
 import daos.conexion.IConexionDAO;
+import dtos.persona.PersonaConsultableDTO;
+import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+import negocio.consulta.ConsultarHistorialBO;
+import negocio.consulta.IConsultarHistorialBO;
 
 /**
  *
@@ -10,6 +21,7 @@ import daos.conexion.IConexionDAO;
 public class FrmModuloConsultas extends javax.swing.JFrame {
 
     IConexionDAO conexion;
+    String titulo;
 
     /**
      * Creates new form FrmModuloConsultas
@@ -34,15 +46,74 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
     /**
      * Busca y despliega una lista de personas con los parametros ingresado
      */
-    private void buscar(){
-        
+    private void buscar() {
+        String campo = this.txfCentral.getText();
+
+        PersonaConsultableDTO personaConsultable = new PersonaConsultableDTO();
+
+        if (this.btnRfc.isSelected()) {
+            personaConsultable.setRfc(campo);
+            titulo=" RFC: ";
+        } else if (this.btnNombre.isSelected()) {
+            personaConsultable.setNombre(campo);
+            titulo=" Nombre: ";
+        } else if (this.btnNacimiento.isSelected()) {
+            // Realizar la conversión de String a Date
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date fechaNacimiento = dateFormat.parse(campo);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(fechaNacimiento);
+                personaConsultable.setNacimiento(calendar);
+            } catch (java.text.ParseException e) {
+                JOptionPane.showMessageDialog(this, "La fecha ingresada no es valida", "Error en el campo de texto", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            titulo=" Año de nacimiento: ";
+        }
+
+        List<PersonaConsultableDTO> personas;
+        IConsultarHistorialBO consultarHistorial = new ConsultarHistorialBO(conexion);
+        try {
+            personas=consultarHistorial.consultarPersonaPorFiltros(personaConsultable);
+        } catch (PersistenciaException ex) {
+            JOptionPane.showMessageDialog(this, "No se pudo conectar con la base de datos", "Error en la ejecucion", JOptionPane.ERROR_MESSAGE);
+            return;
+        } catch (ValidacionException ex) {
+            JOptionPane.showMessageDialog(this, "No hay resultados para la busqueda", "No hay resultados", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        titulo=titulo.concat(campo);
+        abrirResultados(personas);
     }
-    
+
+    private void abrirResultados(List<PersonaConsultableDTO> personas) {
+        FrmModuloConsultasResultados on = new FrmModuloConsultasResultados(conexion, personas,titulo);
+        on.setVisible(true);
+        this.dispose();
+    }
+
     /**
-     * Abre un JGoodCalendar para que el usuario selecciona la fecha desde
+     * Abre un JGoodCalendar para que el usuario selecciona la fecha
      */
-    private void abrirCalendario(){
-        
+    private void abrirCalendario() {
+        JGoodDatePicker calendario = new JGoodDatePicker(this, true);
+        calendario.setVisible(true);
+
+        if (calendario.confirmar == true) {
+
+            if (calendario.devolverFecha() != null) {
+
+                // Crear un objeto SimpleDateFormat para el formato deseado
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+                // Formatear la fecha utilizando SimpleDateFormat
+                String fechaFormateada = sdf.format(calendario.devolverFecha().getTime());
+
+                this.txfCentral.setText(fechaFormateada);
+            }
+        }
     }
 
 
@@ -58,10 +129,10 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
         lblTitulo = new javax.swing.JLabel();
         txfCentral = new javax.swing.JTextField();
         lblFiltroEstatico = new javax.swing.JLabel();
-        btnRfc = new javax.swing.JButton();
-        btnNombre = new javax.swing.JButton();
-        btnNacimiento = new javax.swing.JButton();
         btnCalendario = new javax.swing.JButton();
+        btnNacimiento = new javax.swing.JToggleButton();
+        btnNombre = new javax.swing.JToggleButton();
+        btnRfc = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,25 +175,43 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
         lblTitulo.setForeground(new java.awt.Color(204, 102, 0));
         lblTitulo.setText("Consulta de historial");
 
-        lblFiltroEstatico.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
+        lblFiltroEstatico.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         lblFiltroEstatico.setForeground(new java.awt.Color(204, 0, 0));
         lblFiltroEstatico.setText("Filtros");
-
-        btnRfc.setBackground(new java.awt.Color(255, 0, 0));
-        btnRfc.setForeground(new java.awt.Color(255, 255, 255));
-        btnRfc.setText("RFC");
-
-        btnNombre.setBackground(new java.awt.Color(255, 153, 0));
-        btnNombre.setForeground(new java.awt.Color(255, 255, 255));
-        btnNombre.setText("Nombre");
-
-        btnNacimiento.setBackground(new java.awt.Color(204, 102, 0));
-        btnNacimiento.setForeground(new java.awt.Color(255, 255, 255));
-        btnNacimiento.setText("Nacimiento");
 
         btnCalendario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCalendarioActionPerformed(evt);
+            }
+        });
+
+        btnNacimiento.setBackground(new java.awt.Color(204, 102, 0));
+        btnNacimiento.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnNacimiento.setForeground(new java.awt.Color(255, 255, 255));
+        btnNacimiento.setText("Año de nacimiento");
+        btnNacimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNacimientoActionPerformed(evt);
+            }
+        });
+
+        btnNombre.setBackground(new java.awt.Color(255, 102, 0));
+        btnNombre.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnNombre.setForeground(new java.awt.Color(255, 255, 255));
+        btnNombre.setText("Nombre");
+        btnNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNombreActionPerformed(evt);
+            }
+        });
+
+        btnRfc.setBackground(new java.awt.Color(255, 0, 0));
+        btnRfc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnRfc.setForeground(new java.awt.Color(255, 255, 255));
+        btnRfc.setText("RFC");
+        btnRfc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRfcActionPerformed(evt);
             }
         });
 
@@ -137,6 +226,13 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
             .addGroup(pnlCentralLayout.createSequentialGroup()
                 .addGroup(pnlCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCentralLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(btnRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49)
+                        .addComponent(btnNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(btnNacimiento))
+                    .addGroup(pnlCentralLayout.createSequentialGroup()
                         .addGap(106, 106, 106)
                         .addComponent(txfCentral, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -144,15 +240,7 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
                     .addGroup(pnlCentralLayout.createSequentialGroup()
                         .addGap(232, 232, 232)
                         .addComponent(lblFiltroEstatico)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(pnlCentralLayout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(btnRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65)
-                .addComponent(btnNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addComponent(btnNacimiento)
-                .addGap(76, 76, 76))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         pnlCentralLayout.setVerticalGroup(
             pnlCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,12 +253,12 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
                     .addComponent(txfCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblFiltroEstatico)
-                .addGap(18, 31, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(pnlCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21))
+                    .addComponent(btnNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRfc, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -209,16 +297,14 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
                         .addGap(161, 161, 161)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(pnlCentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 3, Short.MAX_VALUE)
-                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(4, 4, 4)))
+                        .addGap(4, 4, 4))
+                    .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
 
@@ -237,12 +323,27 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
       abrirCalendario();
     }//GEN-LAST:event_btnCalendarioActionPerformed
 
+    private void btnRfcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRfcActionPerformed
+        this.btnNacimiento.setSelected(false);
+        this.btnNombre.setSelected(false);
+    }//GEN-LAST:event_btnRfcActionPerformed
+
+    private void btnNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNombreActionPerformed
+        this.btnNacimiento.setSelected(false);
+        this.btnRfc.setSelected(false);
+    }//GEN-LAST:event_btnNombreActionPerformed
+
+    private void btnNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNacimientoActionPerformed
+        this.btnRfc.setSelected(false);
+        this.btnNombre.setSelected(false);
+    }//GEN-LAST:event_btnNacimientoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCalendario;
-    private javax.swing.JButton btnNacimiento;
-    private javax.swing.JButton btnNombre;
-    private javax.swing.JButton btnRfc;
+    private javax.swing.JToggleButton btnNacimiento;
+    private javax.swing.JToggleButton btnNombre;
+    private javax.swing.JToggleButton btnRfc;
     private javax.swing.JButton btnVolver;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblFiltroEstatico;

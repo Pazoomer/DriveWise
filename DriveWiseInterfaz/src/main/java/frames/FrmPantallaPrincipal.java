@@ -64,8 +64,20 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         this.dispose();
     }
     
+    /**
+     * Abre la pantalla modulo de placas y cierra esta
+     */
     private void moduloPlacas(){
         FrmEleccionVehiculo on = new FrmEleccionVehiculo(conexion);
+        on.setVisible(true);
+        this.dispose();
+    }
+
+    /**
+     * Abre la pantalla modulo de consultas y cierra esta
+     */
+    private void moduloConsultas() {
+        FrmModuloConsultas on = new FrmModuloConsultas(conexion);
         on.setVisible(true);
         this.dispose();
     }
@@ -162,7 +174,7 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCambioPlacasActionPerformed
 
     private void btnModuloConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloConsultasActionPerformed
-        // TODO add your handling code here:
+       moduloConsultas();
     }//GEN-LAST:event_btnModuloConsultasActionPerformed
 
     private void btnInsercionMasivaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsercionMasivaActionPerformed
