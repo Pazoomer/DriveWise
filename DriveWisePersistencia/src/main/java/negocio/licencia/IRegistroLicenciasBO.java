@@ -16,5 +16,5 @@ public interface IRegistroLicenciasBO {
     boolean registrarLicencia(LicenciaNuevaDTO licenciaNuevaDTO) throws NoSuchAlgorithmException, PersistenciaException;
     public PersonaConsultableDTO buscarPersonaRfc(PersonaConsultableDTO personaDTO) throws PersistenciaException;
     public boolean mayorEdad(Calendar nacimiento);
-    
+    public float calcularCosto(int vigencia, boolean isDiscapacitado);
 }

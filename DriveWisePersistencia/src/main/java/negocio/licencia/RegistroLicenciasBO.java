@@ -73,7 +73,7 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         return personaEnviadaDTO;
     }
     
-    private float calcularCosto(int vigencia, boolean isDiscapacitado) {
+    public float calcularCosto(int vigencia, boolean isDiscapacitado) {
         float costo = 0;
         if (vigencia == 1 && isDiscapacitado) {
             costo = 800F;

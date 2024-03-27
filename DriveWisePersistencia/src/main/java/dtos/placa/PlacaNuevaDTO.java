@@ -18,7 +18,13 @@ public class PlacaNuevaDTO {
     String alfanumerico; 
     Boolean activo;
     VehiculoConsultableDTO vehiculo;
-    Tramite tramite;
+
+    public PlacaNuevaDTO(Calendar fechaEmision, String alfanumerico, Boolean activo, VehiculoConsultableDTO vehiculo) {
+        this.fechaEmision = fechaEmision;
+        this.alfanumerico = alfanumerico;
+        this.activo = activo;
+        this.vehiculo = vehiculo;
+    }
 
     public void setFechaEmision(Calendar fechaEmision) {
         this.fechaEmision = fechaEmision;
@@ -34,10 +40,6 @@ public class PlacaNuevaDTO {
 
     public void setVehiculo(VehiculoConsultableDTO vehiculo) {
         this.vehiculo = vehiculo;
-    }
-
-    public void setTramite(Tramite tramite) {
-        this.tramite = tramite;
     }
 
     public Calendar getFechaEmision() {
@@ -56,7 +58,4 @@ public class PlacaNuevaDTO {
         return vehiculo;
     }
 
-    public Tramite getTramite() {
-        return tramite;
-    }
 }

@@ -125,9 +125,9 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
                 return;
             }
             //Se crea un objeto de licencia nueva
-            LicenciaNuevaDTO licenciaNuevaDTO = new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia.getSelectedIndex());
+            LicenciaNuevaDTO licencia = new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia.getSelectedIndex());
             
-            registroLicenciasBO.registrarLicencia(licenciaNuevaDTO);
+            registroLicenciasBO.registrarLicencia(licencia);
             
             mensajeExito();
         } catch (NoSuchAlgorithmException ex) {
@@ -294,8 +294,9 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     }//GEN-LAST:event_txtVigenciaActionPerformed
 
     private void cmbVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbVigenciaActionPerformed
-        LicenciaNuevaDTO licenciaNuevaDTO = new LicenciaNuevaDTO(persona, cmbVigencia.getSelectedIndex());
-        lblCosto.setText("Costo: $" + licenciaNuevaDTO.getCosto().toString() + "0");  
+        IRegistroLicenciasBO registroLicenciasBO = new RegistroLicenciasBO(conexion);
+        float costo = registroLicenciasBO.calcularCosto(cmbVigencia.getSelectedIndex(), persona.getDiscapacitado());
+        lblCosto.setText("Costo: $" + costo);  
     }//GEN-LAST:event_cmbVigenciaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

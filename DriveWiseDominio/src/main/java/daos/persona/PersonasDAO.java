@@ -208,7 +208,7 @@ public class PersonasDAO implements IPersonasDAO{
         for (Licencia licencia : licencias) {
             Calendar fechaVigencia = licencia.getFechaEmision();
             fechaVigencia.add(Calendar.YEAR, licencia.getVigencia());
-            if (calendar.compareTo(fechaVigencia) >= 0) {
+            if (calendar.compareTo(fechaVigencia) <= 0) {
                 return true;
             }
         }
