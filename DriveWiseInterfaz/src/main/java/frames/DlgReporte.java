@@ -4,17 +4,30 @@
  */
 package frames;
 
+import daos.conexion.IConexionDAO;
+import dtos.persona.PersonaConsultableDTO;
+import dtos.tramite.TramiteConsultableDTO;
+import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import negocio.tramite.ConsultarTramitesBO;
+import negocio.tramite.IConsultarTramitesBO;
+
 /**
  *
  * @author Enrique Rodriguez
  */
 public class DlgReporte extends javax.swing.JFrame {
 
-    /**
-     * Creates new form DlgReporte
-     */
-    public DlgReporte() {
+    IConexionDAO conexion;
+    PersonaConsultableDTO persona;
+    public DlgReporte(IConexionDAO conexion, PersonaConsultableDTO persona) {
         initComponents();
+        this.conexion = conexion;
+        this.persona =  persona;
+        llenarTabla();
     }
 
     /**
@@ -109,7 +122,21 @@ public class DlgReporte extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    private void llenarTabla(){
+        IConsultarTramitesBO consultarTramitesBO = new ConsultarTramitesBO(conexion);
+        try {
+            List<TramiteConsultableDTO> tramites = consultarTramitesBO.consultarTramitePorPersona(persona);
+            
+            
+            
+            
+            
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidacionException ex) {
+            Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

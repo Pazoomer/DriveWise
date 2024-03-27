@@ -81,6 +81,15 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         on.setVisible(true);
         this.dispose();
     }
+    
+    /**
+     * Abre la pantalla modulo de consultas y cierra esta
+     */
+    private void moduloReportes() {
+        FrmModuloReportes on = new FrmModuloReportes(conexion);
+        on.setVisible(true);
+        this.dispose();
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -158,7 +167,7 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModulodeReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModulodeReportesActionPerformed
-        // TODO add your handling code here:
+        moduloReportes();
     }//GEN-LAST:event_btnModulodeReportesActionPerformed
 
     private void btnModuloLicenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloLicenciasActionPerformed

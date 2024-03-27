@@ -41,9 +41,9 @@ public class Prueba {
     public static void main(String[] args) {
         IConexionDAO conexion = new ConexionDAO();
         
-        IConsultarHistorialBO consultarHistorialBO = new ConsultarHistorialBO(conexion);
+        //IConsultarHistorialBO consultarHistorialBO = new ConsultarHistorialBO(conexion);
         
-        IConsultarTramitesBO consultarTramitesBO=new ConsultarTramitesBO(conexion);
+        IConsultarTramitesBO consultarTramitesBO = new ConsultarTramitesBO(conexion);
 
         PersonaConsultableDTO persona = new PersonaConsultableDTO("QRS345");
 
@@ -51,7 +51,7 @@ public class Prueba {
             List<TramiteConsultableDTO> tramites = consultarTramitesBO.consultarTramitePorPersona(persona);
             
             System.out.println(tramites.size());
-
+            
             for (TramiteConsultableDTO tramite : tramites) {
                 System.out.println(tramite);
             }
