@@ -2,10 +2,7 @@
 package frames;
 
 import daos.conexion.IConexionDAO;
-import dtos.persona.PersonaConsultableDTO;
 import dtos.tramite.TramiteConsultableDTO;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;

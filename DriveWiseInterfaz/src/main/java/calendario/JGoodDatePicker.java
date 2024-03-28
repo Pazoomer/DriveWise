@@ -21,6 +21,10 @@ public class JGoodDatePicker extends javax.swing.JDialog {
 
     public Calendar devolverFecha() {
 
+        if (jgpCalendar.getSelectedDate() == null) {
+            return null;
+        }
+
         LocalDate localDate = jgpCalendar.getSelectedDate();
 
         // Crear un nuevo objeto Calendar
