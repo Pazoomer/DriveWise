@@ -4,16 +4,24 @@
  */
 package frames;
 
+import com.itextpdf.text.pdf.PdfWriter;
 import daos.conexion.IConexionDAO;
 import dtos.persona.PersonaConsultableDTO;
 import dtos.tramite.TramiteConsultableDTO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
+import java.awt.Graphics2D;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.text.DocumentException;
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import negocio.licencia.RegistroLicenciasBO;
@@ -31,10 +39,11 @@ public class DlgReporte extends javax.swing.JFrame {
     private int filtro;
     Calendar fechaDesde;
     Calendar fechaHasta;
+
     public DlgReporte(IConexionDAO conexion, PersonaConsultableDTO persona, int filtro, Calendar fechaDesde, Calendar fechaHasta) {
         initComponents();
         this.conexion = conexion;
-        this.persona =  persona;
+        this.persona = persona;
         this.filtro = filtro;
         this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;
@@ -152,65 +161,84 @@ public class DlgReporte extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
-    private void llenarTabla(){
+    private void llenarTabla() {
         IConsultarTramitesBO consultarTramitesBO = new ConsultarTramitesBO(conexion);
         List<TramiteConsultableDTO> tramites = new LinkedList<>();
         try {
             //Buscar persona
             RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
             PersonaConsultableDTO personaux = buscar.buscarPersonaRfc(persona);
-            
+
             //Buscar tramites de la persona
             tramites = consultarTramitesBO.consultarTramitePorPersona(persona);
-            
+
             DefaultTableModel modelo = new DefaultTableModel();
             modelo.addColumn("Nombre");
             modelo.addColumn("Trámite");
             modelo.addColumn("Fecha Emisión");
             modelo.addColumn("Costo");
-            
-            
+
             for (TramiteConsultableDTO tramite : tramites) {
                 Object[] fila = {
-                    personaux.getNombre() + " " 
-                        + personaux.getApellidopaterno() + " " 
-                        + personaux.getApellidoMaterno(),
+                    personaux.getNombre() + " "
+                    + personaux.getApellidopaterno() + " "
+                    + personaux.getApellidoMaterno(),
                     tramite.getTipo(),
-                    tramite.getEmision().get(Calendar.DATE) + "/0" 
-                        + tramite.getEmision().get(Calendar.MONTH) + "/"
-                        + tramite.getEmision().get(Calendar.YEAR)
-                        ,
-                    "$" + tramite.getCosto() + "0"
+                    tramite.getEmision().get(Calendar.DATE) + "/0"
+                    + tramite.getEmision().get(Calendar.MONTH) + "/"
+                    + tramite.getEmision().get(Calendar.YEAR),
+                     "$" + tramite.getCosto() + "0"
                 };
-                
+
                 Calendar fechaTramite = Calendar.getInstance();
-                    fechaTramite.set(tramite.getEmision().get(Calendar.YEAR),
-                            tramite.getEmision().get(Calendar.MONTH),
-                            tramite.getEmision().get(Calendar.DATE),0,0);
+                fechaTramite.set(tramite.getEmision().get(Calendar.YEAR),
+                        tramite.getEmision().get(Calendar.MONTH),
+                        tramite.getEmision().get(Calendar.DATE), 0, 0);
 
                 if ((fechaTramite.after(fechaDesde) || fechaTramite.equals(fechaDesde))
                         && (fechaTramite.before(fechaHasta) || fechaTramite.equals(fechaHasta))) {
-                    
+
                     if (filtro == 1 && tramite.getTipo().equalsIgnoreCase("LICENCIA")) {
                         modelo.addRow(fila);
-                        
-                    } else if(filtro == 2 && tramite.getTipo().equalsIgnoreCase("PLACA")){
+
+                    } else if (filtro == 2 && tramite.getTipo().equalsIgnoreCase("PLACA")) {
                         modelo.addRow(fila);
-                        
-                    } else if (filtro == 0){
+
+                    } else if (filtro == 0) {
                         modelo.addRow(fila);
-                        
+
                     }
                 }
             }
             tblTramites.setModel(modelo);
             TableColumnModel columnModel = tblTramites.getColumnModel();
-            
+
         } catch (PersistenciaException ex) {
             Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ValidacionException ex) {
             Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void convertirJFrameAPDF(JFrame frame, String rutaArchivoPDF) throws IOException {
+        // Capturar la imagen del JFrame
+        BufferedImage imagen = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = imagen.createGraphics();
+        frame.paint(graphics2D);
+        graphics2D.dispose();
+
+        try {
+            PdfWriter writer = PdfWriter.getInstance(new com.itextpdf.text.Document(), new FileOutputStream("ReportePDF"));
+        } catch (DocumentException ex) {
+            Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Convertir la imagen a un objeto iText Image y agregarla al documento PDF
+        //com.itextpdf.layout.element.Image imagenPDF = new com.itextpdf.layout.element.Image(ImageDataFactory.create(imagen, null));
+        //pdf.add(imagenPDF);
+
+        // Cerrar el documento
+        //pdf.close();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
