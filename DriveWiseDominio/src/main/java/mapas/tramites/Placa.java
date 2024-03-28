@@ -48,11 +48,11 @@ public class Placa implements Serializable {
     @Column(name="activo",nullable=false)
     private Boolean activo;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.PERSIST)
     @JoinColumn(name = "vehiculo_id", nullable = false)
     private Vehiculo vehiculo;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tramite_id",nullable = false)
     private Tramite tramite;
     
@@ -146,7 +146,7 @@ public class Placa implements Serializable {
         this.id_placa = id_placa;
     }
     
-    private String generarAlfanumericoPlaca(){
+    private void generarAlfanumericoPlaca(){
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
 
@@ -162,6 +162,6 @@ public class Placa implements Serializable {
             sb.append(digito);
         }
 
-        return sb.toString();
+        this.alfanumerico = sb.toString();
     }
 }

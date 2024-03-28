@@ -18,6 +18,9 @@ import mapas.vehiculos.Vehiculo;
 public interface IRegistroPlacasBO {
     public VehiculoConsultableDTO buscarVehiculo(PlacaConsultableDTO placaDTO) throws PersistenciaException;
     
-    public void registrarPlaca(PlacaNuevaDTO placaDTO, boolean esNuevo) throws PersistenciaException;
+    public void registrarPlacaNuevo(PersonaConsultableDTO personaDTO, PlacaNuevaDTO placaDTO) throws PersistenciaException;
+    
+    public void registrarPlacasUsado(PersonaConsultableDTO personaDTO, PlacaNuevaDTO placaDTO) throws PersistenciaException;
+    
    
 }

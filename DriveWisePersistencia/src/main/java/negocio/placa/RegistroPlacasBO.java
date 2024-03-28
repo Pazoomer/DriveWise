@@ -58,8 +58,34 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
      * @throws PersistenciaException 
      */
     @Override
-    public void registrarPlaca(PlacaNuevaDTO placaDTO, boolean esNuevo) throws PersistenciaException {
+    public void registrarPlacaNuevo(PersonaConsultableDTO personaDTO, PlacaNuevaDTO placaDTO) throws PersistenciaException {
         // Se crean instancias de Vehiculo y Placa
+        Vehiculo vehiculo = null;
+        Placa placa = null;
+
+        // Se declara una variable de costo para inicializarla más adelante
+        float costoPlaca;
+
+        // Se crea una instancia de Persona con el RFC ingresada en el frame, para luego buscarla en la base de datos
+        Persona persona = new Persona(personaDTO.getRfc());
+        IPersonasDAO personasDAO = new PersonasDAO(conexion);
+        IPlacasDAO placasDAO = new PlacasDAO(conexion);
+        Persona personaEncontrada = personasDAO.consultarPersonaPorRfc(persona);
+
+        //Se crea un trámite con la persona encontrada en la base de datos
+        Tramite tramite = new Tramite(personaEncontrada);
+
+        // Si el vehículo es nuevo, se inicializará un nuevo vehículo con los datos ingresados en el frame, y este se usará
+        // para construir una nueva placa
+        vehiculo = new Carro(placaDTO.getVehiculoNuevo().getNumSerie(), placaDTO.getVehiculoNuevo().getMarca(), placaDTO.getVehiculoNuevo().getLinea(), placaDTO.getVehiculoNuevo().getColor(), placaDTO.getVehiculoNuevo().getModelo(), personaEncontrada);
+        placa = new Placa(placaDTO.getFechaEmision(), calcularCosto(true), true, vehiculo, tramite);
+        placa.setVehiculo(vehiculo);
+        tramite.setPlaca(placa);
+        placasDAO.agregarPlaca(placa);
+    }
+    
+    @Override
+    public void registrarPlacasUsado(PersonaConsultableDTO personaDTO, PlacaNuevaDTO placaDTO) throws PersistenciaException{
         Vehiculo vehiculo = null;
         Placa placa = null;
         
@@ -67,7 +93,7 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
         float costoPlaca;
         
         // Se crea una instancia de Persona con el RFC ingresada en el frame, para luego buscarla en la base de datos
-        Persona persona = new Persona(placaDTO.getVehiculoUsado().getPersona().getRfc());
+        Persona persona = new Persona(personaDTO.getRfc());
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
         IPlacasDAO placasDAO = new PlacasDAO(conexion);
         Persona personaEncontrada = personasDAO.consultarPersonaPorRfc(persona);
@@ -75,27 +101,18 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
         //Se crea un trámite con la persona encontrada en la base de datos
         Tramite tramite = new Tramite(personaEncontrada);
         
-        // Si el vehículo es nuevo, se inicializará un nuevo vehículo con los datos ingresados en el frame, y este se usará
-        // para construir una nueva placa
-        if (esNuevo) {
-            vehiculo = new Carro(placaDTO.getVehiculoNuevo().getNumSerie(), placaDTO.getVehiculoNuevo().getMarca(), placaDTO.getVehiculoNuevo().getLinea(), placaDTO.getVehiculoNuevo().getColor(), placaDTO.getVehiculoNuevo().getModelo(), personaEncontrada);
-            placa = new Placa(placaDTO.getFechaEmision(), calcularCosto(true), placaDTO.getActivo(), vehiculo, tramite);
-            placa.setVehiculo(vehiculo);
-            tramite.setPlaca(placa);
-            placasDAO.agregarPlaca(placa);
-        // Si el vehículo es viejo, se creará un objeto Placa con solo el alfanumérico viejo, para luego consultarla en la base de      
+        vehiculo = new Carro(placaDTO.getVehiculoUsado().getNumSerie(), placaDTO.getVehiculoUsado().getMarca(), placaDTO.getVehiculoUsado().getLinea(), placaDTO.getVehiculoUsado().getColor(), placaDTO.getVehiculoUsado().getModelo(), personaEncontrada);
+        
+        // Se creará un objeto Placa con solo el alfanumérico viejo, para luego consultarla en la base de      
         // datos y cambiar su estado a inactiva. Se creará una nueva placa, que se registrará en la base de datos y se establece
         // la fecha de recepción de la anterior
-        } else {
-            placa = new Placa(placaDTO.getAlfanumerico());
+        placa = new Placa(placaDTO.getAlfanumerico());
             placasDAO.consultarPlaca(placa).setActivo(false);
             placasDAO.consultarPlaca(placa).setRecepcion(Calendar.getInstance());
             Placa nuevaPlaca = new Placa(Calendar.getInstance(), calcularCosto(false), true, vehiculo, tramite);
             placa.setVehiculo(vehiculo);
             tramite.setPlaca(nuevaPlaca);
             placasDAO.agregarPlaca(nuevaPlaca);
-        }
-        
     }
     
     private float calcularCosto(boolean esNuevo){

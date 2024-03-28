@@ -17,19 +17,16 @@ import mapas.vehiculos.Vehiculo;
 public class PlacaNuevaDTO {
     Calendar fechaEmision; 
     String alfanumerico; 
-    Boolean activo;
     VehiculoConsultableDTO vehiculoUsado;
     VehiculoNuevoDTO vehiculoNuevo;
 
-    public PlacaNuevaDTO(Calendar fechaEmision, Boolean activo, VehiculoConsultableDTO vehiculo) {
+    public PlacaNuevaDTO(Calendar fechaEmision, VehiculoConsultableDTO vehiculo) {
         this.fechaEmision = fechaEmision;
-        this.activo = activo;
         this.vehiculoUsado = vehiculo;
     }
     
-    public PlacaNuevaDTO(Calendar fechaEmision, Boolean activo, VehiculoNuevoDTO vehiculo) {
+    public PlacaNuevaDTO(Calendar fechaEmision,  VehiculoNuevoDTO vehiculo) {
         this.fechaEmision = fechaEmision;
-        this.activo = activo;
         this.vehiculoNuevo = vehiculo;
     }
 
@@ -41,20 +38,12 @@ public class PlacaNuevaDTO {
         this.alfanumerico = alfanumerico;
     }
 
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
-    }
-
     public Calendar getFechaEmision() {
         return fechaEmision;
     }
 
     public String getAlfanumerico() {
         return alfanumerico;
-    }
-
-    public Boolean getActivo() {
-        return activo;
     }
 
     public void setVehiculoUsado(VehiculoConsultableDTO vehiculoUsado) {

@@ -99,9 +99,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
      */
     private void mensajeExito() {
         JOptionPane.showMessageDialog(this, "Licencia añadida con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
-                    
-        //DlgValido on = new DlgValido(this, true);
-        //on.setVisible(true);
     }
     
     

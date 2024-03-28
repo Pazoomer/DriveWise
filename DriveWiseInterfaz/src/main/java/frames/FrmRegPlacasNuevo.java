@@ -32,7 +32,8 @@ import validadores.Validadores;
 public class FrmRegPlacasNuevo extends javax.swing.JFrame {
 
     IConexionDAO conexion;
-    Validadores validadores;
+    Validadores validadores = new Validadores();
+    PersonaConsultableDTO persona;
     
     /**
      * Creates new form FrmRegPlacasNuevo
@@ -92,10 +93,10 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
     private void validarLicencia(){
         if (verificarRfc()) {
             IBuscarLicenciaValidaBO blvBO = new BuscarLicenciaValidaBO(conexion);
-            PersonaConsultableDTO personaDTO = new PersonaConsultableDTO(txtRfc.getText());
+            persona = new PersonaConsultableDTO(txtRfc.getText());
             
             try {
-                if (blvBO.validarLicencia(personaDTO)){
+                if (blvBO.validarLicencia(persona)){
                     txtRfc.setEditable(false);
                     btnValidarLicencia.setBackground(Color.GREEN);
                     btnValidarLicencia.setEnabled(false);
@@ -132,14 +133,21 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
         
         VehiculoNuevoDTO vehiculo = new VehiculoNuevoDTO(txtNumSerie.getText(), txtMarca.getText(), txtLinea.getText(), txtColor.getText(), txtModelo.getText());
         
-        PlacaNuevaDTO placaDTO = new PlacaNuevaDTO(calendarPlaca, true, vehiculo);
+        PlacaNuevaDTO placaDTO = new PlacaNuevaDTO(calendarPlaca, vehiculo);
+        try {
+            rpBO.registrarPlacaNuevo(persona, placaDTO);
+            mensajeExito();
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(FrmRegPlacasNuevo.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-//    private void registrar(){
-//        if (verificarCampos()){
-//            PlacaNuevaDTO placaDTO = new PlacaNuevaDTO()
-//        }
-//    }
+    /**
+     * Muestra la pantalla de licencia agregada con exito
+     */
+    private void mensajeExito() {
+        JOptionPane.showMessageDialog(this, "Licencia añadida con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -311,7 +319,7 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnValidarLicenciaActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-
+        registrar();
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
 

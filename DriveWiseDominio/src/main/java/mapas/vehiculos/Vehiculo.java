@@ -55,7 +55,7 @@ public abstract class Vehiculo implements Serializable {
     @JoinColumn(name = "id_persona", nullable = false)
     private Persona persona;
     
-    @OneToMany(mappedBy = "vehiculo", cascade = {CascadeType.REMOVE})
+    @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.REMOVE)
     private List<Placa> placas;
 
     public Vehiculo() {
