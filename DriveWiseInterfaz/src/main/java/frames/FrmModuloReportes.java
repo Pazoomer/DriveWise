@@ -7,6 +7,7 @@ package frames;
 import daos.conexion.IConexionDAO;
 import dtos.persona.PersonaConsultableDTO;
 import java.util.Calendar;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -199,6 +200,7 @@ public class FrmModuloReportes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        if (!(txtRFC.getText().isBlank())) {
         Calendar calDesde = Calendar.getInstance();
             calDesde.setTime(jdateDesde.getDate());
             calDesde.set(Calendar.HOUR_OF_DAY, 0);
@@ -213,6 +215,10 @@ public class FrmModuloReportes extends javax.swing.JFrame {
             calHasta.set(Calendar.MILLISECOND, 0);
                     
         buscar(cmbOperacion.getSelectedIndex(), calDesde, calHasta);
+        } else{
+            JOptionPane error = new JOptionPane("Campos vacios", JOptionPane.ERROR_MESSAGE);
+            
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed

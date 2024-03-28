@@ -179,13 +179,14 @@ public class DlgReporte extends javax.swing.JFrame {
             modelo.addColumn("Costo");
 
             for (TramiteConsultableDTO tramite : tramites) {
+                int mes = tramite.getEmision().get(Calendar.MONTH) +1;
                 Object[] fila = {
                     personaux.getNombre() + " "
                     + personaux.getApellidopaterno() + " "
                     + personaux.getApellidoMaterno(),
                     tramite.getTipo(),
                     tramite.getEmision().get(Calendar.DATE) + "/0"
-                    + tramite.getEmision().get(Calendar.MONTH) + "/"
+                    + mes + "/"
                     + tramite.getEmision().get(Calendar.YEAR),
                      "$" + tramite.getCosto() + "0"
                 };
@@ -194,7 +195,7 @@ public class DlgReporte extends javax.swing.JFrame {
                 fechaTramite.set(tramite.getEmision().get(Calendar.YEAR),
                         tramite.getEmision().get(Calendar.MONTH),
                         tramite.getEmision().get(Calendar.DATE), 0, 0);
-
+               
                 if ((fechaTramite.after(fechaDesde) || fechaTramite.equals(fechaDesde))
                         && (fechaTramite.before(fechaHasta) || fechaTramite.equals(fechaHasta))) {
 
