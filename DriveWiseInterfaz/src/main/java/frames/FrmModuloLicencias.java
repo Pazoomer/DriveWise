@@ -4,6 +4,7 @@ import daos.conexion.IConexionDAO;
 import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -73,10 +74,14 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
                 txtApaterno.setText(persona.getApellidopaterno());
                 txtAmaterno.setText(persona.getApellidoMaterno());
                 txtFechaNac.setText(persona.getCadenaNacimiento());
+                this.txtTelefono.setText(persona.getTelefono());
 
             } catch (PersistenciaException ex) {
-
-                Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "No se pudo conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            } catch (ValidacionException ex) {
+                JOptionPane.showMessageDialog(this, "La version no es compatible, actualize a una versiona más reciente", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
 
         } else {
@@ -125,17 +130,20 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
             LicenciaNuevaDTO licencia = new LicenciaNuevaDTO(calendarLicencia, persona, cmbVigencia.getSelectedIndex());
             
             registroLicenciasBO.registrarLicencia(licencia);
-            
+
             mensajeExito();
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "La version no es compatible, actualize a una versiona más reciente", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         } catch (PersistenciaException ex) {
-            Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "No se pudo conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txtTelefono = new javax.swing.JTextField();
         txtVigencia = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         txtApaterno = new javax.swing.JTextField();
@@ -147,10 +155,13 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         txtFechaNac = new javax.swing.JTextField();
         lblCosto = new javax.swing.JLabel();
         btnConfirmar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtTelefono.setOpaque(true);
+        getContentPane().add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 370, 210, -1));
 
         txtVigencia.setEditable(false);
         txtVigencia.setBackground(new java.awt.Color(240, 236, 236));
@@ -247,8 +258,8 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         });
         getContentPane().add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 150, 60));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Modulo de licencias.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 550));
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Modulo de licencias.jpg"))); // NOI18N
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, 540));
 
         pack();
         setLocationRelativeTo(null);
@@ -301,13 +312,14 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> cmbVigencia;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblCosto;
+    private javax.swing.JLabel lblFondo;
     private javax.swing.JTextField txtAmaterno;
     private javax.swing.JTextField txtApaterno;
     private javax.swing.JTextField txtFechaNac;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtRFC;
+    private javax.swing.JTextField txtTelefono;
     private javax.swing.JTextField txtVigencia;
     // End of variables declaration//GEN-END:variables
 }

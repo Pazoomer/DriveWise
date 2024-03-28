@@ -4,6 +4,7 @@ package negocio.licencia;
 import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 
@@ -14,7 +15,7 @@ import java.util.Calendar;
 public interface IRegistroLicenciasBO {
     
     boolean registrarLicencia(LicenciaNuevaDTO licenciaNuevaDTO) throws NoSuchAlgorithmException, PersistenciaException;
-    public PersonaConsultableDTO buscarPersonaRfc(PersonaConsultableDTO personaDTO) throws PersistenciaException;
+    public PersonaConsultableDTO buscarPersonaRfc(PersonaConsultableDTO personaDTO) throws PersistenciaException,ValidacionException;
     public boolean mayorEdad(Calendar nacimiento);
     public float calcularCosto(int vigencia, boolean isDiscapacitado);
 }

@@ -3,7 +3,14 @@ package cifrado;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.KeySpec;
 import java.util.Base64;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Maneja el uso de encriptaciones, cadenas y sal
@@ -11,44 +18,44 @@ import java.util.Base64;
  * @author Jorge Zamora y Victoria Vega
  */
 public class Cifrado {
-
-    /**
-     * Encripta la cadena con la sal
-     * @param cadena cadena a encriptar
-     * @param sal cadena aletoria para proteger la cadena
-     * @return Cadena encriptada
-     * @throws NoSuchAlgorithmException Cuando el algotirtmo no es compatible con la version
-     */
-    public static String encriptarCadena(String cadena, String sal) throws NoSuchAlgorithmException {
-        String cadenaConSal = cadena + sal;
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-        byte[] hashedBytes = messageDigest.digest(cadenaConSal.getBytes());
-        return Base64.getEncoder().encodeToString(hashedBytes);
-    }
-
-    /**
-     * Genera una sal
-     * @return Sal para proteger la cadena
-     */
+    
     public static String generarSal() {
         SecureRandom random = new SecureRandom();
-        byte[] saltBytes = new byte[16];
-        random.nextBytes(saltBytes);
-        return Base64.getEncoder().encodeToString(saltBytes);
+        byte[] salt = new byte[16]; // 128 bits
+        random.nextBytes(salt);
+        return Base64.getEncoder().encodeToString(salt);
     }
 
-    /**
-     * Verifica si una cadena es correcta
-     * @param cadenaEntrante Cadena a encriptar y validar
-     * @param cadenaGuardada Cadena a comparar despues del proceso
-     * @param sal Cadena especifica de la cadena para protegerla
-     * @return Verdadero si la ambas cadenas son iguales despues de la encriptacion
-     * @throws NoSuchAlgorithmException Cuando el algotirtmo no es compatible con jla version
-     */
-    public static boolean verificarCadena(String cadenaEntrante, String cadenaGuardada, String sal) throws NoSuchAlgorithmException {
-        String cadenaHashEntrante = encriptarCadena(cadenaEntrante, sal);
-        return cadenaGuardada.equals(cadenaHashEntrante);
+    public static String encriptarCadena(String texto, String sal) throws Exception {
+        byte[] iv = new byte[16]; // Inicialización de vector de inicialización (IV)
+        SecureRandom random = new SecureRandom();
+        random.nextBytes(iv);
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+
+        SecretKeySpec clave = new SecretKeySpec(sal.getBytes(), "AES");
+
+        Cipher cifrador = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cifrador.init(Cipher.ENCRYPT_MODE, clave, ivParameterSpec);
+
+        byte[] textoCifrado = cifrador.doFinal(texto.getBytes("UTF-8"));
+
+        return Base64.getEncoder().encodeToString(iv) + ":" + Base64.getEncoder().encodeToString(textoCifrado);
     }
 
-   
+    public static String descifrarCadena(String textoCifrado, String sal) throws Exception {
+        String[] partes = textoCifrado.split(":");
+        byte[] iv = Base64.getDecoder().decode(partes[0]);
+        byte[] textoCifradoBytes = Base64.getDecoder().decode(partes[1]);
+
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+        SecretKeySpec clave = new SecretKeySpec(sal.getBytes(), "AES");
+
+        Cipher cifrador = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        cifrador.init(Cipher.DECRYPT_MODE, clave, ivParameterSpec);
+
+        byte[] textoBytes = cifrador.doFinal(textoCifradoBytes);
+
+        return new String(textoBytes, "UTF-8");
+    }
+    
 }

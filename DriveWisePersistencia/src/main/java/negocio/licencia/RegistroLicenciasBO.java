@@ -1,6 +1,7 @@
 
 package negocio.licencia;
 
+import cifrado.Cifrado;
 import daos.conexion.IConexionDAO;
 import daos.licencia.ILicenciasDAO;
 import daos.licencia.LicenciasDAO;
@@ -9,8 +10,10 @@ import daos.persona.PersonasDAO;
 import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import mapas.personas.Persona;
 import mapas.tramites.Licencia;
@@ -31,7 +34,6 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
     
     /**
      * Registra una licencia a una persona y hace el tramite correspondiente
-     * @param personaConsultableDTO Persona a la que le agregan la licencia
      * @param licenciaNuevaDTO Licencia a agregar a la persona
      * @return True si el registro fue exitoso
      * @throws NoSuchAlgorithmException Si la version no es valida con el metodo de cifrado
@@ -59,7 +61,7 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
     }
     
     @Override
-    public PersonaConsultableDTO buscarPersonaRfc(PersonaConsultableDTO personaDTO) throws PersistenciaException{
+    public PersonaConsultableDTO buscarPersonaRfc(PersonaConsultableDTO personaDTO) throws PersistenciaException,ValidacionException{
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
         Persona persona = new Persona(personaDTO.getRfc());
         Persona personaEncontrada= personasDAO.consultarPersonaPorRfc(persona);
@@ -68,11 +70,21 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
             return null;
         }
         
-        PersonaConsultableDTO personaEnviadaDTO = new PersonaConsultableDTO(personaEncontrada.getNombre(), personaEncontrada.getApellidoPaterno(), personaEncontrada.getApellidoMaterno(), personaEncontrada.getRfc(), personaEncontrada.getTelefono(), personaEncontrada.getNacimiento(), personaEncontrada.getDiscapacitado());
+        //Coloca el telefono cifrado a la persona
+        String telefono;
+        try {
+            telefono = Cifrado.descifrarCadena(personaEncontrada.getTelefono(),personaEncontrada.getSal());
+        } catch (Exception ex) {
+            throw new ValidacionException(ex);
+            
+        }
+
+        PersonaConsultableDTO personaEnviadaDTO = new PersonaConsultableDTO(personaEncontrada.getNombre(), personaEncontrada.getApellidoPaterno(), personaEncontrada.getApellidoMaterno(), personaEncontrada.getRfc(),telefono, personaEncontrada.getNacimiento(), personaEncontrada.getDiscapacitado());
         
         return personaEnviadaDTO;
     }
     
+    @Override
     public float calcularCosto(int vigencia, boolean isDiscapacitado) {
         float costo = 0;
         if (vigencia == 1 && isDiscapacitado) {
@@ -92,6 +104,7 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
     }
     
     
+    @Override
      public boolean mayorEdad(Calendar nacimiento){
         // Obtener la fecha actual
         Calendar fechaActual = Calendar.getInstance();

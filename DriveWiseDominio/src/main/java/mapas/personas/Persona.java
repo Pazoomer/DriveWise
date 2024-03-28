@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -93,7 +95,11 @@ public class Persona implements Serializable {
         this.nacimiento = nacimiento;
         this.discapacitado = discapacitado;
         this.sal = Cifrado.generarSal();
-        this.telefono = Cifrado.encriptarCadena(telefono,this.sal);
+        try {
+            this.telefono = Cifrado.encriptarCadena(telefono,this.sal);
+        } catch (Exception ex) {
+            Logger.getLogger(Persona.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.telefonoNoCifrado=telefono; 
     }
     
@@ -163,7 +169,11 @@ public class Persona implements Serializable {
     }
 
     public void setTelefono(String telefono) throws NoSuchAlgorithmException {
-        this.telefono = Cifrado.encriptarCadena(telefono,this.sal);
+        try {
+            this.telefono = Cifrado.encriptarCadena(telefono,this.sal);
+        } catch (Exception ex) {
+            Logger.getLogger(Persona.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public List<Vehiculo> getVehiculos() {
@@ -200,10 +210,6 @@ public class Persona implements Serializable {
 
     public void setTelefonoNoCifrado(String telefonoNoCifrado) {
         this.telefonoNoCifrado = telefonoNoCifrado;
-    }
-
-    public boolean verificarTelefono(String telefonoEntrante) throws NoSuchAlgorithmException {
-        return Cifrado.verificarCadena(telefonoEntrante, this.telefono, this.sal);
     }
 
     @Override

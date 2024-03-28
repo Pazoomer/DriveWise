@@ -61,7 +61,8 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
 
         // Si el vehículo es nuevo, se inicializará un nuevo vehículo con los datos ingresados en el frame, y este se usará
         // para construir una nueva placa
-        vehiculo = new Carro(placaDTO.getVehiculoNuevo().getNumSerie(), placaDTO.getVehiculoNuevo().getMarca(), placaDTO.getVehiculoNuevo().getLinea(), placaDTO.getVehiculoNuevo().getColor(), placaDTO.getVehiculoNuevo().getModelo(), personaEncontrada);
+        //TODO 
+        //vehiculo = new Carro(placaDTO.getVehiculoNuevo().getNumSerie(), placaDTO.getVehiculoNuevo().getMarca(), placaDTO.getVehiculoNuevo().getLinea(), placaDTO.getVehiculoNuevo().getColor(), placaDTO.getVehiculoNuevo().getModelo(), personaEncontrada);
         placa = new Placa(placaDTO.getFechaEmision(), calcularCosto(true), true, vehiculo, tramite);
         placa.setVehiculo(vehiculo);
         tramite.setPlaca(placa);
