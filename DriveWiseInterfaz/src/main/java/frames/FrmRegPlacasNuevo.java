@@ -146,7 +146,7 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
      * Muestra la pantalla de licencia agregada con exito
      */
     private void mensajeExito() {
-        JOptionPane.showMessageDialog(this, "Licencia añadida con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Licencia añadida con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**

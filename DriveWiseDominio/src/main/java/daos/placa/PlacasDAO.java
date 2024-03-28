@@ -53,30 +53,30 @@ public class PlacasDAO implements IPlacasDAO{
         return placa;
     }
 
-    @Override
-    public Vehiculo consultarVehiculo(Placa placa) throws PersistenciaException {
-        EntityManager entityManager = this.conexion.crearConexion();
-        String jpqlQuery = """
-                   SELECT v FROM Vehiculo v
-                   JOIN v.placas p
-                   WHERE p.id_placa = :id_placa
-                   """;
-        
-        TypedQuery<Vehiculo> query = entityManager.createQuery(jpqlQuery, Vehiculo.class);
-        query.setParameter("id_placa", placa.getId_placa());
-        
-        Vehiculo vehiculoResult = null;
-        try {
-            vehiculoResult = query.getSingleResult();
-        } catch (NoResultException ex){
-            return null;
-        }
-        if (vehiculoResult == null){
-            return null;
-        }
-        entityManager.close();
-        return vehiculoResult;
-    }
+//    @Override
+//    public Vehiculo consultarVehiculo(Placa placa) throws PersistenciaException {
+//        EntityManager entityManager = this.conexion.crearConexion();
+//        String jpqlQuery = """
+//                   SELECT v FROM Vehiculo v
+//                   JOIN v.placas p
+//                   WHERE p.id_placa = :id_placa
+//                   """;
+//        
+//        TypedQuery<Vehiculo> query = entityManager.createQuery(jpqlQuery, Vehiculo.class);
+//        query.setParameter("id_placa", placa.getId_placa());
+//        
+//        Vehiculo vehiculoResult = null;
+//        try {
+//            vehiculoResult = query.getSingleResult();
+//        } catch (NoResultException ex){
+//            return null;
+//        }
+//        if (vehiculoResult == null){
+//            return null;
+//        }
+//        entityManager.close();
+//        return vehiculoResult;
+//    }
 
     @Override
     public Placa consultarPlaca(Placa placa) throws PersistenciaException {
@@ -86,7 +86,19 @@ public class PlacasDAO implements IPlacasDAO{
         Root<Placa> placaRoot = criteriaQuery.from(Placa.class);
         
         criteriaQuery.select(placaRoot).where(builder.equal(placaRoot.get("alfanumerico"), placa.getAlfanumerico()));
-        return entityManager.createQuery(criteriaQuery).getSingleResult();
+        
+        Placa placaResult = null;
+        try {
+            placaResult = entityManager.createQuery(criteriaQuery).getSingleResult();
+        } catch (NoResultException ex){
+            return null;
+        }
+        if (placaResult == null){
+            return null;
+        }
+        
+        entityManager.close();
+        return placaResult;
     }
 
     

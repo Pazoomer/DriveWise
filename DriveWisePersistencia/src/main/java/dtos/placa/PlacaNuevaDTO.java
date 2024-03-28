@@ -17,13 +17,7 @@ import mapas.vehiculos.Vehiculo;
 public class PlacaNuevaDTO {
     Calendar fechaEmision; 
     String alfanumerico; 
-    VehiculoConsultableDTO vehiculoUsado;
     VehiculoNuevoDTO vehiculoNuevo;
-
-    public PlacaNuevaDTO(Calendar fechaEmision, VehiculoConsultableDTO vehiculo) {
-        this.fechaEmision = fechaEmision;
-        this.vehiculoUsado = vehiculo;
-    }
     
     public PlacaNuevaDTO(Calendar fechaEmision,  VehiculoNuevoDTO vehiculo) {
         this.fechaEmision = fechaEmision;
@@ -46,16 +40,8 @@ public class PlacaNuevaDTO {
         return alfanumerico;
     }
 
-    public void setVehiculoUsado(VehiculoConsultableDTO vehiculoUsado) {
-        this.vehiculoUsado = vehiculoUsado;
-    }
-
     public void setVehiculoNuevo(VehiculoNuevoDTO vehiculoNuevo) {
         this.vehiculoNuevo = vehiculoNuevo;
-    }
-
-    public VehiculoConsultableDTO getVehiculoUsado() {
-        return vehiculoUsado;
     }
 
     public VehiculoNuevoDTO getVehiculoNuevo() {

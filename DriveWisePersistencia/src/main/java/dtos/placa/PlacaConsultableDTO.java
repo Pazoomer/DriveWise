@@ -4,6 +4,7 @@
  */
 package dtos.placa;
 
+import dtos.vehiculo.VehiculoConsultableDTO;
 import java.util.Calendar;
 import mapas.tramites.Tramite;
 import mapas.vehiculos.Vehiculo;
@@ -16,8 +17,12 @@ public class PlacaConsultableDTO {
     Calendar fechaEmision; 
     String alfanumerico; 
     Boolean activo;
-    Vehiculo vehiculo;
+    VehiculoConsultableDTO vehiculoUsado;
     Tramite tramite;
+    
+    public PlacaConsultableDTO(String alfanumerico){
+        this.alfanumerico = alfanumerico;
+    }
 
     public void setFechaEmision(Calendar fechaEmision) {
         this.fechaEmision = fechaEmision;
@@ -31,8 +36,8 @@ public class PlacaConsultableDTO {
         this.activo = activo;
     }
 
-    public void setVehiculo(Vehiculo vehiculo) {
-        this.vehiculo = vehiculo;
+    public void setVehiculo(VehiculoConsultableDTO vehiculo) {
+        this.vehiculoUsado = vehiculo;
     }
 
     public void setTramite(Tramite tramite) {
@@ -51,8 +56,8 @@ public class PlacaConsultableDTO {
         return activo;
     }
 
-    public Vehiculo getVehiculo() {
-        return vehiculo;
+    public VehiculoConsultableDTO getVehiculo() {
+        return vehiculoUsado;
     }
 
     public Tramite getTramite() {

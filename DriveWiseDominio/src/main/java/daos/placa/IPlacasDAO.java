@@ -46,5 +46,5 @@ public interface IPlacasDAO {
      * @return Vehiculo al que le pertenece la placa
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    Vehiculo consultarVehiculo(Placa placa) throws PersistenciaException;
+//    Vehiculo consultarVehiculo(Placa placa) throws PersistenciaException;
 }
