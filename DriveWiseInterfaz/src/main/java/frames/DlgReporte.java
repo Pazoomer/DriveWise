@@ -4,15 +4,15 @@
  */
 package frames;
 
-//import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfWriter;
 import daos.conexion.IConexionDAO;
 import dtos.persona.PersonaConsultableDTO;
 import dtos.tramite.TramiteConsultableDTO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
 import java.awt.Graphics2D;
-//import com.itextpdf.io.image.ImageDataFactory;
-//import com.itextpdf.text.DocumentException;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.text.DocumentException;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -221,18 +221,18 @@ public class DlgReporte extends javax.swing.JFrame {
         }
     }
 
-//    public static void convertirJFrameAPDF(JFrame frame, String rutaArchivoPDF) throws IOException {
-//        // Capturar la imagen del JFrame
-//        BufferedImage imagen = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_RGB);
-//        Graphics2D graphics2D = imagen.createGraphics();
-//        frame.paint(graphics2D);
-//        graphics2D.dispose();
-//
-//        try {
-//            PdfWriter writer = PdfWriter.getInstance(new com.itextpdf.text.Document(), new FileOutputStream("ReportePDF"));
-//        } catch (DocumentException ex) {
-//            Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+    public static void convertirJFrameAPDF(JFrame frame, String rutaArchivoPDF) throws IOException {
+        // Capturar la imagen del JFrame
+        BufferedImage imagen = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = imagen.createGraphics();
+        frame.paint(graphics2D);
+        graphics2D.dispose();
+
+        try {
+            PdfWriter writer = PdfWriter.getInstance(new com.itextpdf.text.Document(), new FileOutputStream("ReportePDF"));
+        } catch (DocumentException ex) {
+            Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         // Convertir la imagen a un objeto iText Image y agregarla al documento PDF
         //com.itextpdf.layout.element.Image imagenPDF = new com.itextpdf.layout.element.Image(ImageDataFactory.create(imagen, null));
@@ -240,7 +240,7 @@ public class DlgReporte extends javax.swing.JFrame {
 
         // Cerrar el documento
         //pdf.close();
-//    }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
