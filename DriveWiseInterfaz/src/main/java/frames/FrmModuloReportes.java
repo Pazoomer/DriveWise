@@ -6,6 +6,7 @@ package frames;
 
 import daos.conexion.IConexionDAO;
 import dtos.persona.PersonaConsultableDTO;
+import java.util.Calendar;
 
 /**
  *
@@ -14,9 +15,11 @@ import dtos.persona.PersonaConsultableDTO;
 public class FrmModuloReportes extends javax.swing.JFrame {
 
     IConexionDAO conexion;
+    
     public FrmModuloReportes(IConexionDAO conexion) {
         initComponents();
         this.conexion = conexion;
+        
     }
 
     /**
@@ -65,7 +68,7 @@ public class FrmModuloReportes extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(127, 0, 0));
         jLabel6.setText("Filtrar por RFC:");
 
-        cmbOperacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbOperacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No especifico", "Licencias", "Placas" }));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(127, 0, 0));
@@ -120,11 +123,11 @@ public class FrmModuloReportes extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(73, 73, 73)
                         .addComponent(jLabel1)))
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134))
+                .addGap(23, 23, 23))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,32 +151,48 @@ public class FrmModuloReportes extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(55, 55, 55))))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 530));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        buscar();
+        Calendar calDesde = Calendar.getInstance();
+            calDesde.setTime(jdateDesde.getDate());
+            calDesde.set(Calendar.HOUR_OF_DAY, 0);
+            calDesde.set(Calendar.MINUTE, 0);
+            calDesde.set(Calendar.SECOND, 0);
+            calDesde.set(Calendar.MILLISECOND, 0);
+        Calendar calHasta = Calendar.getInstance();
+            calHasta.setTime(jdateHasta.getDate());
+            calHasta.set(Calendar.HOUR_OF_DAY, 0);
+            calHasta.set(Calendar.MINUTE, 0);
+            calHasta.set(Calendar.SECOND, 0);
+            calHasta.set(Calendar.MILLISECOND, 0);
+                    
+        buscar(cmbOperacion.getSelectedIndex(), calDesde, calHasta);
     }//GEN-LAST:event_btnBuscarActionPerformed
-    private void buscar(){
+    private void buscar(int filtro, Calendar desde, Calendar hasta){
         PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRFC.getText());
-        DlgReporte reporte = new DlgReporte(conexion, personaConsultada);
+        DlgReporte reporte = new DlgReporte(conexion, personaConsultada, filtro, desde, hasta);
         reporte.setVisible(true);
-    }
-    
-    private void consultarPersona(){
         
     }
+    
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

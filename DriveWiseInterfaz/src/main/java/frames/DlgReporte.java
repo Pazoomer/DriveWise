@@ -9,6 +9,7 @@ import dtos.persona.PersonaConsultableDTO;
 import dtos.tramite.TramiteConsultableDTO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,10 +28,16 @@ public class DlgReporte extends javax.swing.JFrame {
 
     IConexionDAO conexion;
     PersonaConsultableDTO persona;
-    public DlgReporte(IConexionDAO conexion, PersonaConsultableDTO persona) {
+    private int filtro;
+    Calendar fechaDesde;
+    Calendar fechaHasta;
+    public DlgReporte(IConexionDAO conexion, PersonaConsultableDTO persona, int filtro, Calendar fechaDesde, Calendar fechaHasta) {
         initComponents();
         this.conexion = conexion;
         this.persona =  persona;
+        this.filtro = filtro;
+        this.fechaDesde = fechaDesde;
+        this.fechaHasta = fechaHasta;
         llenarTabla();
     }
 
@@ -150,10 +157,28 @@ public class DlgReporte extends javax.swing.JFrame {
                         + personaux.getApellidopaterno() + " " 
                         + personaux.getApellidoMaterno(),
                     tramite.getTipo(),
-                    tramite.getEmision(),
-                    tramite.getCosto()
+                    tramite.getEmision().get(Calendar.DATE) + "/0" 
+                        + tramite.getEmision().get(Calendar.MONTH) + "/"
+                        + tramite.getEmision().get(Calendar.YEAR)
+                        ,
+                    "$" + tramite.getCosto() + "0"
                 };
-                modelo.addRow(fila);
+                
+                Calendar fechaTramite = Calendar.getInstance();
+                    fechaTramite.set(tramite.getEmision().get(Calendar.YEAR),
+                            tramite.getEmision().get(Calendar.MONTH),
+                            tramite.getEmision().get(Calendar.DATE),0,0);
+
+                if ((fechaTramite.after(fechaDesde) || fechaTramite.equals(fechaDesde))
+                        && (fechaTramite.before(fechaHasta) || fechaTramite.equals(fechaHasta))) {
+                    if (filtro == 1 && tramite.getTipo().equalsIgnoreCase("LICENCIA")) {
+                        modelo.addRow(fila);
+                    } else if(filtro == 2 && tramite.getTipo().equalsIgnoreCase("PLACA")){
+                        modelo.addRow(fila);
+                    } else if (filtro == 0){
+                        modelo.addRow(fila);
+                    }
+                }
             }
             tblTramites.setModel(modelo);
             TableColumnModel columnModel = tblTramites.getColumnModel();
