@@ -143,7 +143,8 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
             rpBO.registrarPlacaNuevo(persona, placaDTO);
             mensajeExito();
         } catch (PersistenciaException ex) {
-            Logger.getLogger(FrmRegPlacasNuevo.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Hubo un error en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
     }
     

@@ -36,6 +36,7 @@ public class PlacasDAO implements IPlacasDAO{
     }
 
     
+    @Override
     public Placa actualizarPlaca(Placa placa) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();
 
