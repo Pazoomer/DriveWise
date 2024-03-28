@@ -48,7 +48,7 @@ public class Placa implements Serializable {
     @Column(name="activo",nullable=false)
     private Boolean activo;
 
-    @ManyToOne (cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "vehiculo_id", nullable = false)
     private Vehiculo vehiculo;
     

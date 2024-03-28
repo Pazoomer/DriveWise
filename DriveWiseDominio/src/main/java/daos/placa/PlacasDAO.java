@@ -35,8 +35,28 @@ public class PlacasDAO implements IPlacasDAO{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    
+    public Placa actualizarPlaca(Placa placa) throws PersistenciaException {
+        EntityManager entityManager = conexion.crearConexion();
+
+        Placa placaActualizada = null;
+
+        // Iniciamos transacción nueva
+        entityManager.getTransaction().begin();
+
+        // Actualiza la entidad Placa en la base de datos
+        placaActualizada = entityManager.merge(placa);
+
+        // Manda los cambios de la transacción
+        entityManager.getTransaction().commit();
+
+        entityManager.close();
+
+        return placaActualizada;
+    }
+    
     @Override
-    public Placa agregarPlaca(Placa placa) throws PersistenciaException {
+    public Placa agregarPlacaUsado(Placa placa) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();
         
         // Iniciamos transacción nueva
@@ -52,31 +72,25 @@ public class PlacasDAO implements IPlacasDAO{
         
         return placa;
     }
-
-//    @Override
-//    public Vehiculo consultarVehiculo(Placa placa) throws PersistenciaException {
-//        EntityManager entityManager = this.conexion.crearConexion();
-//        String jpqlQuery = """
-//                   SELECT v FROM Vehiculo v
-//                   JOIN v.placas p
-//                   WHERE p.id_placa = :id_placa
-//                   """;
-//        
-//        TypedQuery<Vehiculo> query = entityManager.createQuery(jpqlQuery, Vehiculo.class);
-//        query.setParameter("id_placa", placa.getId_placa());
-//        
-//        Vehiculo vehiculoResult = null;
-//        try {
-//            vehiculoResult = query.getSingleResult();
-//        } catch (NoResultException ex){
-//            return null;
-//        }
-//        if (vehiculoResult == null){
-//            return null;
-//        }
-//        entityManager.close();
-//        return vehiculoResult;
-//    }
+    
+    @Override
+    public Placa agregarPlacaNuevo(Placa placa) throws PersistenciaException {
+        EntityManager entityManager = conexion.crearConexion();
+        
+        // Iniciamos transacción nueva
+        entityManager.getTransaction().begin();
+        
+        // Marca la placa nueva para guardarla
+        entityManager.persist(placa);
+        entityManager.persist(placa.getVehiculo());
+        
+        // Manda los cambios de la transacción
+        entityManager.getTransaction().commit();
+        
+        entityManager.close();
+        
+        return placa;
+    }
 
     @Override
     public Placa consultarPlaca(Placa placa) throws PersistenciaException {

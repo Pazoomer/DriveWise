@@ -72,6 +72,11 @@ public class FrmEleccionVehiculo extends javax.swing.JFrame {
         btnVolver.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnVolver.setForeground(new java.awt.Color(255, 255, 255));
         btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 470, 135, 40));
 
         btnNuevo.setBackground(new java.awt.Color(153, 0, 0));
@@ -122,6 +127,16 @@ public class FrmEleccionVehiculo extends javax.swing.JFrame {
     private void btnUsadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsadoActionPerformed
         registroPlacasUsado();
     }//GEN-LAST:event_btnUsadoActionPerformed
+
+    private void volver() {
+        FrmPantallaPrincipal on = new FrmPantallaPrincipal(conexion);
+        on.setVisible(true);
+        this.dispose();
+    }
+    
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        volver();
+    }//GEN-LAST:event_btnVolverActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

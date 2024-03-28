@@ -22,14 +22,28 @@ public interface IPlacasDAO {
     List<Placa> consultarPlacasPorVehiculo(Vehiculo vehiculo) throws PersistenciaException;
 
     /**
-     * Agrega una placa a un vehiculo
+     * Agrega una placa a un vehiculo usado
      * @param placa Placa a agregar (Necesita todos los valores de la placa, excepto recepcion y activa)
      * @return La placa agregada
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    Placa agregarPlaca(Placa placa) throws PersistenciaException;
-
+    public Placa agregarPlacaUsado(Placa placa) throws PersistenciaException;
     
+    /**
+     * Agrega una placa a un vehiculo nuevo
+     * @param placa Placa a agregar (Necesita todos los valores de la placa, excepto recepcion y activa)
+     * @return La placa agregada
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
+    public Placa agregarPlacaNuevo(Placa placa) throws PersistenciaException;
+
+    /**
+     * Actualiza una placa
+     * @param placa Placa a actualizar 
+     * @return La placa actualizada
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     **/
+    public Placa actualizarPlaca(Placa placa) throws PersistenciaException;
     
     /**
      * Consulta una placa

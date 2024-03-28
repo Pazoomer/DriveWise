@@ -96,6 +96,8 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Estas placas no han sido registradas", "No autorizado", JOptionPane.ERROR_MESSAGE);
                 return;
             } else {
+                txtPlacasAntiguas.setEditable(false);
+                btnBuscarAuto.setEnabled(false);
                 lblAutoEncontrado.setVisible(true);
                 lblNumSerie.setVisible(true);
                 lblMarca.setVisible(true);
@@ -199,6 +201,11 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
         btnVolver.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnVolver.setForeground(new java.awt.Color(255, 255, 255));
         btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(57, 449, 135, 47));
 
         txtRfc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -284,6 +291,16 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         registrar();
     }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void volver() {
+        FrmPantallaPrincipal on = new FrmPantallaPrincipal(conexion);
+        on.setVisible(true);
+        this.dispose();
+    }
+    
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        volver();
+    }//GEN-LAST:event_btnVolverActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

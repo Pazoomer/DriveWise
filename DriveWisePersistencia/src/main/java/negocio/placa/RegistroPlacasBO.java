@@ -65,7 +65,7 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
         placa = new Placa(placaDTO.getFechaEmision(), calcularCosto(true), true, vehiculo, tramite);
         placa.setVehiculo(vehiculo);
         tramite.setPlaca(placa);
-        placasDAO.agregarPlaca(placa);
+        placasDAO.agregarPlacaNuevo(placa);
     }
     
     @Override
@@ -82,16 +82,20 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
         //Se crea un trámite con la persona encontrada en la base de datos
         Tramite tramite = new Tramite(personaEncontrada);
         
+        
         // Se creará un objeto Placa con solo el alfanumérico viejo, para luego consultarla en la base de      
         // datos y cambiar su estado a inactiva. Se creará una nueva placa, que se registrará en la base de datos y se establece
         // la fecha de recepción de la anterior
         placa = new Placa(placaDTO.getAlfanumerico());
-            placasDAO.consultarPlaca(placa).setActivo(false);
-            placasDAO.consultarPlaca(placa).setRecepcion(Calendar.getInstance());
-            Placa nuevaPlaca = new Placa(Calendar.getInstance(), calcularCosto(false), true, placasDAO.consultarPlaca(placa).getVehiculo(), tramite);
-            placa.setVehiculo(placasDAO.consultarPlaca(placa).getVehiculo());
-            tramite.setPlaca(nuevaPlaca);
-            placasDAO.agregarPlaca(nuevaPlaca);
+        Placa placaExistente = placasDAO.consultarPlaca(placa);
+        Vehiculo vehiculoExistente = placaExistente.getVehiculo();
+        placaExistente.setActivo(false);
+        placaExistente.setRecepcion(Calendar.getInstance());
+        placasDAO.actualizarPlaca(placaExistente);
+        Placa nuevaPlaca = new Placa(Calendar.getInstance(), calcularCosto(false), true, vehiculoExistente, tramite);
+        placa.setVehiculo(placasDAO.consultarPlaca(placa).getVehiculo());
+        tramite.setPlaca(nuevaPlaca);
+        placasDAO.agregarPlacaUsado(nuevaPlaca);
     }
     
     private float calcularCosto(boolean esNuevo){

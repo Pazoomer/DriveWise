@@ -62,34 +62,37 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
         return true;
     }
     
-    private void verificarCampos() {
+    private boolean verificarCampos() {
+        lblErrorNumSerie.setForeground(Color.BLACK);
+        lblErrorMarca.setVisible(false);
+        lblErrorLinea.setVisible(false);
+        lblErrorColor.setVisible(false);
+        lblErrorModelo.setVisible(false);
         if (txtNumSerie.getText().isBlank()
                 || txtNumSerie.getText().isEmpty() || txtMarca.getText().isBlank() || txtMarca.getText().isEmpty()
                 || txtLinea.getText().isBlank() || txtLinea.getText().isEmpty() || txtColor.getText().isBlank()
                 || txtColor.getText().isEmpty() || txtModelo.getText().isBlank() || txtModelo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Llene todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (!validadores.validarNumSerie(txtNumSerie.getText())){
-            JOptionPane.showMessageDialog(this, "Ingrese el número de serie con el formato indicado", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (!validadores.validarString(txtNumSerie.getText())){
+            return false;
+        } else if (!validadores.validarNumSerie(txtNumSerie.getText())) {
             lblErrorNumSerie.setForeground(Color.RED);
-            return;
-        } else if(!validadores.validarString(txtMarca.getText())){
+            return false;
+        } else if (!validadores.validarString(txtMarca.getText())) {
             lblErrorMarca.setVisible(true);
-            return;
-        } else if(!validadores.validarString(txtLinea.getText())){
+            return false;
+        } else if (!validadores.validarString(txtLinea.getText())) {
             lblErrorLinea.setVisible(true);
-            return;
-        } else if(!validadores.validarString(txtColor.getText())){
+            return false;
+        } else if (!validadores.validarString(txtColor.getText())) {
             lblErrorColor.setVisible(true);
-            return;
-        } else if(!validadores.validarString(txtModelo.getText())){
+            return false;
+        } else if (!validadores.validarString(txtModelo.getText())) {
             lblErrorModelo.setVisible(true);
-            return;
+            return false;
         }
+        return true;
     }
-    
+
     private void validarLicencia(){
         if (verificarRfc()) {
             IBuscarLicenciaValidaBO blvBO = new BuscarLicenciaValidaBO(conexion);
@@ -125,12 +128,14 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
             return;
         }
     }
-    
-    private void registrar(){
-        verificarCampos();
+
+    private void registrar() {
+        if (!verificarCampos()) {
+            return;
+        }
         IRegistroPlacasBO rpBO = new RegistroPlacasBO(this.conexion);
         Calendar calendarPlaca = Calendar.getInstance();
-        
+
         VehiculoNuevoDTO vehiculo = new VehiculoNuevoDTO(txtNumSerie.getText(), txtMarca.getText(), txtLinea.getText(), txtColor.getText(), txtModelo.getText());
         
         PlacaNuevaDTO placaDTO = new PlacaNuevaDTO(calendarPlaca, vehiculo);
@@ -146,7 +151,7 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
      * Muestra la pantalla de licencia agregada con exito
      */
     private void mensajeExito() {
-        JOptionPane.showMessageDialog(this, "Licencia añadida con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Placa añadida con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -208,6 +213,11 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
         btnVolver.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnVolver.setForeground(new java.awt.Color(255, 255, 255));
         btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 470, 135, 40));
 
         txtNumSerie.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -321,6 +331,16 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         registrar();
     }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void volver() {
+        FrmPantallaPrincipal on = new FrmPantallaPrincipal(conexion);
+        on.setVisible(true);
+        this.dispose();
+    }
+    
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        volver();
+    }//GEN-LAST:event_btnVolverActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
