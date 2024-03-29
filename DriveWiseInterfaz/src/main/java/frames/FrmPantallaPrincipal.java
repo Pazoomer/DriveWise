@@ -97,7 +97,6 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         btnModulodeReportes = new javax.swing.JButton();
         btnModuloLicencias = new javax.swing.JButton();
         btnModuloPlacas = new javax.swing.JButton();
-        btnCambioPlacas = new javax.swing.JButton();
         btnModuloConsultas = new javax.swing.JButton();
         btnInsercionMasiva = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -112,7 +111,7 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
                 btnModulodeReportesActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModulodeReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 400, 60));
+        getContentPane().add(btnModulodeReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 370, 400, 60));
 
         btnModuloLicencias.setBorder(null);
         btnModuloLicencias.setContentAreaFilled(false);
@@ -132,15 +131,6 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         });
         getContentPane().add(btnModuloPlacas, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 400, 60));
 
-        btnCambioPlacas.setBorder(null);
-        btnCambioPlacas.setContentAreaFilled(false);
-        btnCambioPlacas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCambioPlacasActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnCambioPlacas, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 400, 60));
-
         btnModuloConsultas.setBorder(null);
         btnModuloConsultas.setContentAreaFilled(false);
         btnModuloConsultas.addActionListener(new java.awt.event.ActionListener() {
@@ -148,7 +138,7 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
                 btnModuloConsultasActionPerformed(evt);
             }
         });
-        getContentPane().add(btnModuloConsultas, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 370, 400, 60));
+        getContentPane().add(btnModuloConsultas, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 400, 60));
 
         btnInsercionMasiva.setBorder(null);
         btnInsercionMasiva.setContentAreaFilled(false);
@@ -157,9 +147,9 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
                 btnInsercionMasivaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 70, 210, 50));
+        getContentPane().add(btnInsercionMasiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 390, 50));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PantallaPrincipa.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/FrmPantallaPrincipal.jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, -1));
 
         pack();
@@ -178,10 +168,6 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
          moduloPlacas();
     }//GEN-LAST:event_btnModuloPlacasActionPerformed
 
-    private void btnCambioPlacasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambioPlacasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCambioPlacasActionPerformed
-
     private void btnModuloConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModuloConsultasActionPerformed
        moduloConsultas();
     }//GEN-LAST:event_btnModuloConsultasActionPerformed
@@ -191,7 +177,6 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInsercionMasivaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCambioPlacas;
     private javax.swing.JButton btnInsercionMasiva;
     private javax.swing.JButton btnModuloConsultas;
     private javax.swing.JButton btnModuloLicencias;
