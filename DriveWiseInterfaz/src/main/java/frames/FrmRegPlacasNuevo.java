@@ -10,6 +10,7 @@ import dtos.placa.PlacaNuevaDTO;
 import dtos.vehiculo.VehiculoConsultableDTO;
 import dtos.vehiculo.VehiculoNuevoDTO;
 import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
 import java.awt.Color;
 import java.awt.Component;
 import java.security.NoSuchAlgorithmException;
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import negocio.licencia.RegistroLicenciasBO;
 import negocio.persona.BuscarLicenciaValidaBO;
 import negocio.persona.IBuscarLicenciaValidaBO;
 import negocio.placa.IRegistroPlacasBO;
@@ -34,7 +36,7 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
     IConexionDAO conexion;
     Validadores validadores = new Validadores();
     PersonaConsultableDTO persona;
-    
+
     /**
      * Creates new form FrmRegPlacasNuevo
      */
@@ -53,15 +55,35 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
         lblRfc.setVisible(true);
         txtRfc.setVisible(true);
 
-        }
-   
-    private boolean verificarRfc(){
-        if (txtRfc.getText().isBlank() || txtRfc.getText().isEmpty()){
+    }
+    /**
+     * Método que verifica primero que el campo de textoRfc no esté vacio,
+     * posteriormente verifica que el RFC sea uno registrado en la BD.
+     * @return valor booleano.
+     */
+    private boolean verificarRfc() {
+
+        if (txtRfc.getText().isBlank() || txtRfc.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Indique un rfc", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
+        }
+        PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRfc.getText());
+        try {
+            RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
+            PersonaConsultableDTO personaux = buscar.buscarPersonaRfc(personaConsultada);
+            if (personaux == null) {
+                JOptionPane.showMessageDialog(this, "Persona no encontrada", "Persona desconocida", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidacionException ex) {
+            Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
         }
         return true;
     }
-    
+
     private boolean verificarCampos() {
         lblErrorNumSerie.setForeground(Color.BLACK);
         lblErrorMarca.setVisible(false);
@@ -93,13 +115,13 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
         return true;
     }
 
-    private void validarLicencia(){
+    private void validarLicencia() {
         if (verificarRfc()) {
             IBuscarLicenciaValidaBO blvBO = new BuscarLicenciaValidaBO(conexion);
             persona = new PersonaConsultableDTO(txtRfc.getText());
-            
+
             try {
-                if (blvBO.validarLicencia(persona)){
+                if (blvBO.validarLicencia(persona)) {
                     txtRfc.setEditable(false);
                     btnValidarLicencia.setBackground(Color.GREEN);
                     btnValidarLicencia.setEnabled(false);
@@ -120,11 +142,11 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Debe tener una licencia vigente", "No autorizado", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-            } catch (PersistenciaException ex){
+            } catch (PersistenciaException ex) {
                 Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Indique un rfc", "Error", JOptionPane.ERROR_MESSAGE);
+            
             return;
         }
     }
@@ -137,7 +159,7 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
         Calendar calendarPlaca = Calendar.getInstance();
 
         VehiculoNuevoDTO vehiculo = new VehiculoNuevoDTO(txtNumSerie.getText(), txtMarca.getText(), txtLinea.getText(), txtColor.getText(), txtModelo.getText());
-        
+
         PlacaNuevaDTO placaDTO = new PlacaNuevaDTO(calendarPlaca, vehiculo);
         try {
             rpBO.registrarPlacaNuevo(persona, placaDTO);
@@ -147,7 +169,7 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
             return;
         }
     }
-    
+
     /**
      * Muestra la pantalla de licencia agregada con exito
      */
@@ -321,12 +343,12 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
+
     private void btnValidarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarLicenciaActionPerformed
-       validarLicencia();
+        validarLicencia();
     }//GEN-LAST:event_btnValidarLicenciaActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
@@ -338,7 +360,7 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
         on.setVisible(true);
         this.dispose();
     }
-    
+
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         volver();
     }//GEN-LAST:event_btnVolverActionPerformed

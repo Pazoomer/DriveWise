@@ -197,7 +197,7 @@ public class FrmModuloReportes extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if (validarDatos()) {
 
@@ -225,6 +225,16 @@ public class FrmModuloReportes extends javax.swing.JFrame {
     private void cmbOperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbOperacionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbOperacionActionPerformed
+    
+    /**
+     * Método que nos ayuda a realizar la busqueda de la persona a partir de un rango de fechas
+     * y el RFC de una persona vigente, si el RFC no es vigente lanzará unJOPtionPane que indicará 
+     * dicho error, recibe un filtro, dependiendo del tipo de tramite, se hará la busqueda.
+     * 
+     * @param filtro Tramite
+     * @param desde fecha comienzo
+     * @param hasta fecha final
+     */
     private void buscar(int filtro, Calendar desde, Calendar hasta) {
         PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRFC.getText());
         try {
@@ -247,14 +257,18 @@ public class FrmModuloReportes extends javax.swing.JFrame {
     }
 
     /**
-     * Abre la pantalla modulo de consultas y cierra esta
+     * Abre la pantalla principal y cierra esta.
      */
     private void pantallaPrincipal() {
         FrmPantallaPrincipal on = new FrmPantallaPrincipal(conexion);
         on.setVisible(true);
         this.dispose();
     }
-
+    
+    /**
+     * Método que nos ayuda a validar que los campos de texto no esten en blanco.
+     * @return valor booleano.
+     */
     private boolean validarDatos() {
         if (txtRFC.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Indique un RFC", "Error en el campo de texto", JOptionPane.ERROR_MESSAGE);

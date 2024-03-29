@@ -10,11 +10,13 @@ import dtos.placa.PlacaConsultableDTO;
 import dtos.placa.PlacaNuevaDTO;
 import dtos.vehiculo.VehiculoConsultableDTO;
 import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
 import java.awt.Color;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import negocio.licencia.RegistroLicenciasBO;
 import negocio.persona.BuscarLicenciaValidaBO;
 import negocio.persona.IBuscarLicenciaValidaBO;
 import negocio.placa.ConsultaVehiculoBO;
@@ -33,7 +35,7 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
     IConexionDAO conexion;
     Validadores validadores = new Validadores();
     PersonaConsultableDTO persona;
-    
+
     /**
      * Creates new form FrmRegPlacasUsadas
      */
@@ -52,20 +54,41 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
         btnBuscarAuto.setVisible(false);
     }
     
-    private boolean verificarRfc(){
-        if (txtRfc.getText().isBlank() || txtRfc.getText().isEmpty()){
+    /**
+     * Método que verifica primero que el campo de textoRfc no esté vacio,
+     * posteriormente verifica que el RFC sea uno registrado en la BD.
+     * @return valor booleano.
+     */
+    private boolean verificarRfc() {
+
+        if (txtRfc.getText().isBlank() || txtRfc.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Indique un rfc", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
+        }
+        PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRfc.getText());
+        try {
+            RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
+            PersonaConsultableDTO personaux = buscar.buscarPersonaRfc(personaConsultada);
+            if (personaux == null) {
+                JOptionPane.showMessageDialog(this, "Persona no encontrada", "Persona desconocida", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidacionException ex) {
+            Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
         }
         return true;
     }
 
-    private void validarLicencia(){
+    private void validarLicencia() {
         if (verificarRfc()) {
             IBuscarLicenciaValidaBO blvBO = new BuscarLicenciaValidaBO(conexion);
             persona = new PersonaConsultableDTO(txtRfc.getText());
-            
+
             try {
-                if (blvBO.validarLicencia(persona)){
+                if (blvBO.validarLicencia(persona)) {
                     txtRfc.setEditable(false);
                     btnValidarLicencia.setBackground(Color.GREEN);
                     btnValidarLicencia.setEnabled(false);
@@ -78,21 +101,21 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Debe tener una licencia vigente", "No autorizado", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-            } catch (PersistenciaException ex){
+            } catch (PersistenciaException ex) {
                 Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Indique un rfc", "Error", JOptionPane.ERROR_MESSAGE);
+            
             return;
         }
     }
 
-    private void buscarAuto(){
+    private void buscarAuto() {
         PlacaConsultableDTO placaDTO = new PlacaConsultableDTO(txtPlacasAntiguas.getText());
         IConsultaVehiculoBO cvBO = new ConsultaVehiculoBO(this.conexion);
         try {
             vehiculoDTO = cvBO.consultarVehiculo(placaDTO);
-            if (vehiculoDTO == null){
+            if (vehiculoDTO == null) {
                 JOptionPane.showMessageDialog(this, "Estas placas no han sido registradas", "No autorizado", JOptionPane.ERROR_MESSAGE);
                 return;
             } else {
@@ -113,18 +136,18 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
             Logger.getLogger(FrmRegPlacasUsado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * Muestra la pantalla de licencia agregada con exito
      */
     private void mensajeExito() {
         JOptionPane.showMessageDialog(this, "Placa añadida con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
-    
-    private void registrar(){
+
+    private void registrar() {
         IRegistroPlacasBO rpBO = new RegistroPlacasBO(this.conexion);
         Calendar calendarPlaca = Calendar.getInstance();
-                
+
         PlacaConsultableDTO placaDTO = new PlacaConsultableDTO(txtPlacasAntiguas.getText());
         try {
             rpBO.registrarPlacasUsado(persona, placaDTO);
@@ -133,7 +156,7 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
             Logger.getLogger(FrmRegPlacasNuevo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -278,6 +301,7 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 530));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarAutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarAutoActionPerformed
@@ -297,7 +321,7 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
         on.setVisible(true);
         this.dispose();
     }
-    
+
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         volver();
     }//GEN-LAST:event_btnVolverActionPerformed
