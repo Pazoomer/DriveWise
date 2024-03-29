@@ -65,21 +65,22 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
         Persona persona = new Persona(personaDTO.getRfc());
         Persona personaEncontrada= personasDAO.consultarPersonaPorRfc(persona);
-        
+        personasDAO.consultarPersonaPorRfc(persona);
         if (personaEncontrada== null){
             return null;
         }
         
+        //En reparacion...
         //Coloca el telefono cifrado a la persona
         String telefono;
-        try {
-            telefono = Cifrado.descifrarCadena(personaEncontrada.getTelefono(),personaEncontrada.getSal());
-        } catch (Exception ex) {
-            throw new ValidacionException(ex);
+        //try {
+          //  telefono = Cifrado.descifrarCadena(personaEncontrada.getTelefono(),personaEncontrada.getSal());
+        //} catch (Exception ex) {
+          //  throw new ValidacionException(ex);
             
-        }
+        //}
 
-        PersonaConsultableDTO personaEnviadaDTO = new PersonaConsultableDTO(personaEncontrada.getNombre(), personaEncontrada.getApellidoPaterno(), personaEncontrada.getApellidoMaterno(), personaEncontrada.getRfc(),telefono, personaEncontrada.getNacimiento(), personaEncontrada.getDiscapacitado());
+        PersonaConsultableDTO personaEnviadaDTO = new PersonaConsultableDTO(personaEncontrada.getNombre(), personaEncontrada.getApellidoPaterno(), personaEncontrada.getApellidoMaterno(), personaEncontrada.getRfc(), personaEncontrada.getNacimiento(), personaEncontrada.getDiscapacitado());
         
         return personaEnviadaDTO;
     }

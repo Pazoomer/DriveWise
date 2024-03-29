@@ -6,8 +6,13 @@ package frames;
 
 import daos.conexion.IConexionDAO;
 import dtos.persona.PersonaConsultableDTO;
+import excepciones.PersistenciaException;
+import excepciones.ValidacionException;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import negocio.licencia.RegistroLicenciasBO;
 
 /**
  *
@@ -16,13 +21,13 @@ import javax.swing.JOptionPane;
 public class FrmModuloReportes extends javax.swing.JFrame {
 
     IConexionDAO conexion;
-    
+
     public FrmModuloReportes(IConexionDAO conexion) {
         initComponents();
         this.conexion = conexion;
-        
+
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -92,7 +97,7 @@ public class FrmModuloReportes extends javax.swing.JFrame {
         btnVolver.setBackground(new java.awt.Color(204, 0, 0));
         btnVolver.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnVolver.setForeground(new java.awt.Color(255, 255, 255));
-        btnVolver.setText("Buscar");
+        btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverActionPerformed(evt);
@@ -194,42 +199,75 @@ public class FrmModuloReportes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if (!(txtRFC.getText().isBlank())) {
-        Calendar calDesde = Calendar.getInstance();
+        if (validarDatos()) {
+
+            Calendar calDesde = Calendar.getInstance();
             calDesde.setTime(jdateDesde.getDate());
             calDesde.set(Calendar.HOUR_OF_DAY, 0);
             calDesde.set(Calendar.MINUTE, 0);
             calDesde.set(Calendar.SECOND, 0);
             calDesde.set(Calendar.MILLISECOND, 0);
-        Calendar calHasta = Calendar.getInstance();
+            Calendar calHasta = Calendar.getInstance();
             calHasta.setTime(jdateHasta.getDate());
             calHasta.set(Calendar.HOUR_OF_DAY, 0);
             calHasta.set(Calendar.MINUTE, 0);
             calHasta.set(Calendar.SECOND, 0);
             calHasta.set(Calendar.MILLISECOND, 0);
-                    
-        buscar(cmbOperacion.getSelectedIndex(), calDesde, calHasta);
-        } else{
-            JOptionPane error = new JOptionPane("Campos vacios", JOptionPane.ERROR_MESSAGE);   
+
+            buscar(cmbOperacion.getSelectedIndex(), calDesde, calHasta);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // TODO add your handling code here:
+        pantallaPrincipal();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void cmbOperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbOperacionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbOperacionActionPerformed
-    private void buscar(int filtro, Calendar desde, Calendar hasta){
+    private void buscar(int filtro, Calendar desde, Calendar hasta) {
         PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRFC.getText());
-        DlgReporte reporte = new DlgReporte(conexion, personaConsultada, filtro, desde, hasta);
-        reporte.setVisible(true);
-        
+        try {
+            RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
+            PersonaConsultableDTO personaux = buscar.buscarPersonaRfc(personaConsultada);
+            if (personaux == null) {
+                JOptionPane.showMessageDialog(this, "Persona no encontrada", "Persona desconocida", JOptionPane.ERROR_MESSAGE);
+  
+            } else {
+                DlgReporte reporte = new DlgReporte(conexion, personaConsultada, filtro, desde, hasta);
+                reporte.setVisible(true);
+                
+            }
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidacionException ex) {
+            Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
-    
-    
+
+    /**
+     * Abre la pantalla modulo de consultas y cierra esta
+     */
+    private void pantallaPrincipal() {
+        FrmPantallaPrincipal on = new FrmPantallaPrincipal(conexion);
+        on.setVisible(true);
+        this.dispose();
+    }
+
+    private boolean validarDatos() {
+        if (txtRFC.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Indique un RFC", "Error en el campo de texto", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            if (jdateDesde.getDate() == null || jdateHasta.getDate() == null) {
+                JOptionPane.showMessageDialog(this, "Seleccione un rango de fechas", "Error en el campo fechas", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return true;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnVolver;

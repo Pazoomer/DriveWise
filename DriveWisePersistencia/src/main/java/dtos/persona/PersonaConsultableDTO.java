@@ -49,6 +49,27 @@ public class PersonaConsultableDTO {
         this.nacimiento = nacimiento;
         this.discapacitado = discapacitado;
     }
+    
+    
+    /**
+     * Constructor con todos los atributos excepto el telefono
+     * @param nombre
+     * @param apellidoMaterno
+     * @param apellidopaterno
+     * @param rfc
+     * @param telefono
+     * @param nacimiento
+     * @param discapacitado
+     */
+    public PersonaConsultableDTO(String nombre, String apellidoMaterno, String apellidopaterno, String rfc, Calendar nacimiento, Boolean discapacitado) {
+        this.nombre = nombre;
+        this.apellidoMaterno = apellidoMaterno;
+        this.apellidopaterno = apellidopaterno;
+        this.rfc = rfc;
+        this.telefono = telefono;
+        this.nacimiento = nacimiento;
+        this.discapacitado = discapacitado;
+    }
 
     public PersonaConsultableDTO(String nombre, String rfc, Calendar nacimiento) {
         this.nombre = nombre;
