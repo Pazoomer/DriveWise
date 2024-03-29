@@ -47,14 +47,22 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         }
         return true;
     }
-
+    
+    /**
+     * Método para comprobar que los campos no esten vacios o en blanco.
+     * @return valor booleano.
+     */
     private boolean verificarCampos() {
         if (txtRFC.getText().isEmpty() || txtFechaNac.getText().isEmpty() || txtAmaterno.getText().isEmpty() || txtApaterno.getText().isEmpty() || txtNombre.getText().isEmpty()) {
             return true;
         }
         return false;
     }
-
+    
+    /**
+     * Este metodo ayuda a buscar a una persona en base a su RFC, ademas de validar
+     * si esta persona realmente existe en la base de datos.
+     */
     private void buscar() {
         if (verificarRFC()) {
             cmbVigencia.setVisible(true);
@@ -107,7 +115,9 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     }
     
     
-
+    /**
+     * Método para registrar una nueva licencia
+     */
     private void registrar() {
         try {
             if (verificarCampos()) {
@@ -161,6 +171,11 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtTelefono.setOpaque(true);
+        txtTelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelefonoActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 370, 210, -1));
 
         txtVigencia.setEditable(false);
@@ -306,6 +321,10 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         float costo = registroLicenciasBO.calcularCosto(cmbVigencia.getSelectedIndex(), persona.getDiscapacitado());
         lblCosto.setText("Costo: $" + costo);  
     }//GEN-LAST:event_cmbVigenciaActionPerformed
+
+    private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelefonoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

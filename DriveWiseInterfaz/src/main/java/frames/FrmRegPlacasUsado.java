@@ -53,10 +53,11 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
         btnConfirmar.setVisible(false);
         btnBuscarAuto.setVisible(false);
     }
-    
+
     /**
      * Método que verifica primero que el campo de textoRfc no esté vacio,
      * posteriormente verifica que el RFC sea uno registrado en la BD.
+     *
      * @return valor booleano.
      */
     private boolean verificarRfc() {
@@ -82,6 +83,11 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
         return true;
     }
 
+    /**
+     * Método que nos ayuda a validar una licencia, comprueba si esta es vigente
+     * o no, si no se encuentra vigente, lanzá un JOptionPane indicando dicho
+     * error.
+     */
     private void validarLicencia() {
         if (verificarRfc()) {
             IBuscarLicenciaValidaBO blvBO = new BuscarLicenciaValidaBO(conexion);
@@ -105,11 +111,14 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
                 Logger.getLogger(FrmModuloLicencias.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            
+
             return;
         }
     }
 
+    /**
+     * Método para buscar un automovil en base a sus placas.
+     */
     private void buscarAuto() {
         PlacaConsultableDTO placaDTO = new PlacaConsultableDTO(txtPlacasAntiguas.getText());
         IConsultaVehiculoBO cvBO = new ConsultaVehiculoBO(this.conexion);

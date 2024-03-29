@@ -47,7 +47,16 @@ public class DlgReporte extends javax.swing.JFrame {
     Calendar fechaDesde;
     Calendar fechaHasta;
     
-    
+    /**
+     * Constructor de la clase DlgReporte que inicializa los atributos de la clase
+     * a los establecidos en los parametros.
+     * 
+     * @param conexion conexion
+     * @param persona persona
+     * @param filtro filtro
+     * @param fechaDesde fechaDesde
+     * @param fechaHasta fechaHasta
+     */
     public DlgReporte(IConexionDAO conexion, PersonaConsultableDTO persona, int filtro, Calendar fechaDesde, Calendar fechaHasta) {
         initComponents();
         this.conexion = conexion;
@@ -60,6 +69,9 @@ public class DlgReporte extends javax.swing.JFrame {
         llenarTabla();
     }
     
+    /**
+     * Método para establecer la fecha en el dlg actual.
+     */
     private void obtenerFechaYFormato() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
@@ -67,6 +79,10 @@ public class DlgReporte extends javax.swing.JFrame {
         this.lblFecha.setText(fechaFormateada);
     }
     
+    /**
+     * Método para establecer el nombre de la persona quien posee los tramites
+     * mostrados.
+     */
     private void establecerNombre(){
         RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
         try {
@@ -81,6 +97,9 @@ public class DlgReporte extends javax.swing.JFrame {
         
     }
     
+    /**
+     * Método para convertir a pdf.
+     */
     private void convertir() {
         try {
             String rutaArchivoPDF = obtenerRutaDescargas() + File.separator + "informe.pdf";
@@ -93,8 +112,11 @@ public class DlgReporte extends javax.swing.JFrame {
         }
     }                                        
 
-    // Otros métodos y variables de la clase
-
+    
+    /**
+     * Método para acceder a la ruta de descargas del usuario.
+     * @return 
+     */
     public static String obtenerRutaDescargas() {
         String rutaDescargas = System.getProperty("user.home") + File.separator + "Downloads";
         return rutaDescargas;
@@ -112,7 +134,13 @@ public class DlgReporte extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-
+    
+    /**
+     * Método para exportar un pdf.
+     * @param rutaArchivoPDF
+     * @throws IOException
+     * @throws DocumentException 
+     */
     public void exportarPDF(String rutaArchivoPDF) throws IOException, DocumentException {
         // Crear un documento PDF
         Document documento = new Document();
@@ -304,6 +332,9 @@ public class DlgReporte extends javax.swing.JFrame {
         convertir();
         
     }//GEN-LAST:event_btnPdfActionPerformed
+    /**
+     * Método para llenar la tabla a partir de los tramites que tenga una persona.
+     */
     private void llenarTabla() {
         IConsultarTramitesBO consultarTramitesBO = new ConsultarTramitesBO(conexion);
         List<TramiteConsultableDTO> tramites = new LinkedList<>();

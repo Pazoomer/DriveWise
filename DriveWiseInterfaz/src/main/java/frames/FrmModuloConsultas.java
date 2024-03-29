@@ -87,7 +87,12 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
         titulo=titulo.concat(campo);
         abrirResultados(personas);
     }
-
+    
+    /**
+     * Abre un nuevo frame y cierra este, este nuevo frame contendrá una tabla
+     * con las personas coincidentes.
+     * @param personas lista de personas coincidentes
+     */
     private void abrirResultados(List<PersonaConsultableDTO> personas) {
         FrmModuloConsultasResultados on = new FrmModuloConsultasResultados(conexion, personas,titulo);
         on.setVisible(true);

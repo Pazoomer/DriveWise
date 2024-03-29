@@ -83,7 +83,11 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
         }
         return true;
     }
-
+    
+    /**
+     * Método que verifica que todos los campos esten llenos.
+     * @return verdadero si estan llenos, falso en caso contrario.
+     */
     private boolean verificarCampos() {
         lblErrorNumSerie.setForeground(Color.BLACK);
         lblErrorMarca.setVisible(false);
@@ -114,7 +118,11 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
         }
         return true;
     }
-
+    
+    /**
+     * Método que nos ayuda a validar una licencia, comprueba si esta es vigente o no,
+     * si no se encuentra vigente, lanzá un JOptionPane indicando dicho error.
+     */
     private void validarLicencia() {
         if (verificarRfc()) {
             IBuscarLicenciaValidaBO blvBO = new BuscarLicenciaValidaBO(conexion);

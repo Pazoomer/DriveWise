@@ -107,19 +107,33 @@ public class FrmEleccionVehiculo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    /**
+     * Abre la pantalla Registro placas usado y cierra esta
+     */
     private void registroPlacasUsado(){
         FrmRegPlacasUsado on = new FrmRegPlacasUsado(conexion);
         on.setVisible(true);
         this.dispose();
     }
     
+    /**
+     * Abre la pantalla Registro placas nuevo y cierra esta
+     */
     private void registroPlacasNuevo(){
         FrmRegPlacasNuevo on = new FrmRegPlacasNuevo(conexion);
         on.setVisible(true);
         this.dispose();
     }
     
+    /**
+     * Abre la pantalla principal y cierra esta
+     */
+    private void volver() {
+        FrmPantallaPrincipal on = new FrmPantallaPrincipal(conexion);
+        on.setVisible(true);
+        this.dispose();
+    }
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         registroPlacasNuevo();
     }//GEN-LAST:event_btnNuevoActionPerformed
@@ -127,12 +141,6 @@ public class FrmEleccionVehiculo extends javax.swing.JFrame {
     private void btnUsadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsadoActionPerformed
         registroPlacasUsado();
     }//GEN-LAST:event_btnUsadoActionPerformed
-
-    private void volver() {
-        FrmPantallaPrincipal on = new FrmPantallaPrincipal(conexion);
-        on.setVisible(true);
-        this.dispose();
-    }
     
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         volver();
