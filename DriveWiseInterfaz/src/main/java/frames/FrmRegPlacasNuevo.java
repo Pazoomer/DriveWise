@@ -185,9 +185,12 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
         }
         VehiculoNuevoDTO vehiculo = new VehiculoNuevoDTO(txtNumSerie.getText(), txtMarca.getText(), txtLinea.getText(), txtColor.getText(), txtModelo.getText());
         PlacaNuevaDTO placaNuevaDTO = new PlacaNuevaDTO(calendarPlaca, vehiculo);
+        PlacaNuevaDTO placaCreada;
         try {
-            rpBO.registrarPlacaNuevo(persona, placaNuevaDTO);
+            placaCreada=rpBO.registrarPlacaNuevo(persona, placaNuevaDTO);
             mensajeExito();
+            JOptionPane.showMessageDialog(this, "La nueva placa es "+placaCreada.getAlfanumerico(), "Exito", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (PersistenciaException ex) {
             JOptionPane.showMessageDialog(this, "Hubo un error en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
             return;

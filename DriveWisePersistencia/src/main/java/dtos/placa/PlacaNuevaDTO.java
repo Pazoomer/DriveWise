@@ -18,6 +18,10 @@ public class PlacaNuevaDTO {
     Calendar fechaEmision; 
     String alfanumerico; 
     VehiculoNuevoDTO vehiculoNuevo;
+
+    public PlacaNuevaDTO(String alfanumerico) {
+        this.alfanumerico = alfanumerico;
+    }
     
     public PlacaNuevaDTO(Calendar fechaEmision,  VehiculoNuevoDTO vehiculo) {
         this.fechaEmision = fechaEmision;

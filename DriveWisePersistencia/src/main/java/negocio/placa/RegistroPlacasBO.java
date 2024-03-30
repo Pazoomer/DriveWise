@@ -42,10 +42,11 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
      * Se registra la placa de un vehículo enviandola a la base de datos
      * @param personaDTO
      * @param placaDTO Placa de un vehículo
+     * @return 
      * @throws PersistenciaException 
      */
     @Override
-    public void registrarPlacaNuevo(PersonaConsultableDTO personaDTO, PlacaNuevaDTO placaDTO) throws PersistenciaException {
+    public PlacaNuevaDTO registrarPlacaNuevo(PersonaConsultableDTO personaDTO, PlacaNuevaDTO placaDTO) throws PersistenciaException {
         // Se crean instancias de Vehiculo y Placa
         Vehiculo vehiculo = null;
         Placa placa = null;
@@ -66,6 +67,9 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
         placa.setVehiculo(vehiculo);
         tramite.setPlaca(placa);
         placasDAO.agregarPlacaNuevo(placa);
+        
+        PlacaNuevaDTO placaNueva=new PlacaNuevaDTO(placa.getAlfanumerico());
+        return placaNueva;
     }
     
     @Override

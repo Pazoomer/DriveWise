@@ -13,7 +13,7 @@ import mapas.vehiculos.Vehiculo;
  * @author JoseH
  */
 public interface IRegistroPlacasBO {
-    public void registrarPlacaNuevo(PersonaConsultableDTO personaDTO, PlacaNuevaDTO placaDTO) throws PersistenciaException;
+    public PlacaNuevaDTO registrarPlacaNuevo(PersonaConsultableDTO personaDTO, PlacaNuevaDTO placaDTO) throws PersistenciaException;
     
     public void registrarPlacasUsado(PersonaConsultableDTO personaDTO, PlacaConsultableDTO placaDTO) throws PersistenciaException;
     
