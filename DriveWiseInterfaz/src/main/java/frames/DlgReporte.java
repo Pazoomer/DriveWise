@@ -339,13 +339,13 @@ public class DlgReporte extends javax.swing.JFrame {
             try {
                 //Buscar tramites de la persona, en caso de fechas no ser nulas se aplica un filtro
                 
-                //if (fechaDesde != null && fechaHasta != null) {
-                  //  tramites = consultarTramitesBO.consultarTramitePorFiltro(persona, fechaDesde, fechaHasta);
+                if (fechaDesde != null && fechaHasta != null) {
+                    tramites = consultarTramitesBO.consultarTramitePorFiltro(persona, fechaDesde, fechaHasta);
                     
-                //} else{
+                } else{
                     tramites = consultarTramitesBO.consultarTramitePorPersona(persona);
                     
-                //}
+                }
                 
                 for (TramiteConsultableDTO tramite : tramites) {
                     int mes = tramite.getEmision().get(Calendar.MONTH) + 1;

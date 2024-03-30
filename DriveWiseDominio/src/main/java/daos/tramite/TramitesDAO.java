@@ -38,7 +38,7 @@ public class TramitesDAO implements ITramitesDAO {
     public List<Tramite> consultarTramitesPorFiltro(Calendar fechaInicio, Calendar fechaFin) throws PersistenciaException {
         EntityManager entityManager = this.conexion.crearConexion();
         try {
-            String jpqlQuery = "SELECT t FROM Tramite t WHERE t.fecha BETWEEN :fechaInicio AND :fechaFin";
+            String jpqlQuery = "SELECT t FROM Tramite t WHERE (t.placa.fechaEmision BETWEEN :fechaInicio AND :fechaFin) OR (t.licencia.fechaEmision BETWEEN :fechaInicio AND :fechaFin)";
             TypedQuery<Tramite> query = entityManager.createQuery(jpqlQuery, Tramite.class);
             query.setParameter("fechaInicio", fechaInicio);
             query.setParameter("fechaFin", fechaFin);
