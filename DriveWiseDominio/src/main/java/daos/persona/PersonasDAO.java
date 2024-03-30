@@ -1,6 +1,7 @@
 
 package daos.persona;
 
+import cifrado.Cifrado;
 import daos.conexion.IConexionDAO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
@@ -100,9 +101,17 @@ public class PersonasDAO implements IPersonasDAO{
             String jpqlQuery = "SELECT p FROM Persona p WHERE p.rfc = :rfc";
             TypedQuery<Persona> query = entityManager.createQuery(jpqlQuery, Persona.class);
             query.setParameter("rfc", persona.getRfc());
-            return query.getSingleResult();
+            Persona personaEncontrada=query.getSingleResult();
+            try {
+                personaEncontrada.setTelefonoSinEncriptar(Cifrado.descifrarCadena(personaEncontrada.getTelefono(), personaEncontrada.getSal()));
+            } catch (Exception ex) {
+                throw new PersistenciaException(ex);
+
+            }
+            
+            return personaEncontrada;
         } catch (NoResultException ex) {
-            return null; 
+            return null;
         } finally {
             entityManager.close();
         }
@@ -128,7 +137,7 @@ public class PersonasDAO implements IPersonasDAO{
         if (personaResult==null) {
             return null;
         }
-
+        
         entityManager.close();
         return personaResult;
     }

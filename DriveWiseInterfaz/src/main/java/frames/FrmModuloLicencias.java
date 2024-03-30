@@ -44,10 +44,11 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
      * @return true si ningun campo esta vacio, false en caso contrario
      */
     private boolean verificarRFC() {
-        if (!validadores.validarRfc(txtRFC.getText())) {
-            JOptionPane.showMessageDialog(this, "RFC debe tener formato ABC123", "Formato inválido", JOptionPane.ERROR_MESSAGE);
-            return false;
-        } else if (txtRFC.getText().isEmpty() || txtRFC.getText().isBlank()) {
+//        if (!validadores.validarRfc(txtRFC.getText())) {
+//            JOptionPane.showMessageDialog(this, "RFC debe tener formato ABC123", "Formato inválido", JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        } else 
+        if (txtRFC.getText().isEmpty() || txtRFC.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Indique un rfc", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -75,7 +76,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
             RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
             try {
                 persona = buscar.buscarPersonaRfc(personaConsultada);
-
                 if (persona == null) {
                     JOptionPane.showMessageDialog(this, "No se encontro a la persona", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -279,7 +279,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         getContentPane().add(btnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 150, 60));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Modulo de licencias.jpg"))); // NOI18N
-        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, 540));
+        getContentPane().add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 550));
 
         pack();
         setLocationRelativeTo(null);

@@ -167,6 +167,10 @@ public class Persona implements Serializable {
     public String getTelefono(){
         return telefono;
     }
+    
+    public void setTelefonoSinEncriptar(String telefono){
+        this.telefono=telefono;
+    }
 
     public void setTelefono(String telefono) throws NoSuchAlgorithmException {
         try {
