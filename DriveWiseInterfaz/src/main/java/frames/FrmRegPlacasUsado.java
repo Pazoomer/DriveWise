@@ -62,10 +62,14 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
      */
     private boolean verificarRfc() {
 
-        if (txtRfc.getText().isBlank() || txtRfc.getText().isEmpty()) {
+        if (!validadores.validarRfc(txtRfc.getText())) {
+            JOptionPane.showMessageDialog(this, "RFC debe tener formato ABC123", "Formato inválido", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (txtRfc.getText().isEmpty() || txtRfc.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Indique un rfc", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+        
         PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRfc.getText());
         try {
             RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
@@ -116,6 +120,14 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
         }
     }
 
+    
+    private boolean validarNumPlacas(){
+        if (!validadores.validarNumSerie(txtNumSerie.getText())) {
+            return false;
+        }
+        return true;
+    }
+    
     /**
      * Método para buscar un automovil en base a sus placas.
      */
@@ -123,9 +135,16 @@ public class FrmRegPlacasUsado extends javax.swing.JFrame {
         PlacaConsultableDTO placaDTO = new PlacaConsultableDTO(txtPlacasAntiguas.getText());
         IConsultaVehiculoBO cvBO = new ConsultaVehiculoBO(this.conexion);
         try {
-            vehiculoDTO = cvBO.consultarVehiculo(placaDTO);
+            vehiculoDTO = cvBO.consultarVehiculoPlaca(placaDTO);
+            if (!validarNumPlacas()){
+                JOptionPane.showMessageDialog(this, "Ingrese las placas con formato ABC-123", "Formato incorrecto", JOptionPane.ERROR_MESSAGE);
+            }
             if (vehiculoDTO == null) {
-                JOptionPane.showMessageDialog(this, "Estas placas no han sido registradas", "No autorizado", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Estas placas no han sido registradas por la persona especificada", "No autorizado", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!vehiculoDTO.getPersona().getRfc().equals(txtRfc.getText())) {
+                JOptionPane.showMessageDialog(this, "Estas placas no han sido registradas por la persona especificada", "No autorizado", JOptionPane.ERROR_MESSAGE);
                 return;
             } else {
                 txtPlacasAntiguas.setEditable(false);

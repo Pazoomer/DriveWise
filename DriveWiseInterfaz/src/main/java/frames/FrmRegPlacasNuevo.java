@@ -6,6 +6,7 @@ package frames;
 
 import daos.conexion.IConexionDAO;
 import dtos.persona.PersonaConsultableDTO;
+import dtos.placa.PlacaConsultableDTO;
 import dtos.placa.PlacaNuevaDTO;
 import dtos.vehiculo.VehiculoConsultableDTO;
 import dtos.vehiculo.VehiculoNuevoDTO;
@@ -23,6 +24,8 @@ import javax.swing.JTextField;
 import negocio.licencia.RegistroLicenciasBO;
 import negocio.persona.BuscarLicenciaValidaBO;
 import negocio.persona.IBuscarLicenciaValidaBO;
+import negocio.placa.ConsultaVehiculoBO;
+import negocio.placa.IConsultaVehiculoBO;
 import negocio.placa.IRegistroPlacasBO;
 import negocio.placa.RegistroPlacasBO;
 import validadores.Validadores;
@@ -63,7 +66,10 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
      */
     private boolean verificarRfc() {
 
-        if (txtRfc.getText().isBlank() || txtRfc.getText().isEmpty()) {
+        if (!validadores.validarRfc(txtRfc.getText())) {
+            JOptionPane.showMessageDialog(this, "RFC debe tener formato ABC123", "Formato inválido", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (txtRfc.getText().isEmpty() || txtRfc.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Indique un rfc", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -162,15 +168,25 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
     private void registrar() {
         if (!verificarCampos()) {
             return;
-        }
+        } 
         IRegistroPlacasBO rpBO = new RegistroPlacasBO(this.conexion);
         Calendar calendarPlaca = Calendar.getInstance();
 
-        VehiculoNuevoDTO vehiculo = new VehiculoNuevoDTO(txtNumSerie.getText(), txtMarca.getText(), txtLinea.getText(), txtColor.getText(), txtModelo.getText());
-
-        PlacaNuevaDTO placaDTO = new PlacaNuevaDTO(calendarPlaca, vehiculo);
+        VehiculoConsultableDTO vehiculoConsulta = new VehiculoConsultableDTO(txtNumSerie.getText());
+        
+        IConsultaVehiculoBO cvBO = new ConsultaVehiculoBO(conexion);
         try {
-            rpBO.registrarPlacaNuevo(persona, placaDTO);
+            if (cvBO.consultarVehiculo(vehiculoConsulta) != null){
+                JOptionPane.showMessageDialog(this, "Este vehículo ya está registrado", "No válido", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (PersistenciaException ex) {
+            Logger.getLogger(FrmRegPlacasNuevo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        VehiculoNuevoDTO vehiculo = new VehiculoNuevoDTO(txtNumSerie.getText(), txtMarca.getText(), txtLinea.getText(), txtColor.getText(), txtModelo.getText());
+        PlacaNuevaDTO placaNuevaDTO = new PlacaNuevaDTO(calendarPlaca, vehiculo);
+        try {
+            rpBO.registrarPlacaNuevo(persona, placaNuevaDTO);
             mensajeExito();
         } catch (PersistenciaException ex) {
             JOptionPane.showMessageDialog(this, "Hubo un error en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);

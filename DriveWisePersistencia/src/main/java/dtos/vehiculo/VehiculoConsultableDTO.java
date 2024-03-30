@@ -14,13 +14,26 @@ import mapas.personas.Persona;
 public class VehiculoConsultableDTO {
     String numSerie, marca, linea, color, modelo, tipo;
     PersonaConsultableDTO persona;
-
+    
+    public VehiculoConsultableDTO(String numSerie){
+        this.numSerie = numSerie;
+    }
+    
     public VehiculoConsultableDTO(String numSerie, String marca, String linea, String color, String modelo) {
         this.numSerie = numSerie;
         this.marca = marca;
         this.linea = linea;
         this.color = color;
         this.modelo = modelo;
+    }
+
+    public VehiculoConsultableDTO(String numSerie, String marca, String linea, String color, String modelo, PersonaConsultableDTO persona) {
+        this.numSerie = numSerie;
+        this.marca = marca;
+        this.linea = linea;
+        this.color = color;
+        this.modelo = modelo;
+        this.persona = persona;
     }
 
     public String getNumSerie() {

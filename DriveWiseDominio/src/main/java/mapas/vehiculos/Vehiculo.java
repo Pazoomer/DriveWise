@@ -61,6 +61,11 @@ public abstract class Vehiculo implements Serializable {
     public Vehiculo() {
     }
 
+    public Vehiculo(String numSerie) {
+        this.numSerie = numSerie;
+    }
+    
+
     protected Vehiculo(String numSerie, String marca, String linea, String color, String modelo, String tipo, Persona persona) {
         this.numSerie = numSerie;
         this.marca = marca;

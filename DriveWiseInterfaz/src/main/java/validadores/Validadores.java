@@ -37,4 +37,16 @@ public class Validadores {
         return false;
     }
     
+    public boolean validarRfc(String rfc){
+        String patronString = "^[A-Z]{3}\\d{3}$";
+        Pattern pattern = Pattern.compile(patronString);
+        Matcher matcher = pattern.matcher(rfc);
+        
+        if (matcher.matches()){
+            return true;
+        }
+        
+        return false;
+    }
+    
 }

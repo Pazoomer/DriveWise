@@ -24,7 +24,7 @@ import mapas.vehiculos.Vehiculo;
 public class PlacasDAO implements IPlacasDAO{
 
     private final IConexionDAO conexion;
-    private static final Logger LOG = Logger.getLogger(PersonasDAO.class.getName());
+    private static final Logger LOG = Logger.getLogger(PlacasDAO.class.getName());
     
     public PlacasDAO(IConexionDAO conexion) {
         this.conexion = conexion;

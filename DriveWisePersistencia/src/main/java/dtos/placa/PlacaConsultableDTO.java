@@ -19,6 +19,11 @@ public class PlacaConsultableDTO {
     Boolean activo;
     VehiculoConsultableDTO vehiculoUsado;
     Tramite tramite;
+
+    public PlacaConsultableDTO(VehiculoConsultableDTO vehiculoUsado) {
+        this.vehiculoUsado = vehiculoUsado;
+    }
+    
     
     public PlacaConsultableDTO(String alfanumerico){
         this.alfanumerico = alfanumerico;

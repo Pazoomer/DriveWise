@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import negocio.licencia.IRegistroLicenciasBO;
 import negocio.licencia.RegistroLicenciasBO;
+import validadores.Validadores;
 
 /**
  *
@@ -21,6 +22,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
 
     IConexionDAO conexion;
     private PersonaConsultableDTO persona;
+    Validadores validadores = new Validadores();
     
     /**
      * Constructor que recibe la conexion
@@ -35,19 +37,23 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         txtVigencia.setText("");
 
     }
-
+    
     /**
      * Verifica que los campos no esten vacios
      *
      * @return true si ningun campo esta vacio, false en caso contrario
      */
     private boolean verificarRFC() {
-        if (txtRFC.getText().isEmpty()||txtRFC.getText().isBlank()) {
+        if (!validadores.validarRfc(txtRFC.getText())) {
+            JOptionPane.showMessageDialog(this, "RFC debe tener formato ABC123", "Formato inválido", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else if (txtRFC.getText().isEmpty() || txtRFC.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Indique un rfc", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
     }
-    
+
     /**
      * Método para comprobar que los campos no esten vacios o en blanco.
      * @return valor booleano.
@@ -65,8 +71,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
      */
     private void buscar() {
         if (verificarRFC()) {
-            cmbVigencia.setVisible(true);
-            txtVigencia.setText("Vigencia");
             PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRFC.getText());
             RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
             try {
@@ -83,17 +87,18 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
                 txtAmaterno.setText(persona.getApellidoMaterno());
                 txtFechaNac.setText(persona.getCadenaNacimiento());
                 this.txtTelefono.setText(persona.getTelefono());
+                cmbVigencia.setVisible(true);
+                txtVigencia.setText("Vigencia");
 
             } catch (PersistenciaException ex) {
                 JOptionPane.showMessageDialog(this, "No se pudo conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } catch (ValidacionException ex) {
-                JOptionPane.showMessageDialog(this, "La version no es compatible, actualize a una versiona más reciente", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La version no es compatible, actualize a una version más reciente", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
         } else {
-            JOptionPane.showMessageDialog(this, "Indique un rfc", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
     }

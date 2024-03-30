@@ -13,5 +13,6 @@ import excepciones.PersistenciaException;
  * @author JoseH
  */
 public interface IConsultaVehiculoBO {
-    public VehiculoConsultableDTO consultarVehiculo(PlacaConsultableDTO placaDTO) throws PersistenciaException;
+    public VehiculoConsultableDTO consultarVehiculoPlaca(PlacaConsultableDTO placaDTO) throws PersistenciaException;
+    public VehiculoConsultableDTO consultarVehiculo(VehiculoConsultableDTO vehiculoDTO) throws PersistenciaException;
 }
