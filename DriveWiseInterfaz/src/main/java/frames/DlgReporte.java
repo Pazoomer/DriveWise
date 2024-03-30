@@ -337,9 +337,16 @@ public class DlgReporte extends javax.swing.JFrame {
             List<TramiteConsultableDTO> tramites = new LinkedList<>();
 
             try {
-                //Buscar tramites de la persona
-                tramites = consultarTramitesBO.consultarTramitePorPersona(persona);
-
+                //Buscar tramites de la persona, en caso de fechas no ser nulas se aplica un filtro
+                
+                //if (fechaDesde != null && fechaHasta != null) {
+                  //  tramites = consultarTramitesBO.consultarTramitePorFiltro(persona, fechaDesde, fechaHasta);
+                    
+                //} else{
+                    tramites = consultarTramitesBO.consultarTramitePorPersona(persona);
+                    
+                //}
+                
                 for (TramiteConsultableDTO tramite : tramites) {
                     int mes = tramite.getEmision().get(Calendar.MONTH) + 1;
                     Object[] fila = {

@@ -237,7 +237,7 @@ public class FrmModuloReportes extends javax.swing.JFrame {
                 personas = consultarHistorial.consultarPersonaPorFiltros(personaConsultada);
 
                 if (personas == null) {
-                    JOptionPane.showMessageDialog(this, "Persona no encontrada", "Persona desconocida", JOptionPane.ERROR_MESSAGE);
+                    //JOptionPane.showMessageDialog(this, "Persona no encontrada", "Persona desconocida", JOptionPane.ERROR_MESSAGE);
 
                 } else {
 

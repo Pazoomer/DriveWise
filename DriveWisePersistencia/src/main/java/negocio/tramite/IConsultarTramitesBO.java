@@ -5,6 +5,7 @@ import dtos.persona.PersonaConsultableDTO;
 import dtos.tramite.TramiteConsultableDTO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -22,4 +23,5 @@ public interface IConsultarTramitesBO {
      * @throws excepciones.ValidacionException Si no encontro resultados
      */
     List<TramiteConsultableDTO> consultarTramitePorPersona(PersonaConsultableDTO personaConsultableDTO) throws PersistenciaException, ValidacionException;
+    public List<TramiteConsultableDTO> consultarTramitePorFiltro(PersonaConsultableDTO personaConsultableDTO, Calendar desde, Calendar Hasta) throws PersistenciaException, ValidacionException;
 }

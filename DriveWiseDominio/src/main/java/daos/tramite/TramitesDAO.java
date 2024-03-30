@@ -2,6 +2,7 @@ package daos.tramite;
 
 import daos.conexion.IConexionDAO;
 import excepciones.PersistenciaException;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -34,8 +35,17 @@ public class TramitesDAO implements ITramitesDAO {
     }
 
     @Override
-    public List<Tramite> consultarTramitesPorFiltro(Persona filtro) throws PersistenciaException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Tramite> consultarTramitesPorFiltro(Calendar fechaInicio, Calendar fechaFin) throws PersistenciaException {
+        EntityManager entityManager = this.conexion.crearConexion();
+        try {
+            String jpqlQuery = "SELECT t FROM Tramite t WHERE t.fecha BETWEEN :fechaInicio AND :fechaFin";
+            TypedQuery<Tramite> query = entityManager.createQuery(jpqlQuery, Tramite.class);
+            query.setParameter("fechaInicio", fechaInicio);
+            query.setParameter("fechaFin", fechaFin);
+            return query.getResultList();
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override

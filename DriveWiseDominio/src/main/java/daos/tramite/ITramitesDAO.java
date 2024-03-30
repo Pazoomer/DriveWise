@@ -3,6 +3,7 @@ package daos.tramite;
 
 
 import excepciones.PersistenciaException;
+import java.util.Calendar;
 import java.util.List;
 import mapas.personas.Persona;
 import mapas.tramites.Tramite;
@@ -22,11 +23,12 @@ public interface ITramitesDAO {
     
     /**
      * Consulta los tramites segun filtros
-     * @param filtro Filtros: Tipo de operacion, fecha de emision, nombre de la persona
+     * @param fechaInicio
+     * @param fechaFin
      * @return Una lista de tramites
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
-    List<Tramite> consultarTramitesPorFiltro(Persona filtro)throws PersistenciaException;
+    List<Tramite> consultarTramitesPorFiltro(Calendar fechaInicio, Calendar fechaFin)throws PersistenciaException;
     
     /**
      * Agrega un tramite
