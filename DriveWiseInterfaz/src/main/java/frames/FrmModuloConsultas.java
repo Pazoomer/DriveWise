@@ -6,10 +6,12 @@ import daos.conexion.IConexionDAO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
+import java.awt.Image;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import negocio.consulta.ConsultarHistorialBO;
 import negocio.consulta.IConsultarHistorialBO;
@@ -32,6 +34,16 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
         this.setResizable(false);
         initComponents();
         this.conexion = conexion;
+        añadirIcono();
+    }
+    
+    public void añadirIcono(){
+         // Carga el ícono desde un archivo de imagen (asegúrate de ajustar la ruta al archivo)
+        ImageIcon icon = new ImageIcon("src/main/resources/calendario_icon.png");
+
+        // Escala el ícono para que se ajuste al tamaño del botón
+        Image scaledIcon = icon.getImage().getScaledInstance( this.btnCalendario.getWidth(),  this.btnCalendario.getHeight(), Image.SCALE_SMOOTH);
+        this.btnCalendario.setIcon(new ImageIcon(scaledIcon));
     }
     
      /**
@@ -240,8 +252,8 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
                     .addGroup(pnlCentralLayout.createSequentialGroup()
                         .addGap(106, 106, 106)
                         .addComponent(txfCentral, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCalendario, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCalendario, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlCentralLayout.createSequentialGroup()
                         .addGap(232, 232, 232)
                         .addComponent(lblFiltroEstatico)))
@@ -256,7 +268,7 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
                 .addGroup(pnlCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCalendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txfCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(15, 15, 15)
                 .addComponent(lblFiltroEstatico)
                 .addGap(18, 18, 18)
                 .addGroup(pnlCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -304,7 +316,7 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(pnlCentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
