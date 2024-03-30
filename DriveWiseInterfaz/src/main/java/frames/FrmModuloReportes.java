@@ -9,9 +9,12 @@ import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import negocio.consulta.ConsultarHistorialBO;
+import negocio.consulta.IConsultarHistorialBO;
 import negocio.licencia.RegistroLicenciasBO;
 
 /**
@@ -197,10 +200,76 @@ public class FrmModuloReportes extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if (validarDatos()) {
+            buscar(cmbOperacion.getSelectedIndex());
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        pantallaPrincipal();
+    }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void cmbOperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbOperacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbOperacionActionPerformed
+
+    /**
+     * Método que nos ayuda a realizar la busqueda de la persona a partir de un
+     * rango de fechas y el RFC de una persona vigente, si el RFC no es vigente
+     * lanzará unJOPtionPane que indicará dicho error, recibe un filtro,
+     * dependiendo del tipo de tramite, se hará la busqueda.
+     *
+     * @param filtro Tramite
+     * @param desde fecha comienzo
+     * @param hasta fecha final
+     */
+    private void buscar(int filtro) {
+        PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO();
+        List<PersonaConsultableDTO> personas;
+        if (!(txtRFC.getText().isBlank())) {
+            personaConsultada.setNombre(txtRFC.getText());
+
+            try {
+
+                IConsultarHistorialBO consultarHistorial = new ConsultarHistorialBO(conexion);
+                personas = consultarHistorial.consultarPersonaPorFiltros(personaConsultada);
+
+                if (personas == null) {
+                    JOptionPane.showMessageDialog(this, "Persona no encontrada", "Persona desconocida", JOptionPane.ERROR_MESSAGE);
+
+                } else {
+
+                    if (jdateDesde.getDate() != null || jdateHasta.getDate() != null) {
+                        Calendar calDesde = Calendar.getInstance();
+                        calDesde.setTime(jdateDesde.getDate());
+                        calDesde.set(Calendar.HOUR_OF_DAY, 0);
+                        calDesde.set(Calendar.MINUTE, 0);
+                        calDesde.set(Calendar.SECOND, 0);
+                        calDesde.set(Calendar.MILLISECOND, 0);
+                        Calendar calHasta = Calendar.getInstance();
+                        calHasta.setTime(jdateHasta.getDate());
+                        calHasta.set(Calendar.HOUR_OF_DAY, 0);
+                        calHasta.set(Calendar.MINUTE, 0);
+                        calHasta.set(Calendar.SECOND, 0);
+                        calHasta.set(Calendar.MILLISECOND, 0);
+                        DlgReporte reporte = new DlgReporte(conexion, personas, filtro, calHasta, calDesde);
+                        reporte.setVisible(true);
+                        
+                    } else {
+                        DlgReporte reporte = new DlgReporte(conexion, personas, filtro, null, null);
+                        reporte.setVisible(true);
+                    }
+                    
+                }
+            } catch (PersistenciaException ex) {
+                Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ValidacionException ex) {
+                Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (jdateDesde.getDate() != null || jdateHasta.getDate() != null) {
             Calendar calDesde = Calendar.getInstance();
             calDesde.setTime(jdateDesde.getDate());
             calDesde.set(Calendar.HOUR_OF_DAY, 0);
@@ -214,44 +283,6 @@ public class FrmModuloReportes extends javax.swing.JFrame {
             calHasta.set(Calendar.SECOND, 0);
             calHasta.set(Calendar.MILLISECOND, 0);
 
-            buscar(cmbOperacion.getSelectedIndex(), calDesde, calHasta);
-        }
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        pantallaPrincipal();
-    }//GEN-LAST:event_btnVolverActionPerformed
-
-    private void cmbOperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbOperacionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbOperacionActionPerformed
-    
-    /**
-     * Método que nos ayuda a realizar la busqueda de la persona a partir de un rango de fechas
-     * y el RFC de una persona vigente, si el RFC no es vigente lanzará unJOPtionPane que indicará 
-     * dicho error, recibe un filtro, dependiendo del tipo de tramite, se hará la busqueda.
-     * 
-     * @param filtro Tramite
-     * @param desde fecha comienzo
-     * @param hasta fecha final
-     */
-    private void buscar(int filtro, Calendar desde, Calendar hasta) {
-        PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO(txtRFC.getText());
-        try {
-            RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
-            PersonaConsultableDTO personaux = buscar.buscarPersonaRfc(personaConsultada);
-            if (personaux == null) {
-                JOptionPane.showMessageDialog(this, "Persona no encontrada", "Persona desconocida", JOptionPane.ERROR_MESSAGE);
-  
-            } else {
-                DlgReporte reporte = new DlgReporte(conexion, personaConsultada, filtro, desde, hasta);
-                reporte.setVisible(true);
-                
-            }
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ValidacionException ex) {
-            Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -264,20 +295,21 @@ public class FrmModuloReportes extends javax.swing.JFrame {
         on.setVisible(true);
         this.dispose();
     }
-    
+
     /**
-     * Método que nos ayuda a validar que los campos de texto no esten en blanco.
+     * Método que nos ayuda a validar que los campos de texto no esten en
+     * blanco.
+     *
      * @return valor booleano.
      */
     private boolean validarDatos() {
         if (txtRFC.getText().isBlank()) {
-            JOptionPane.showMessageDialog(this, "Indique un RFC", "Error en el campo de texto", JOptionPane.ERROR_MESSAGE);
-            return false;
-        } else {
+
             if (jdateDesde.getDate() == null || jdateHasta.getDate() == null) {
-                JOptionPane.showMessageDialog(this, "Seleccione un rango de fechas", "Error en el campo fechas", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Campos incompletos", "Error en busqueda", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
+
         }
         return true;
     }

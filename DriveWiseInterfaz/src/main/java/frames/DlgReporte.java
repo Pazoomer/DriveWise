@@ -1,5 +1,5 @@
-
 package frames;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -35,6 +35,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import java.text.SimpleDateFormat;
+
 /**
  *
  * @author Enrique Rodriguez
@@ -42,33 +43,30 @@ import java.text.SimpleDateFormat;
 public class DlgReporte extends javax.swing.JFrame {
 
     IConexionDAO conexion;
-    PersonaConsultableDTO persona;
+    List<PersonaConsultableDTO> personas;
     private int filtro;
     Calendar fechaDesde;
     Calendar fechaHasta;
-    
+
     /**
-     * Constructor de la clase DlgReporte que inicializa los atributos de la clase
-     * a los establecidos en los parametros.
-     * 
+     * Constructor de la clase DlgReporte que inicializa los atributos de la
+     * clase a los establecidos en los parametros.
+     *
      * @param conexion conexion
-     * @param persona persona
+     * @param personas personas
      * @param filtro filtro
-     * @param fechaDesde fechaDesde
-     * @param fechaHasta fechaHasta
      */
-    public DlgReporte(IConexionDAO conexion, PersonaConsultableDTO persona, int filtro, Calendar fechaDesde, Calendar fechaHasta) {
+    public DlgReporte(IConexionDAO conexion, List<PersonaConsultableDTO> personas, int filtro, Calendar fechaHasta, Calendar fechaDesde) {
         initComponents();
         this.conexion = conexion;
-        this.persona = persona;
+        this.personas = personas;
         this.filtro = filtro;
-        this.fechaDesde = fechaDesde;
         this.fechaHasta = fechaHasta;
+        this.fechaDesde = fechaDesde;
         obtenerFechaYFormato();
-        establecerNombre();
-        llenarTabla();
+        llenarTabla(personas);
     }
-    
+
     /**
      * Método para establecer la fecha en el dlg actual.
      */
@@ -78,25 +76,7 @@ public class DlgReporte extends javax.swing.JFrame {
         String fechaFormateada = formatoFecha.format(calendar.getTime());
         this.lblFecha.setText(fechaFormateada);
     }
-    
-    /**
-     * Método para establecer el nombre de la persona quien posee los tramites
-     * mostrados.
-     */
-    private void establecerNombre(){
-        RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
-        try {
-            PersonaConsultableDTO personaux = buscar.buscarPersonaRfc(persona);
-            this.lblNombre.setText("Visualizando tramites de: " + personaux.getNombre() + " " + personaux.getApellidopaterno() + " " + personaux.getApellidoMaterno());
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ValidacionException ex) {
-            Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-    }
-    
+
     /**
      * Método para convertir a pdf.
      */
@@ -110,18 +90,18 @@ public class DlgReporte extends javax.swing.JFrame {
         } catch (IOException | DocumentException ex) {
             ex.printStackTrace();
         }
-    }                                        
+    }
 
-    
     /**
      * Método para acceder a la ruta de descargas del usuario.
-     * @return 
+     *
+     * @return
      */
     public static String obtenerRutaDescargas() {
         String rutaDescargas = System.getProperty("user.home") + File.separator + "Downloads";
         return rutaDescargas;
     }
-    
+
     public void abrirPDF(String rutaArchivoPDF) {
         try {
             File archivoPDF = new File(rutaArchivoPDF);
@@ -134,12 +114,13 @@ public class DlgReporte extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-    
+
     /**
      * Método para exportar un pdf.
+     *
      * @param rutaArchivoPDF
      * @throws IOException
-     * @throws DocumentException 
+     * @throws DocumentException
      */
     public void exportarPDF(String rutaArchivoPDF) throws IOException, DocumentException {
         // Crear un documento PDF
@@ -168,7 +149,7 @@ public class DlgReporte extends javax.swing.JFrame {
             Paragraph titulo = new Paragraph("REPORTE DE TRÁMITES REALIZADOS", fontTitulo);
             titulo.setAlignment(Element.ALIGN_CENTER);
             documento.add(titulo);
-            
+
             // Agregar un espacio en blanco para separación
             Paragraph espacioEnBlanco = new Paragraph("\n");
             documento.add(espacioEnBlanco);
@@ -208,6 +189,14 @@ public class DlgReporte extends javax.swing.JFrame {
 
             }
         }
+    }
+    
+    public void setFechaDesde(Calendar fechadesde){
+        this.fechaDesde = fechadesde;
+    }
+    
+    public void setFechaHasta(Calendar fechahasta){
+        this.fechaHasta = fechahasta;
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -330,71 +319,67 @@ public class DlgReporte extends javax.swing.JFrame {
 
     private void btnPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfActionPerformed
         convertir();
-        
+
     }//GEN-LAST:event_btnPdfActionPerformed
     /**
-     * Método para llenar la tabla a partir de los tramites que tenga una persona.
+     * Método para llenar la tabla a partir de los tramites que tenga una
+     * persona.
      */
-    private void llenarTabla() {
-        IConsultarTramitesBO consultarTramitesBO = new ConsultarTramitesBO(conexion);
-        List<TramiteConsultableDTO> tramites = new LinkedList<>();
-        try {
-            //Buscar persona
-            RegistroLicenciasBO buscar = new RegistroLicenciasBO(conexion);
-            PersonaConsultableDTO personaux = buscar.buscarPersonaRfc(persona);
+    private void llenarTabla(List<PersonaConsultableDTO> personas) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Trámite");
+        modelo.addColumn("Fecha Emisión");
+        modelo.addColumn("Costo");
 
-            //Buscar tramites de la persona
-            tramites = consultarTramitesBO.consultarTramitePorPersona(persona);
+        for (PersonaConsultableDTO persona : personas) {
+            IConsultarTramitesBO consultarTramitesBO = new ConsultarTramitesBO(conexion);
+            List<TramiteConsultableDTO> tramites = new LinkedList<>();
 
-            DefaultTableModel modelo = new DefaultTableModel();
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Trámite");
-            modelo.addColumn("Fecha Emisión");
-            modelo.addColumn("Costo");
+            try {
+                //Buscar tramites de la persona
+                tramites = consultarTramitesBO.consultarTramitePorPersona(persona);
 
-            for (TramiteConsultableDTO tramite : tramites) {
-                int mes = tramite.getEmision().get(Calendar.MONTH) +1;
-                Object[] fila = {
-                    personaux.getNombre() + " "
-                    + personaux.getApellidopaterno() + " "
-                    + personaux.getApellidoMaterno(),
-                    tramite.getTipo(),
-                    tramite.getEmision().get(Calendar.DATE) + "/0"
-                    + mes + "/"
-                    + tramite.getEmision().get(Calendar.YEAR),
-                     "$" + tramite.getCosto() + "0"
-                };
+                for (TramiteConsultableDTO tramite : tramites) {
+                    int mes = tramite.getEmision().get(Calendar.MONTH) + 1;
+                    Object[] fila = {
+                        persona.getNombre(),
+                        tramite.getTipo(),
+                        tramite.getEmision().get(Calendar.DATE) + "/0"
+                        + mes + "/"
+                        + tramite.getEmision().get(Calendar.YEAR),
+                        "$" + tramite.getCosto() + "0"
+                    };
+                    if (fechaDesde != null && fechaHasta != null) {
+                        if ((tramite.getEmision().after(fechaDesde) || tramite.getEmision().equals(fechaDesde))
+                                && (tramite.getEmision().before(fechaHasta) || tramite.getEmision().equals(fechaHasta))) {
 
-                Calendar fechaTramite = Calendar.getInstance();
-                fechaTramite.set(tramite.getEmision().get(Calendar.YEAR),
-                        tramite.getEmision().get(Calendar.MONTH),
-                        tramite.getEmision().get(Calendar.DATE), 0, 0);
-               
-                if ((fechaTramite.after(fechaDesde) || fechaTramite.equals(fechaDesde))
-                        && (fechaTramite.before(fechaHasta) || fechaTramite.equals(fechaHasta))) {
+                            if (filtro == 1 && tramite.getTipo().equalsIgnoreCase("LICENCIA")) {
+                                modelo.addRow(fila);
 
-                    if (filtro == 1 && tramite.getTipo().equalsIgnoreCase("LICENCIA")) {
+                            } else if (filtro == 2 && tramite.getTipo().equalsIgnoreCase("PLACA")) {
+                                modelo.addRow(fila);
+
+                            } else if (filtro == 0) {
+                                modelo.addRow(fila);
+
+                            }
+                        }
+
+                    } else {
                         modelo.addRow(fila);
-
-                    } else if (filtro == 2 && tramite.getTipo().equalsIgnoreCase("PLACA")) {
-                        modelo.addRow(fila);
-
-                    } else if (filtro == 0) {
-                        modelo.addRow(fila);
-
                     }
                 }
+            } catch (PersistenciaException | ValidacionException ex) {
+                Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
             }
-            tblTramites.setModel(modelo);
-            TableColumnModel columnModel = tblTramites.getColumnModel();
-            tblTramites.setEnabled(false);
-
-        } catch (PersistenciaException ex) {
-            Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ValidacionException ex) {
-            Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        tblTramites.setModel(modelo);
+        TableColumnModel columnModel = tblTramites.getColumnModel();
+        tblTramites.setEnabled(false);
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPdf;
@@ -409,6 +394,7 @@ public class DlgReporte extends javax.swing.JFrame {
 
 // Clase interna para manejar el evento de página y agregar el número de página
     class NumeracionPaginas extends PdfPageEventHelper {
+
         // Método llamado cuando se inicia una nueva página
         @Override
         public void onStartPage(PdfWriter escritor, Document documento) {

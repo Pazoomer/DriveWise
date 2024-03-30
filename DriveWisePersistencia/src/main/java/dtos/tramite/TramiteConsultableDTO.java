@@ -11,7 +11,7 @@ public class TramiteConsultableDTO {
     private String tipo;
     private Float costo;
     private Calendar emision;
-
+    
     public TramiteConsultableDTO(String tipo, Float costo, Calendar emision) {
         this.tipo = tipo;
         this.costo = costo;
