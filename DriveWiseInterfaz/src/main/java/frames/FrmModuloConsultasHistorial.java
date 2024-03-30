@@ -75,6 +75,7 @@ public class FrmModuloConsultasHistorial extends javax.swing.JFrame {
         // Establecer el modelo de la tabla
         this.tblTramites.setModel(modeloTabla);
         tblTramites.getTableHeader().setVisible(false);
+        this.tblTramites.setEnabled(false);
     }
 
     /**

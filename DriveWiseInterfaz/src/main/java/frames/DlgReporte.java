@@ -387,6 +387,7 @@ public class DlgReporte extends javax.swing.JFrame {
             }
             tblTramites.setModel(modelo);
             TableColumnModel columnModel = tblTramites.getColumnModel();
+            tblTramites.setEnabled(false);
 
         } catch (PersistenciaException ex) {
             Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
