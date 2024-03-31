@@ -6,6 +6,7 @@ import daos.conexion.IConexionDAO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
+import java.awt.Color;
 import java.awt.Image;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,10 +36,11 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
         initComponents();
         this.conexion = conexion;
         añadirIcono();
+        getContentPane().setBackground(Color.WHITE);
     }
-    
-    public void añadirIcono(){
-         // Carga el ícono desde un archivo de imagen (asegúrate de ajustar la ruta al archivo)
+
+    public void añadirIcono() {
+        // Carga el ícono desde un archivo de imagen (asegúrate de ajustar la ruta al archivo)
         ImageIcon icon = new ImageIcon("src/main/resources/calendario_icon.png");
 
         // Escala el ícono para que se ajuste al tamaño del botón
@@ -141,7 +143,6 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
         separador = new javax.swing.JSeparator();
         btnBuscar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         pnlCentral = new javax.swing.JPanel();
         lblTitulo = new javax.swing.JLabel();
         txfCentral = new javax.swing.JTextField();
@@ -174,17 +175,6 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
                 btnVolverActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
 
         pnlCentral.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -296,9 +286,7 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
                             .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(separador, javax.swing.GroupLayout.PREFERRED_SIZE, 691, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(112, 112, 112)
                         .addComponent(pnlCentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
@@ -309,13 +297,8 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
                 .addComponent(lblLogo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(separador, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(161, 161, 161)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pnlCentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnlCentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -363,7 +346,6 @@ public class FrmModuloConsultas extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnNombre;
     private javax.swing.JToggleButton btnRfc;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblFiltroEstatico;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblTitulo;
