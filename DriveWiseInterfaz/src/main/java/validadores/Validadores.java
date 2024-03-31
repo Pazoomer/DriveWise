@@ -13,7 +13,8 @@ import java.util.regex.Pattern;
  */
 public class Validadores {
     
-    public boolean validarNumSerie(String numSerie){
+    public boolean validarNumSerie(String numSerie) {
+        /*
         String patronPlaca = "^[A-Z]{3}-\\d{3}$";
         Pattern pattern = Pattern.compile(patronPlaca);
         Matcher matcher = pattern.matcher(numSerie);
@@ -22,9 +23,10 @@ public class Validadores {
             return true;
         }
         
-        return false;
+        return false;*/
+        return true; //EL FORMATO CAMBIA SEGUN LA MARCA
     }
-    
+
     public boolean validarString(String cadena){
         String patronString = "^[A-Za-z]+$";
         Pattern pattern = Pattern.compile(patronString);
@@ -38,6 +40,7 @@ public class Validadores {
     }
     
     public boolean validarRfc(String rfc){
+        /*
         String patronString = "^[A-Z]{3}\\d{3}$";
         Pattern pattern = Pattern.compile(patronString);
         Matcher matcher = pattern.matcher(rfc);
@@ -46,7 +49,8 @@ public class Validadores {
             return true;
         }
         
-        return false;
+        return false;*/
+        return true; //EL FORMATO CAMBIA SEGUN EL PAIS
     }
     
 }
