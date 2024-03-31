@@ -11,7 +11,6 @@ import java.util.Calendar;
 import javax.swing.JOptionPane;
 import negocio.licencia.IRegistroLicenciasBO;
 import negocio.licencia.RegistroLicenciasBO;
-import validadores.Validadores;
 
 /**
  *
@@ -58,7 +57,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
      * @return valor booleano.
      */
     private boolean verificarCampos() {
-        if (txtRFC.getText().isEmpty() || txtFechaNac.getText().isEmpty() || txtAmaterno.getText().isEmpty() || txtApaterno.getText().isEmpty() || txtNombre.getText().isEmpty()) {
+        if (txtFechaNac.getText().isEmpty() || txtAmaterno.getText().isEmpty() || txtApaterno.getText().isEmpty() || txtNombre.getText().isEmpty()) {
             return true;
         }
         return false;
@@ -146,10 +145,10 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
             mensajeExito();
         } catch (NoSuchAlgorithmException ex) {
             JOptionPane.showMessageDialog(this, "La version no es compatible, actualize a una versiona más reciente", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+
         } catch (PersistenciaException ex) {
             JOptionPane.showMessageDialog(this, "No se pudo conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+
         }
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
