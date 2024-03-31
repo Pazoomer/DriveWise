@@ -5,10 +5,9 @@ import dtos.licencia.LicenciaNuevaDTO;
 import dtos.persona.PersonaConsultableDTO;
 import excepciones.PersistenciaException;
 import excepciones.ValidacionException;
+import java.awt.Color;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import negocio.licencia.IRegistroLicenciasBO;
 import negocio.licencia.RegistroLicenciasBO;
@@ -22,7 +21,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
 
     IConexionDAO conexion;
     private PersonaConsultableDTO persona;
-    Validadores validadores = new Validadores();
     
     /**
      * Constructor que recibe la conexion
@@ -34,7 +32,7 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         initComponents();
         this.conexion = conexion;
         cmbVigencia.setVisible(false);
-        txtVigencia.setText("");
+        this.lblTelefonoEstatico.setBackground(new Color(0,0,0,0));
 
     }
     
@@ -88,18 +86,17 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
                 txtFechaNac.setText(persona.getCadenaNacimiento());
                 this.txtTelefono.setText(persona.getTelefono());
                 cmbVigencia.setVisible(true);
-                txtVigencia.setText("Vigencia");
 
             } catch (PersistenciaException ex) {
                 JOptionPane.showMessageDialog(this, "No se pudo conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+
             } catch (ValidacionException ex) {
                 JOptionPane.showMessageDialog(this, "La version no es compatible, actualize a una version más reciente", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+
             }
 
         } else {
-            return;
+
         }
     }
 
@@ -158,8 +155,8 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblTelefonoEstatico = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
-        txtVigencia = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         txtApaterno = new javax.swing.JTextField();
         txtAmaterno = new javax.swing.JTextField();
@@ -175,25 +172,21 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblTelefonoEstatico.setBackground(new java.awt.Color(51, 51, 51));
+        lblTelefonoEstatico.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTelefonoEstatico.setForeground(new java.awt.Color(255, 255, 255));
+        lblTelefonoEstatico.setText("Telefono");
+        lblTelefonoEstatico.setOpaque(true);
+        getContentPane().add(lblTelefonoEstatico, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 380, -1, -1));
+
+        txtTelefono.setEditable(false);
         txtTelefono.setOpaque(true);
         txtTelefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTelefonoActionPerformed(evt);
             }
         });
-        getContentPane().add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 370, 210, -1));
-
-        txtVigencia.setEditable(false);
-        txtVigencia.setBackground(new java.awt.Color(240, 236, 236));
-        txtVigencia.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
-        txtVigencia.setText("Vigencia");
-        txtVigencia.setBorder(null);
-        txtVigencia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtVigenciaActionPerformed(evt);
-            }
-        });
-        getContentPane().add(txtVigencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 470, 90, 40));
+        getContentPane().add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 380, 210, -1));
 
         txtNombre.setEditable(false);
         txtNombre.setOpaque(true);
@@ -317,10 +310,6 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
         registrar();
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
-    private void txtVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVigenciaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtVigenciaActionPerformed
-
     private void cmbVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbVigenciaActionPerformed
         IRegistroLicenciasBO registroLicenciasBO = new RegistroLicenciasBO(conexion);
         float costo = registroLicenciasBO.calcularCosto(cmbVigencia.getSelectedIndex(), persona.getDiscapacitado());
@@ -338,12 +327,12 @@ public class FrmModuloLicencias extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbVigencia;
     private javax.swing.JLabel lblCosto;
     private javax.swing.JLabel lblFondo;
+    private javax.swing.JLabel lblTelefonoEstatico;
     private javax.swing.JTextField txtAmaterno;
     private javax.swing.JTextField txtApaterno;
     private javax.swing.JTextField txtFechaNac;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtRFC;
     private javax.swing.JTextField txtTelefono;
-    private javax.swing.JTextField txtVigencia;
     // End of variables declaration//GEN-END:variables
 }
