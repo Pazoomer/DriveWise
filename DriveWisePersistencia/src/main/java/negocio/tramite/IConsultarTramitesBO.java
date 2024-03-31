@@ -24,4 +24,5 @@ public interface IConsultarTramitesBO {
      */
     List<TramiteConsultableDTO> consultarTramitePorPersona(PersonaConsultableDTO personaConsultableDTO) throws PersistenciaException, ValidacionException;
     public List<TramiteConsultableDTO> consultarTramitePorFiltro(PersonaConsultableDTO personaConsultableDTO, Calendar desde, Calendar Hasta) throws PersistenciaException, ValidacionException;
+    public List<TramiteConsultableDTO> consultarTramites();
 }

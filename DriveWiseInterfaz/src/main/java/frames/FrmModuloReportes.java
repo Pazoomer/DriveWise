@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import negocio.consulta.ConsultarHistorialBO;
 import negocio.consulta.IConsultarHistorialBO;
 import negocio.licencia.RegistroLicenciasBO;
+import negocio.tramite.ConsultarTramitesBO;
+import negocio.tramite.IConsultarTramitesBO;
 
 /**
  *
@@ -45,7 +47,7 @@ public class FrmModuloReportes extends javax.swing.JFrame {
         jdateDesde = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         jdateHasta = new com.toedter.calendar.JDateChooser();
-        txtRFC = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
@@ -70,7 +72,7 @@ public class FrmModuloReportes extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(127, 0, 0));
-        jLabel6.setText("Filtrar por RFC:");
+        jLabel6.setText("Filtrar por nombre:");
 
         cmbOperacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No especifico", "Licencias", "Placas" }));
         cmbOperacion.addActionListener(new java.awt.event.ActionListener() {
@@ -130,7 +132,7 @@ public class FrmModuloReportes extends javax.swing.JFrame {
                                     .addComponent(jLabel6))
                                 .addGap(97, 97, 97)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(cmbOperacion, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -185,7 +187,7 @@ public class FrmModuloReportes extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(39, 39, 39)
                         .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(86, Short.MAX_VALUE))
@@ -202,9 +204,8 @@ public class FrmModuloReportes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if (validarDatos()) {
+
             buscar(cmbOperacion.getSelectedIndex());
-        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
@@ -228,8 +229,8 @@ public class FrmModuloReportes extends javax.swing.JFrame {
     private void buscar(int filtro) {
         PersonaConsultableDTO personaConsultada = new PersonaConsultableDTO();
         List<PersonaConsultableDTO> personas;
-        if (!(txtRFC.getText().isBlank())) {
-            personaConsultada.setNombre(txtRFC.getText());
+        if (!(txtNombre.getText().isBlank())) {
+            personaConsultada.setNombre(txtNombre.getText());
 
             try {
 
@@ -255,10 +256,12 @@ public class FrmModuloReportes extends javax.swing.JFrame {
                         calHasta.set(Calendar.SECOND, 0);
                         calHasta.set(Calendar.MILLISECOND, 0);
                         DlgReporte reporte = new DlgReporte(conexion, personas, filtro, calHasta, calDesde);
+                        reporte.llenarTabla(personas);
                         reporte.setVisible(true);
                         
                     } else {
                         DlgReporte reporte = new DlgReporte(conexion, personas, filtro, null, null);
+                        reporte.llenarTabla(personas);
                         reporte.setVisible(true);
                     }
                     
@@ -269,7 +272,7 @@ public class FrmModuloReportes extends javax.swing.JFrame {
                 Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (jdateDesde.getDate() != null || jdateHasta.getDate() != null) {
+        else if (jdateDesde.getDate() != null || jdateHasta.getDate() != null) {
             Calendar calDesde = Calendar.getInstance();
             calDesde.setTime(jdateDesde.getDate());
             calDesde.set(Calendar.HOUR_OF_DAY, 0);
@@ -282,7 +285,20 @@ public class FrmModuloReportes extends javax.swing.JFrame {
             calHasta.set(Calendar.MINUTE, 0);
             calHasta.set(Calendar.SECOND, 0);
             calHasta.set(Calendar.MILLISECOND, 0);
+            IConsultarTramitesBO ctBO = new ConsultarTramitesBO(conexion);
+            ctBO.consultarTramites();
+            DlgReporte reporte = new DlgReporte(conexion, null, filtro, calHasta, calDesde);
+            reporte.llenarTablaTodo();
+            reporte.setVisible(true);
 
+        }
+        
+        else if(txtNombre.getText().isBlank() && (jdateDesde.getDate() == null || jdateHasta.getDate() == null)){
+            IConsultarTramitesBO ctBO = new ConsultarTramitesBO(conexion);
+            ctBO.consultarTramites();
+            DlgReporte reporte = new DlgReporte(conexion, null, filtro, null, null);
+            reporte.llenarTablaTodo();
+            reporte.setVisible(true);
         }
 
     }
@@ -296,23 +312,7 @@ public class FrmModuloReportes extends javax.swing.JFrame {
         this.dispose();
     }
 
-    /**
-     * Método que nos ayuda a validar que los campos de texto no esten en
-     * blanco.
-     *
-     * @return valor booleano.
-     */
-    private boolean validarDatos() {
-        if (txtRFC.getText().isBlank()) {
-
-            if (jdateDesde.getDate() == null || jdateHasta.getDate() == null) {
-                JOptionPane.showMessageDialog(this, "Campos incompletos", "Error en busqueda", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-
-        }
-        return true;
-    }
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -329,6 +329,6 @@ public class FrmModuloReportes extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private com.toedter.calendar.JDateChooser jdateDesde;
     private com.toedter.calendar.JDateChooser jdateHasta;
-    private javax.swing.JTextField txtRFC;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

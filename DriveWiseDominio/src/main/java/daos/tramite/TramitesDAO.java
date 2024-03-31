@@ -6,8 +6,12 @@ import java.util.Calendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import mapas.personas.Persona;
 import mapas.tramites.Tramite;
+import mapas.vehiculos.Vehiculo;
 
 /**
  *
@@ -64,6 +68,18 @@ public class TramitesDAO implements ITramitesDAO {
         entityManager.close();
 
         return tramite;
+    }
+    
+    @Override
+    public List<Tramite> consultarTramites(){
+        EntityManager entityManager = this.conexion.crearConexion();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Tramite> criteriaQuery = builder.createQuery(Tramite.class);
+        Root<Tramite> tramiteRoot = criteriaQuery.from(Tramite.class);
+        
+        criteriaQuery.select(tramiteRoot);
+        
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
 }

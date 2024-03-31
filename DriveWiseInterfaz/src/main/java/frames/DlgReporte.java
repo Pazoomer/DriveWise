@@ -64,7 +64,7 @@ public class DlgReporte extends javax.swing.JFrame {
         this.fechaHasta = fechaHasta;
         this.fechaDesde = fechaDesde;
         obtenerFechaYFormato();
-        llenarTabla(personas);
+        
     }
 
     /**
@@ -325,7 +325,7 @@ public class DlgReporte extends javax.swing.JFrame {
      * Método para llenar la tabla a partir de los tramites que tenga una
      * persona.
      */
-    private void llenarTabla(List<PersonaConsultableDTO> personas) {
+    public void llenarTabla(List<PersonaConsultableDTO> personas) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Nombre");
         modelo.addColumn("Trámite");
@@ -339,13 +339,7 @@ public class DlgReporte extends javax.swing.JFrame {
             try {
                 //Buscar tramites de la persona, en caso de fechas no ser nulas se aplica un filtro
                 
-                if (fechaDesde != null && fechaHasta != null) {
-                    tramites = consultarTramitesBO.consultarTramitePorFiltro(persona, fechaDesde, fechaHasta);
-                    
-                } else{
                     tramites = consultarTramitesBO.consultarTramitePorPersona(persona);
-                    
-                }
                 
                 for (TramiteConsultableDTO tramite : tramites) {
                     int mes = tramite.getEmision().get(Calendar.MONTH) + 1;
@@ -374,13 +368,85 @@ public class DlgReporte extends javax.swing.JFrame {
                         }
 
                     } else {
-                        modelo.addRow(fila);
+                        if (filtro == 1 && tramite.getTipo().equalsIgnoreCase("LICENCIA")) {
+                                modelo.addRow(fila);
+
+                            } else if (filtro == 2 && tramite.getTipo().equalsIgnoreCase("PLACA")) {
+                                modelo.addRow(fila);
+
+                            } else if (filtro == 0) {
+                                modelo.addRow(fila);
+
+                            }
                     }
                 }
             } catch (PersistenciaException | ValidacionException ex) {
                 Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
+        tblTramites.setModel(modelo);
+        TableColumnModel columnModel = tblTramites.getColumnModel();
+        tblTramites.setEnabled(false);
+    }
+    
+    /**
+     * Método para llenar la tabla a partir de los tramites que tenga una
+     * persona.
+     */
+    public void llenarTablaTodo() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Trámite");
+        modelo.addColumn("Fecha Emisión");
+        modelo.addColumn("Costo");
+
+            IConsultarTramitesBO consultarTramitesBO = new ConsultarTramitesBO(conexion);
+            List<TramiteConsultableDTO> tramites = new LinkedList<>();
+
+            //Buscar tramites de la persona, en caso de fechas no ser nulas se aplica un filtro
+            
+            tramites = consultarTramitesBO.consultarTramites();
+            for (TramiteConsultableDTO tramite : tramites) {
+                int mes = tramite.getEmision().get(Calendar.MONTH) + 1;
+                Object[] fila = {
+                    tramite.getPersona().getNombre(),
+                    tramite.getTipo(),
+                    tramite.getEmision().get(Calendar.DATE) + "/0"
+                        + mes + "/"
+                        + tramite.getEmision().get(Calendar.YEAR),
+                    "$" + tramite.getCosto() + "0"
+                };
+                if (fechaDesde != null && fechaHasta != null) {
+                    if ((tramite.getEmision().after(fechaDesde) || tramite.getEmision().equals(fechaDesde))
+                            && (tramite.getEmision().before(fechaHasta) || tramite.getEmision().equals(fechaHasta))) {
+                        
+                        if (filtro == 1 && tramite.getTipo().equalsIgnoreCase("LICENCIA")) {
+                            modelo.addRow(fila);
+                            
+                        } else if (filtro == 2 && tramite.getTipo().equalsIgnoreCase("PLACA")) {
+                            modelo.addRow(fila);
+                            
+                        } else if (filtro == 0) {
+                            modelo.addRow(fila);
+                            
+                        }
+                    }
+                    
+                } else {
+                    if (filtro == 1 && tramite.getTipo().equalsIgnoreCase("LICENCIA")) {
+                        modelo.addRow(fila);
+                        
+                    } else if (filtro == 2 && tramite.getTipo().equalsIgnoreCase("PLACA")) {
+                        modelo.addRow(fila);
+                        
+                    } else if (filtro == 0) {
+                        modelo.addRow(fila);
+                        
+                    }
+                }
+            }
+        
 
         tblTramites.setModel(modelo);
         TableColumnModel columnModel = tblTramites.getColumnModel();

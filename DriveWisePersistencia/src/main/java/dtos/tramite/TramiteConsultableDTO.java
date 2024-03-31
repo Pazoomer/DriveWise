@@ -1,6 +1,7 @@
 
 package dtos.tramite;
 
+import dtos.persona.PersonaConsultableDTO;
 import java.util.Calendar;
 
 /**
@@ -8,6 +9,7 @@ import java.util.Calendar;
  * @author t1pas
  */
 public class TramiteConsultableDTO {
+    private PersonaConsultableDTO persona;
     private String tipo;
     private Float costo;
     private Calendar emision;
@@ -17,6 +19,23 @@ public class TramiteConsultableDTO {
         this.costo = costo;
         this.emision = emision;
     }
+    
+    public TramiteConsultableDTO(PersonaConsultableDTO persona, String tipo, Float costo, Calendar emision) {
+        this.persona = persona;
+        this.tipo = tipo;
+        this.costo = costo;
+        this.emision = emision;
+    }
+
+    public PersonaConsultableDTO getPersona() {
+        return persona;
+    }
+
+    public void setPersona(PersonaConsultableDTO persona) {
+        this.persona = persona;
+    }
+    
+    
 
     public String getTipo() {
         return tipo;

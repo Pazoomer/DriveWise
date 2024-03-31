@@ -37,4 +37,6 @@ public interface ITramitesDAO {
      * @throws PersistenciaException Si hubo un error en la base de datos
      */
     Tramite agregarTramite(Tramite tramite)throws PersistenciaException;
+    
+    List<Tramite> consultarTramites();
 }
