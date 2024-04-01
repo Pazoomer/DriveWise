@@ -147,6 +147,7 @@ public class FrmRegPlacasNuevo extends javax.swing.JFrame {
                             comp.setVisible(true);
                         }
                     }
+                    lblErrorNumSerie.setVisible(false);
                     lblErrorColor.setVisible(false);
                     lblErrorMarca.setVisible(false);
                     lblErrorLinea.setVisible(false);

@@ -26,6 +26,10 @@ public class PlacasDAO implements IPlacasDAO{
     private final IConexionDAO conexion;
     private static final Logger LOG = Logger.getLogger(PlacasDAO.class.getName());
     
+    /**
+     * Constructor que establece la conexión con la base de datos
+     * @param conexion Conexión con la base de datos
+     */
     public PlacasDAO(IConexionDAO conexion) {
         this.conexion = conexion;
     }
@@ -35,7 +39,12 @@ public class PlacasDAO implements IPlacasDAO{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    
+    /**
+     * Actualiza una placa
+     * @param placa Placa a actualizar 
+     * @return La placa actualizada
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     **/
     @Override
     public Placa actualizarPlaca(Placa placa) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();
@@ -56,6 +65,12 @@ public class PlacasDAO implements IPlacasDAO{
         return placaActualizada;
     }
     
+    /**
+     * Agrega una placa a un vehiculo usado
+     * @param placa Placa a agregar (Necesita todos los valores de la placa, excepto recepcion y activa)
+     * @return La placa agregada
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public Placa agregarPlacaUsado(Placa placa) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();
@@ -74,6 +89,12 @@ public class PlacasDAO implements IPlacasDAO{
         return placa;
     }
     
+    /**
+     * Agrega una placa a un vehiculo nuevo
+     * @param placa Placa a agregar (Necesita todos los valores de la placa, excepto recepcion y activa)
+     * @return La placa agregada
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public Placa agregarPlacaNuevo(Placa placa) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();
@@ -93,6 +114,12 @@ public class PlacasDAO implements IPlacasDAO{
         return placa;
     }
 
+    /**
+     * Consulta una placa
+     * @param placa Placa con el mismo alfanumerico a buscar (Necesita alfanumerico)
+     * @return La placa en la base de datos, null en caso contrario
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public Placa consultarPlaca(Placa placa) throws PersistenciaException {
         EntityManager entityManager = this.conexion.crearConexion();

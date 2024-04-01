@@ -332,6 +332,7 @@ public class DlgReporte extends javax.swing.JFrame {
         modelo.addColumn("Fecha Emisión");
         modelo.addColumn("Costo");
 
+        if(personas != null){
         for (PersonaConsultableDTO persona : personas) {
             IConsultarTramitesBO consultarTramitesBO = new ConsultarTramitesBO(conexion);
             List<TramiteConsultableDTO> tramites = new LinkedList<>();
@@ -383,6 +384,7 @@ public class DlgReporte extends javax.swing.JFrame {
             } catch (PersistenciaException | ValidacionException ex) {
                 Logger.getLogger(DlgReporte.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
         }
 
         tblTramites.setModel(modelo);

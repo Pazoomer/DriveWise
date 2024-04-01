@@ -27,6 +27,10 @@ public class ConsultaVehiculoBO implements IConsultaVehiculoBO{
     private final IConexionDAO conexion;
     private static final Logger LOG = Logger.getLogger(PersonasDAO.class.getName());
 
+    /**
+     * Constructor que establece la conexión con la base de datos
+     * @param conexion Conexión con la base de datos
+     */
     public ConsultaVehiculoBO(IConexionDAO conexion) {
         this.conexion = conexion;
     }
@@ -53,6 +57,18 @@ public class ConsultaVehiculoBO implements IConsultaVehiculoBO{
         }
     }
     
+    /**
+     * Se bBusca el vehículo basándose en los criterios especificados en el
+     * objeto VehiculoConsultableDTO y devuelve su información completa.
+     *
+     * @param vehiculoDTO Objeto que contiene los criterios de búsqueda del
+     * vehículo.
+     * @return VehiculoConsultableDTO con la información completa del vehículo
+     * encontrado, o null si no se encuentra un vehículo que coincida con los
+     * criterios.
+     * @throws PersistenciaException Si hay un problema de conexión con la base
+     * de datos, o si la consulta SQL falla por algún motivo.
+     */
     @Override
     public VehiculoConsultableDTO consultarVehiculo(VehiculoConsultableDTO vehiculoDTO) throws PersistenciaException{
         IVehiculosDAO vehiculosDAO = new VehiculosDAO(this.conexion);

@@ -28,6 +28,10 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
     private final IConexionDAO conexion;
     private static final Logger LOG = Logger.getLogger(PersonasDAO.class.getName());
 
+    /**
+     * Constructor que establece la conexión con la base de datos
+     * @param conexion Conexión con la base de datos
+     */
     public RegistroLicenciasBO(IConexionDAO conexion) {
         this.conexion = conexion;
     }
@@ -60,6 +64,15 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         return true;
     }
     
+    /**
+     * Busca una persona por su RFC dentro del sistema.
+     *
+     * @param personaDTO Objeto que contiene el RFC de la persona a buscar.
+     * @return Un objeto {@link PersonaConsultableDTO} con la información de la persona encontrada.
+     * @throws PersistenciaException Si ocurre un error relacionado con la persistencia de datos
+     *         durante la búsqueda.
+     * @throws ValidacionException Si la validación del RFC o de los datos proporcionados falla.
+     */
     @Override
     public PersonaConsultableDTO buscarPersonaRfc(PersonaConsultableDTO personaDTO) throws PersistenciaException,ValidacionException{
         IPersonasDAO personasDAO = new PersonasDAO(conexion);
@@ -73,6 +86,14 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         return personaEnviadaDTO;
     }
 
+    /**
+     * Calcula el costo de una licencia de conducir basándose en la vigencia y si la persona
+     * poseedora de la licencia tiene alguna discapacidad.
+     *
+     * @param vigencia Años de vigencia que tendrá la licencia.
+     * @param isDiscapacitado Indica si la persona a la que se le emitirá la licencia tiene alguna discapacidad.
+     * @return El costo calculado para la licencia.
+     */
     @Override
     public float calcularCosto(int vigencia, boolean isDiscapacitado) {
         float costo = 0;
@@ -92,7 +113,12 @@ public class RegistroLicenciasBO implements IRegistroLicenciasBO {
         return costo;
     }
     
-    
+    /**
+     * Determina si una persona es mayor de edad basándose en su fecha de nacimiento.
+     *
+     * @param nacimiento Fecha de nacimiento de la persona.
+     * @return true si la persona es mayor de edad, false en caso contrario.
+     */
     @Override
      public boolean mayorEdad(Calendar nacimiento){
         // Obtener la fecha actual

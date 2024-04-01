@@ -22,10 +22,20 @@ public class LicenciasDAO implements ILicenciasDAO{
     private final IConexionDAO conexion;
     private static final Logger LOG = Logger.getLogger(PersonasDAO.class.getName());
     
+    /**
+     * Constructor que establece la conexión con la base de datos
+     * @param conexion Conexión con la base de datos
+     */
     public LicenciasDAO(IConexionDAO conexion) {
         this.conexion = conexion;
     }
     
+    /**
+     * Agrega una licencia a una persona
+     * @param licencia Licencia a agregar (Necesita todos los datos)
+     * @return Licencia en la base de datos
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public Licencia agregarLicencia(Licencia licencia) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();

@@ -31,10 +31,20 @@ public class PersonasDAO implements IPersonasDAO{
     private final IConexionDAO conexion;
     private static final Logger LOG = Logger.getLogger(PersonasDAO.class.getName());
 
+    /**
+     * Constructor que establece la conexión con la base de datos
+     * @param conexion Conexión con la base de datos
+     */
     public PersonasDAO(IConexionDAO conexion) {
         this.conexion = conexion;
     }
 
+    /**
+     * Inserta 20 personas con valores predefinidos (SOLO PARA PRUEBAS)
+     *
+     * @return La lista de las 20 personas insertadas
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public Persona[] insersionMasiva() throws PersistenciaException {
         
@@ -94,6 +104,13 @@ public class PersonasDAO implements IPersonasDAO{
         
     }
 
+    /**
+     * Consulta personas por rfc
+     *
+     * @param persona Persona a consultar (Necesita rfc)
+     * @return Persona en la base de datos
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public Persona consultarPersonaPorRfc(Persona persona) throws PersistenciaException {
         EntityManager entityManager = this.conexion.crearConexion();
@@ -117,6 +134,14 @@ public class PersonasDAO implements IPersonasDAO{
         }
     }
 
+    /**
+     * Consulta personas segun el modulo de licencias
+     *
+     * @param persona Persona a consultar (Necesita nombre, apellido paterno,
+     * apellido materno, telefono, rfc y fecha de nacimiento)
+     * @return Persona en la base de datos
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public Persona consultarPersonaModuloLicencias(Persona persona)throws PersistenciaException{
         EntityManager entityManager = this.conexion.crearConexion();
@@ -142,6 +167,15 @@ public class PersonasDAO implements IPersonasDAO{
         return personaResult;
     }
 
+    /**
+     * Consulta personas segun el modulo de consultas
+     *
+     * @param persona Persona a consultar, Filtros: curp, nombre completo, año
+     * de nacimiento
+     * @return Lista de personas que cumplen con el filtro de la persona
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     * @throws excepciones.ValidacionException Si no devuelve resultados
+     */
     @Override
     public List<Persona> consultarPersonasModuloConsultas(Persona persona) throws PersistenciaException, ValidacionException {
         EntityManager entityManager = this.conexion.crearConexion();
@@ -181,6 +215,12 @@ public class PersonasDAO implements IPersonasDAO{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    /**
+     * Consulta una lista de vehiculos de una persona
+     * @param persona Persona a la cual consultar vehiculos (Necesita curp)
+     * @return Una lista de vehiculos de la persona
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public List<Vehiculo> consultarVehiculos(Persona persona) throws PersistenciaException {
         EntityManager entityManager = this.conexion.crearConexion();
@@ -193,6 +233,12 @@ public class PersonasDAO implements IPersonasDAO{
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
     
+    /**
+     * Busca una licencia valida segun una persona
+     * @param persona Persona a validar si tiene licencia (Necesita curp)
+     * @return true si encontro una licencia vigente, false en caso contrario
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public boolean validarLicencia(Persona persona) throws PersistenciaException {
 

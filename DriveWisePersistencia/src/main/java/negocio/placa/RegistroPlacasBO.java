@@ -34,16 +34,26 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
     private final IConexionDAO conexion;
     private static final Logger LOG = Logger.getLogger(PersonasDAO.class.getName());
 
+    /**
+     * Constructor que establece la conexión con la base de datos
+     * @param conexion Conexión con la base de datos
+     */
     public RegistroPlacasBO(IConexionDAO conexion) {
         this.conexion = conexion;
     }
     
     /**
-     * Se registra la placa de un vehículo enviandola a la base de datos
-     * @param personaDTO
-     * @param placaDTO Placa de un vehículo
-     * @return 
-     * @throws PersistenciaException 
+     * Registra una nueva placa de vehículo asociada a una persona en el
+     * sistema.
+     *
+     * @param personaDTO Objeto que contiene la información de la persona a la
+     * que se asociará la placa.
+     * @param placaDTO Objeto que contiene la información de la nueva placa a
+     * registrar.
+     * @return PlacaNuevaDTO que representa la placa de vehículo registrada en
+     * el sistema.
+     * @throws PersistenciaException Si ocurre un error durante el proceso de
+     * persistencia de datos.
      */
     @Override
     public PlacaNuevaDTO registrarPlacaNuevo(PersonaConsultableDTO personaDTO, PlacaNuevaDTO placaDTO) throws PersistenciaException {
@@ -72,6 +82,17 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
         return placaNueva;
     }
     
+    /**
+     * Registra una placa de vehículo registrado asociada a una persona en el
+     * sistema.
+     *
+     * @param personaDTO Objeto que contiene la información de la persona a la
+     * que se asociará la placa.
+     * @param placaDTO Objeto que contiene la información de la nueva placa a
+     * registrar.
+     * @throws PersistenciaException Si ocurre un error durante el proceso de
+     * persistencia de datos.
+     */
     @Override
     public void registrarPlacasUsado(PersonaConsultableDTO personaDTO, PlacaConsultableDTO placaDTO) throws PersistenciaException{
         Placa placa = null;
@@ -101,7 +122,16 @@ public class RegistroPlacasBO implements IRegistroPlacasBO{
         tramite.setPlaca(nuevaPlaca);
         placasDAO.agregarPlacaUsado(nuevaPlaca);
     }
-    
+ 
+    /**
+     * Calcula el costo de registro basado en si el vehículo es nuevo o no.
+     *
+     * @param esNuevo Un valor booleano que indica si el vehículo es nuevo
+     * (true) o no (false).
+     * @return El costo de registro para el vehículo. Los vehículos nuevos
+     * tienen un costo de 1500 unidades monetarias, mientras que los vehículos
+     * no nuevos tienen un costo de 1000 unidades monetarias.
+     */
     private float calcularCosto(boolean esNuevo){
         if (esNuevo){
             return 1500f;

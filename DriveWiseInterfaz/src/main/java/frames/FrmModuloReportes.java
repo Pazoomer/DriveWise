@@ -30,6 +30,8 @@ public class FrmModuloReportes extends javax.swing.JFrame {
     public FrmModuloReportes(IConexionDAO conexion) {
         initComponents();
         this.conexion = conexion;
+        jdateDesde.getDateEditor().setEnabled(false);
+        jdateHasta.getDateEditor().setEnabled(false);
 
     }
 
@@ -238,7 +240,7 @@ public class FrmModuloReportes extends javax.swing.JFrame {
                 personas = consultarHistorial.consultarPersonaPorFiltros(personaConsultada);
 
                 if (personas == null) {
-                    //JOptionPane.showMessageDialog(this, "Persona no encontrada", "Persona desconocida", JOptionPane.ERROR_MESSAGE);
+//                    JOptionPane.showMessageDialog(this, "Persona no encontrada", "Persona desconocida", JOptionPane.ERROR_MESSAGE);
 
                 } else {
 
@@ -269,6 +271,9 @@ public class FrmModuloReportes extends javax.swing.JFrame {
             } catch (PersistenciaException ex) {
                 Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ValidacionException ex) {
+                DlgReporte reporte = new DlgReporte(conexion, null, filtro, null, null);
+                reporte.llenarTabla(null);
+                reporte.setVisible(true);
                 Logger.getLogger(FrmModuloReportes.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

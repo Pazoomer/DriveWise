@@ -14,8 +14,11 @@ public class ConexionDAO implements IConexionDAO{
     
     
     /**
-     * Contraseña de la base de datos 1234a
-     * @return 
+     * Crea y retorna una nueva instancia de EntityManager para interactuar con
+     * la base de datos.
+     *
+     * @return Una nueva instancia de EntityManager para realizar operaciones de
+     * base de datos.
      */
     @Override
     public EntityManager crearConexion() {

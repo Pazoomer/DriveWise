@@ -4,22 +4,27 @@ package dtos.persona;
 import java.util.Calendar;
 
 /**
- *
- * @author t1pas
+ * Clase que representa una persona consultable con atributos relevantes para la gestión de licencias de vehículos.
  */
 public class PersonaConsultableDTO {
-    String nombre, apellidoMaterno, apellidopaterno, rfc, telefono;
-    Calendar nacimiento;
-    Boolean discapacitado;
+    // Atributos de la clase.
+    private String nombre;
+    private String apellidoMaterno;
+    private String apellidopaterno;
+    private String rfc;
+    private String telefono;
+    private Calendar nacimiento;
+    private Boolean discapacitado;
 
     /**
-     * Constructor con todos los atributos sin discapacidad
-     * @param nombre
-     * @param apellidoPaterno
-     * @param apellidoMaterno
-     * @param rfc
-     * @param telefono
-     * @param nacimiento
+     * Constructor para crear una persona sin indicar discapacidad.
+     * 
+     * @param nombre El nombre de la persona.
+     * @param apellidoPaterno El apellido paterno de la persona.
+     * @param apellidoMaterno El apellido materno de la persona.
+     * @param rfc El RFC de la persona.
+     * @param telefono El teléfono de contacto de la persona.
+     * @param nacimiento La fecha de nacimiento de la persona.
      */
     public PersonaConsultableDTO(String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, String telefono, Calendar nacimiento) {
         this.nombre = nombre;
@@ -28,17 +33,19 @@ public class PersonaConsultableDTO {
         this.rfc = rfc;
         this.telefono = telefono;
         this.nacimiento = nacimiento;
+        this.discapacitado = false; // Por defecto se asume que no está discapacitado.
     }
 
     /**
-     * Constructor con todos los atributos
-     * @param nombre
-     * @param apellidoMaterno
-     * @param apellidopaterno
-     * @param rfc
-     * @param telefono
-     * @param nacimiento
-     * @param discapacitado
+     * Constructor completo con todos los atributos.
+     * 
+     * @param nombre El nombre de la persona.
+     * @param apellidoMaterno El apellido materno de la persona.
+     * @param apellidopaterno El apellido paterno de la persona.
+     * @param rfc El RFC de la persona.
+     * @param telefono El teléfono de contacto de la persona.
+     * @param nacimiento La fecha de nacimiento de la persona.
+     * @param discapacitado Estado de discapacidad de la persona.
      */
     public PersonaConsultableDTO(String nombre, String apellidoMaterno, String apellidopaterno, String rfc, String telefono, Calendar nacimiento, Boolean discapacitado) {
         this.nombre = nombre;
@@ -57,7 +64,6 @@ public class PersonaConsultableDTO {
      * @param apellidoMaterno
      * @param apellidopaterno
      * @param rfc
-     * @param telefono
      * @param nacimiento
      * @param discapacitado
      */
@@ -66,11 +72,18 @@ public class PersonaConsultableDTO {
         this.apellidoMaterno = apellidoMaterno;
         this.apellidopaterno = apellidopaterno;
         this.rfc = rfc;
-        this.telefono = telefono;
         this.nacimiento = nacimiento;
         this.discapacitado = discapacitado;
     }
 
+    /**
+     * Constructor para crear una persona solo con nombre, RFC y fecha de
+     * nacimiento. 
+     * @param nombre El nombre de la persona.
+     * @param rfc El RFC de la persona.
+     * @param nacimiento La fecha de nacimiento de la persona, representada por
+     * un objeto Calendar.
+     */
     public PersonaConsultableDTO(String nombre, String rfc, Calendar nacimiento) {
         this.nombre = nombre;
         this.rfc = rfc;
@@ -79,6 +92,11 @@ public class PersonaConsultableDTO {
     
     
 
+    /**
+     * Constructor para crear una persona solo con nombre y RFC.
+     * @param nombre El nombre de la persona.
+     * @param rfc El RFC de la persona.
+     */
     public PersonaConsultableDTO(String nombre, String rfc) {
         this.nombre = nombre;
         this.rfc = rfc;
@@ -92,12 +110,14 @@ public class PersonaConsultableDTO {
     
     /**
      * Constructor con rfc
-     * @param rfc 
+     * @param rfc RFC de la eprsona
      */
     public PersonaConsultableDTO(String rfc) {
         this.rfc = rfc;
     }
 
+    // Métodos de acceso y modificación (getters y setters).
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -146,6 +166,11 @@ public class PersonaConsultableDTO {
         return nacimiento;
     }
     
+     /**
+     * Genera una cadena de texto que representa la fecha de nacimiento en formato DD/MM/AAAA.
+     * 
+     * @return Una cadena de texto con la fecha de nacimiento.
+     */
     public String getCadenaNacimiento() {
         String cadenaNacimiento = String.valueOf(nacimiento.get(Calendar.DATE)) + "/0";
         cadenaNacimiento += String.valueOf(nacimiento.get(Calendar.MONTH)) + "/";

@@ -17,10 +17,19 @@ public class InsercionMasivaBO implements IInsercionMasivaBO {
     private final IConexionDAO conexion;
     private static final Logger LOG = Logger.getLogger(PersonasDAO.class.getName());
 
+    /**
+     * Constructor que establece la conexión con la base de datos
+     * @param conexion Conexión con la base de datos
+     */
     public InsercionMasivaBO(IConexionDAO conexion) {
         this.conexion = conexion;
     }
-
+    
+/**
+     * Inserta 20 personas hardcodeadas a la base de datos
+     * @return Lista de personas insertadas
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public PersonaConsultableDTO[] insercionMasiva() throws PersistenciaException {
         IPersonasDAO personasDAO = new PersonasDAO(conexion);

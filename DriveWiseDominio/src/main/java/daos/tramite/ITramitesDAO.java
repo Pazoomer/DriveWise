@@ -38,5 +38,9 @@ public interface ITramitesDAO {
      */
     Tramite agregarTramite(Tramite tramite)throws PersistenciaException;
     
+    /**
+     * Consulta todos los trámites registrados en el sistema
+     * @return Todos los trámites registrados en el sistema
+     */
     List<Tramite> consultarTramites();
 }

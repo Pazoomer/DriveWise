@@ -21,10 +21,20 @@ public class TramitesDAO implements ITramitesDAO {
 
     private IConexionDAO conexion;
 
+    /**
+     * Constructor que establece la conexión con la base de datos
+     * @param conexion Conexión con la base de datos
+     */
     public TramitesDAO(IConexionDAO conexion) {
         this.conexion = conexion;
     }
 
+    /**
+     * Consulta todos los tramites de una persona
+     * @param persona Persona a consultarle los tramites (Necesita el id de persona)
+     * @return Una lista de tramites de la persona
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public List<Tramite> consultarTramitesPorPersona(Persona persona) throws PersistenciaException {
         EntityManager entityManager = this.conexion.crearConexion();
@@ -38,6 +48,13 @@ public class TramitesDAO implements ITramitesDAO {
         }
     }
 
+    /**
+     * Consulta los tramites segun filtros
+     * @param fechaInicio
+     * @param fechaFin
+     * @return Una lista de tramites
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public List<Tramite> consultarTramitesPorFiltro(Calendar fechaInicio, Calendar fechaFin) throws PersistenciaException {
         EntityManager entityManager = this.conexion.crearConexion();
@@ -52,6 +69,12 @@ public class TramitesDAO implements ITramitesDAO {
         }
     }
 
+    /**
+     * Agrega un tramite
+     * @param tramite Tramite a agregar
+     * @return Tramite agregado en la base de datos
+     * @throws PersistenciaException Si hubo un error en la base de datos
+     */
     @Override
     public Tramite agregarTramite(Tramite tramite) throws PersistenciaException {
         EntityManager entityManager = conexion.crearConexion();
@@ -70,6 +93,10 @@ public class TramitesDAO implements ITramitesDAO {
         return tramite;
     }
     
+    /**
+     * Consulta todos los trámites registrados en el sistema
+     * @return Todos los trámites registrados en el sistema
+     */
     @Override
     public List<Tramite> consultarTramites(){
         EntityManager entityManager = this.conexion.crearConexion();

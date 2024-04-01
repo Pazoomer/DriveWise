@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author JoseH
+ * Clase para validar formatos de entradas de texto 
  */
 public class Validadores {
     
@@ -27,6 +27,11 @@ public class Validadores {
         return true; //EL FORMATO CAMBIA SEGUN LA MARCA
     }
 
+    /**
+     * 
+     * @param cadena Cadena a evaluar para determinar si es válida
+     * @return True si sí cumple con el formato, false en caso contrario
+     */
     public boolean validarString(String cadena){
         String patronString = "^[A-Za-z]+$";
         Pattern pattern = Pattern.compile(patronString);
